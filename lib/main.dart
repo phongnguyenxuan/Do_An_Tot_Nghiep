@@ -1,3 +1,4 @@
+import 'package:do_an_tot_nghiep/screens/games/math_game/math_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -71,7 +72,7 @@ class MainApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               navigatorKey: navigatorKey,
               title: 'Test Memory',
-              localizationsDelegates: [
+              localizationsDelegates: const [
                 GlobalMaterialLocalizations.delegate,
                 GlobalWidgetsLocalizations.delegate,
                 GlobalCupertinoLocalizations.delegate,
@@ -87,6 +88,7 @@ class MainApp extends StatelessWidget {
                 GamesScreen.id: (_) => const GamesScreen(),
                 MemoMatrixScreen.id: (_) => const MemoMatrixScreen(),
                 FindPairScreen.id: (_) => const FindPairScreen(),
+                MathScreen.id: (_) => const MathScreen(),
               },
             ),
           );
