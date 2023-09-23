@@ -357,7 +357,7 @@ class _MemoMatrixScreenState extends State<MemoMatrixScreen> {
                     ],
                   ),
                   Stack(
-                    children:List<Widget>.generate(listScore.length,(indx) =>  ScoreOverlay(score: score, bonus: bonus, streak: 1,)) ,
+                    children:List<Widget>.generate(listScore.length,(indx) =>  ScoreOverlay(score: score, bonus: bonus, streak: 0,)) ,
                   )
                //   ScoreOverlay(score: score, streak: 1)
                 ],
