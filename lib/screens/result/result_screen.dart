@@ -120,20 +120,20 @@ class _ResultScreenState extends State<ResultScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset(
-                        "assets/images/arrow_back.png",
-                        width: 14.w,
-                        height: 14.h,
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
                       Text(
                         "Continue",
                         style: TextStyle(
                             color: kColorBlack,
                             fontSize: 18.sp,
                             fontWeight: FontWeight.w500),
+                      ),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      Image.asset(
+                        "assets/images/arrow-right.png",
+                        width: 20.w,
+                        height: 20.h,
                       ),
                     ],
                   )),
