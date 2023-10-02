@@ -59,7 +59,7 @@ class _FindPairScreenState extends State<FindPairScreen> {
             ),
             child: Builder(
               builder: (context) {
-                if (_currentIndex == -1) return const ExplainScreen();
+                if (_currentIndex == -1) return ExplainScreen(title: "FindPair message");
                 return Scaffold(
                   appBar: CustomAppBar(
                     title: "Level ${value.item1}",
@@ -130,7 +130,7 @@ class _FindPairScreenState extends State<FindPairScreen> {
                         selector: (ctx, state) =>
                             Tuple2(state.score, state.streak),
                         builder: (context, value, child) => ScoreOverlay(
-                          bonus: 0,
+                            bonus: 0,
                             score: value.item1, streak: value.item2),
                       )
                     ],

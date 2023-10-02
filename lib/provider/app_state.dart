@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:do_an_tot_nghiep/extensions/list_extension.dart';
+import 'package:do_an_tot_nghiep/extensions/num_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -10,6 +11,7 @@ import '../configs/level_config.dart';
 import '../functions/power_memo_function.dart';
 import '../models/card_model.dart';
 import '../models/level_model.dart';
+import '../models/questions_model.dart';
 
 class AppState extends ChangeNotifier {
 //variable
@@ -195,4 +197,62 @@ class AppState extends ChangeNotifier {
   AppState() {
     fetchLevelData(level);
   }
+
+  //? Math game
+  final List<QuestionModel> playList = [];
+  late int _mathHighScore = boxPlayData.get("math", defaultValue: 0);
+
+  int get mathHighScore => _mathHighScore;
+
+  set mathHighScore(int value) {
+    if (value <= _mathHighScore) return;
+    _mathHighScore = value;
+    boxPlayData.put("math", value);
+    notifyListeners();
+  }
+  
+  void generatePlayData({bool shouldNotifyListener = true}) {
+    List<QuestionModel> list = [];
+    var startNumber = 0;
+    var endNumber = 99;
+    while(list.length < 100) {
+      int firstNumber = Random().nextInt(endNumber - startNumber +1) + startNumber;
+      int secondNumber = Random().nextInt(endNumber - startNumber +1) + startNumber;
+      var math = ["×", "÷", "+", "−"];
+      var element = math[Random().nextInt(math.length)];
+      int result = 0;
+      switch(element) {
+        case "×":
+          result = firstNumber * secondNumber;
+          break;
+        case "÷":
+        firstNumber = firstNumber * secondNumber;
+        result = (firstNumber  / secondNumber).round();
+          break;
+        case "+":
+          result = firstNumber + secondNumber;
+          break;
+        case "−":
+          result = firstNumber - secondNumber;
+          break; 
+      }
+      var question = QuestionModel(firstNumber: firstNumber, secondNumber: secondNumber, math: element, result: result);
+      if(!list.contains(question)) list.add(question);
+    }
+    playList.clear();
+    playList.addAll(list);
+  }
+
+  List<int> generateListAnswer(int index) {
+    List<int> list = [];
+      list.add(playList[index].result.round());
+    var range = list[0].getRandomRange();
+    while(list.length < 4) {
+      var value = (list[0] - (Random().nextInt(range * 2) - range));
+      if(list.contains(value)) continue;
+      list.add(value);
+    }
+    list.shuffle();
+    return list;
+  }  
 }

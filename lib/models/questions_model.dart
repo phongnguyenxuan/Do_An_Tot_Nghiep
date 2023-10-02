@@ -6,12 +6,14 @@ class QuestionModel {
   final int secondNumber;
   final String math;
   final int result;
+  bool correct;
   
   QuestionModel({
     required this.firstNumber,
     required this.secondNumber,
     required this.math,
     required this.result,
+    this.correct = false,
   });
 
   QuestionModel copyWith({
@@ -19,12 +21,14 @@ class QuestionModel {
     int? secondNumber,
     String? math,
     int? result,
+    bool? correct,
   }) {
     return QuestionModel(
       firstNumber: firstNumber ?? this.firstNumber,
       secondNumber: secondNumber ?? this.secondNumber,
       math: math ?? this.math,
       result: result ?? this.result,
+      correct: correct ?? false
     );
   }
 

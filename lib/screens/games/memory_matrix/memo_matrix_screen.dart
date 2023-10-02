@@ -65,7 +65,7 @@ class _MemoMatrixScreenState extends State<MemoMatrixScreen> {
     setState(() {
       _isShowCorrect = true;
     });
-    _timer = Timer(const Duration(milliseconds: 3000), () {
+    _timer = Timer(const Duration(milliseconds: 2000), () {
       if (!mounted) return;
       setState(() {
         _isShowCorrect = false;
@@ -189,7 +189,7 @@ class _MemoMatrixScreenState extends State<MemoMatrixScreen> {
         return true;
       },
       child:
-         Container(
+        Container(
           decoration: const BoxDecoration(
               color: kColorWhite,
               image: DecorationImage(
@@ -198,7 +198,7 @@ class _MemoMatrixScreenState extends State<MemoMatrixScreen> {
                   ),
                   fit: BoxFit.cover)),
           child: Builder(builder: (context) {
-            if (_currentIndex == -1) return const ExplainScreen();
+            if (_currentIndex == -1) return ExplainScreen(title: "MemoMatrix message",);
             return Scaffold(
               appBar: CustomAppBar(
                 title: "",
@@ -305,15 +305,15 @@ class _MemoMatrixScreenState extends State<MemoMatrixScreen> {
                                                         duration: const Duration(milliseconds: 700),
                                                         child: GestureDetector(
                                                           onTap:() => canPickBlock
-                                                                     ? _onPickBlock(index)                                                          
-                                                                     : null,
+                                                                    ? _onPickBlock(index)                                                          
+                                                                    : null,
                                                           child:
                                                               CustomElevatedWidget(
                                                             shadowColor:
                                                             ((context.read<AppState>()
                                                                   .listCorrectBlock
                                                                   .contains(index) && _isShowCorrect)||
-                                                                   listPickBlockCorrect
+                                                                  listPickBlockCorrect
                                                                   .contains(index))
                                                                 ? kShadowBrightCyan
                                                                 : indexBlockPickWrong == index
@@ -323,7 +323,7 @@ class _MemoMatrixScreenState extends State<MemoMatrixScreen> {
                                                             ((context.read<AppState>()
                                                                   .listCorrectBlock
                                                                   .contains(index) && _isShowCorrect) ||
-                                                                   listPickBlockCorrect
+                                                                  listPickBlockCorrect
                                                                   .contains(index))
                                                                 ? kColorBrightCyan
                                                                 : indexBlockPickWrong == index
