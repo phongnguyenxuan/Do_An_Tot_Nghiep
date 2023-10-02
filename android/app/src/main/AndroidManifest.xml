@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.iq_test">
    <application
-        android:label="iq_test"
+        android:label="Memo Improve"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

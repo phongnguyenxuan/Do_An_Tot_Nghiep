@@ -26,31 +26,37 @@ class _ScoreOverlayState extends State<ScoreOverlay> {
     if(oldWidget.score < widget.score) {
       _timer?.cancel();
       _opacity = 1;
-      dy = -0.6;
+      dy = -0.75;
       if(widget.streak > 1) {
         _score = 10 + (widget.streak - 1 ) * 5;
       }
       else if(widget.bonus > 0) {
         _score = widget.bonus;
       }
-       else {
+      else {
         _score = 10;
       }
       _timer = Timer(
-        const Duration(milliseconds: 500), 
+        const Duration(milliseconds: 900), 
         () {
           if(!mounted) return;
           setState(() {
             _opacity = 0;
+            dy = 0;
           });
         }
       );
+      // Future.delayed(const Duration(milliseconds: 500));
+      //   setState(() {
+      //   dy = 0;
+      // });
     }
   }
   
   @override
   void dispose() {
     super.dispose();
+    _timer?.cancel();
   }
 
   @override
@@ -61,10 +67,11 @@ class _ScoreOverlayState extends State<ScoreOverlay> {
         child: AnimatedOpacity(
           opacity: _opacity,
           curve: Curves.easeIn,
-          duration: const Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 500),
           child: AnimatedAlign(
+            curve: Curves.easeInOutSine,
             alignment: Alignment(0, dy),
-            duration: const Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 400),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [

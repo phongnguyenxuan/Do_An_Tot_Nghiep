@@ -1,12 +1,20 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../../configs/style_config.dart';
 import '../../widget/custom_appbar.dart';
 import '../../widget/custom_text.dart';
 
+// ignore: must_be_immutable
 class ExplainScreen extends StatefulWidget {
-  const ExplainScreen({super.key});
+  String title;
+  ExplainScreen({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
 
   @override
   State<ExplainScreen> createState() => _ExplainScreen();
@@ -71,7 +79,8 @@ class _ExplainScreen extends State<ExplainScreen>
             SizedBox(
               height: 20.h,
             ),
-            Text("findPairMessage",
+            Text(
+                widget.title,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 20.sp, color: kColorBlack)),
             Container(

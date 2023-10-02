@@ -135,6 +135,7 @@ class _GamesScreenState extends State<GamesScreen> {
                           vertical: 19, horizontal: 10),
                       onPress: () {
                         Navigator.of(context).pushNamed(MathScreen.id);
+                        context.read<AppState>().generatePlayData();
                       },
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
