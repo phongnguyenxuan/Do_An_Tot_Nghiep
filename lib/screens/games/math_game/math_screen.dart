@@ -79,8 +79,7 @@ class _MathScreenState extends State<MathScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Container(
+    return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
             image: AssetImage(
@@ -162,6 +161,6 @@ class _MathScreenState extends State<MathScreen> {
               ));
         },
       ),
-    ));
+    );
   }
 }
