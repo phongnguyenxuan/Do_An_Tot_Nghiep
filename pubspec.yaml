@@ -48,6 +48,7 @@ flutter:
     - assets/langs/vi.json
     - assets/langs/en.json
     - assets/images/default_cards/
+    - assets/images/shape/
   fonts:
     - family:  CustomIcon
       fonts:

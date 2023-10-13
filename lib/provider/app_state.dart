@@ -26,7 +26,7 @@ class AppState extends ChangeNotifier {
 
   int get record => _record;
 
-  void generateBlock({int level = 1}) async{
+  void generateBlock({int level = 1}) async {
     levelModel = LevelConfig.getLevel(level - 1);
     _numberBlockCorrect = levelModel.correctedCell;
     int blockCount;
@@ -210,34 +210,40 @@ class AppState extends ChangeNotifier {
     boxPlayData.put("math", value);
     notifyListeners();
   }
-  
+
   void generatePlayData({bool shouldNotifyListener = true}) {
     List<QuestionModel> list = [];
     var startNumber = 0;
     var endNumber = 99;
-    while(list.length < 100) {
-      int firstNumber = Random().nextInt(endNumber - startNumber +1) + startNumber;
-      int secondNumber = Random().nextInt(endNumber - startNumber +1) + startNumber;
+    while (list.length < 100) {
+      int firstNumber =
+          Random().nextInt(endNumber - startNumber + 1) + startNumber;
+      int secondNumber =
+          Random().nextInt(endNumber - startNumber + 1) + startNumber;
       var math = ["×", "÷", "+", "−"];
       var element = math[Random().nextInt(math.length)];
       int result = 0;
-      switch(element) {
+      switch (element) {
         case "×":
           result = firstNumber * secondNumber;
           break;
         case "÷":
-        firstNumber = firstNumber * secondNumber;
-        result = (firstNumber  / secondNumber).round();
+          firstNumber = firstNumber * secondNumber;
+          result = (firstNumber / secondNumber).round();
           break;
         case "+":
           result = firstNumber + secondNumber;
           break;
         case "−":
           result = firstNumber - secondNumber;
-          break; 
+          break;
       }
-      var question = QuestionModel(firstNumber: firstNumber, secondNumber: secondNumber, math: element, result: result);
-      if(!list.contains(question)) list.add(question);
+      var question = QuestionModel(
+          firstNumber: firstNumber,
+          secondNumber: secondNumber,
+          math: element,
+          result: result);
+      if (!list.contains(question)) list.add(question);
     }
     playList.clear();
     playList.addAll(list);
@@ -245,14 +251,104 @@ class AppState extends ChangeNotifier {
 
   List<int> generateListAnswer(int index) {
     List<int> list = [];
-      list.add(playList[index].result.round());
+    list.add(playList[index].result.round());
     var range = list[0].getRandomRange();
-    while(list.length < 4) {
+    while (list.length < 4) {
       var value = (list[0] - (Random().nextInt(range * 2) - range));
-      if(list.contains(value)) continue;
+      if (list.contains(value)) continue;
       list.add(value);
     }
     list.shuffle();
     return list;
-  }  
+  }
+
+  //? Speed Match
+  List<String> listShapes = ["circle", "square", "triangle", "heart"];
+  String _type = "";
+  String _currentType = "";
+  bool _isFlip = false;
+  int _speedMatchScore = 0;
+  bool _canPick = true;
+  final List<int> _listScore = [1];
+  bool _isShowing = false;
+  late int _speedHighScore = boxPlayData.get("speedMatch", defaultValue: 0);
+
+  String get type => _type;
+  String get currentType => _currentType;
+  bool get isFlip => _isFlip;
+  int get speedMatchScore => _speedMatchScore;
+  bool get canPick => _canPick;
+  List<int> get listScore => _listScore;
+  bool get isShowing => _isShowing;
+  int get speedHighScore => _speedHighScore;
+
+  Future<void> randomType() async {
+    await Future.delayed(const Duration(milliseconds: 600));
+    _type = listShapes[Random().nextInt(listShapes.length)];
+    notifyListeners();
+  }
+
+  void delay() {
+    _type = listShapes[Random().nextInt(listShapes.length)];
+    _isShowing = true;
+    _canPick = false;
+    notifyListeners();
+    Future.delayed(const Duration(seconds: 2), () {
+      _isShowing = false;
+      _currentType = _type;
+      flipCard();
+      randomType();
+      debugPrint("current: $currentType");
+    });
+  }
+
+  Future<void> onPickAnswer(bool isTrue) async {
+    // score = currentType.compareTo(type).toString();
+    if (_currentType.compareTo(_type) == 0 && isTrue == true) {
+      _streak++;
+      _listScore.add(1);
+      streak > 5 ? score += 10 + 5 * (5 - 1) : score += 10 + 5 * (_streak - 1);
+    } else if (_currentType.compareTo(_type) != 0 && isTrue == false) {
+      _streak++;
+      _listScore.add(1);
+      streak > 5 ? score += 10 + 5 * (5 - 1) : score += 10 + 5 * (_streak - 1);
+    } else {
+      _streak = 0;
+      score = 0;
+      _listScore.clear();
+      _listScore.add(1);
+    }
+    _speedMatchScore = _speedMatchScore + score;
+    _currentType = _type;
+    flipCard();
+    randomType();
+    notifyListeners();
+  }
+
+  Future flipCard() async {
+    // Lật thẻ
+    //Chờ animation kết thúc
+    _canPick = false;
+    await Future.delayed(const Duration(milliseconds: 300));
+    _isFlip = !_isFlip;
+    _canPick = true;
+    notifyListeners();
+  }
+
+  void resetSpeedMatchState() {
+    _speedMatchScore = 0;
+    _streak = 0;
+    _score = 0;
+    _type = "";
+    _currentType = "";
+    _listScore.clear();
+    _listScore.add(1);
+  }
+
+  void setSpeedHighScore() {
+    if (_speedMatchScore > _findPairHighScore) {
+      _speedHighScore = _speedMatchScore;
+      boxPlayData.put("speedMatch", _speedMatchScore);
+    }
+  }
 }
