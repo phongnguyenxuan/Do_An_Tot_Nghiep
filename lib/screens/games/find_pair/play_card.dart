@@ -41,7 +41,7 @@ class PlayCard extends StatelessWidget {
             );
           },
           child: value.item1 ? 
-           Container(
+          Container(
             padding: const EdgeInsets.all(7),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),

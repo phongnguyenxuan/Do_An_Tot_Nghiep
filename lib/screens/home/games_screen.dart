@@ -1,5 +1,5 @@
-import 'package:do_an_tot_nghiep/configs/basic_config.dart';
 import 'package:do_an_tot_nghiep/screens/games/math_game/math_screen.dart';
+import 'package:do_an_tot_nghiep/screens/games/speed_match/speed_match_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -174,7 +174,10 @@ class _GamesScreenState extends State<GamesScreen> {
                       borderRadius: BorderRadius.circular(16),
                       padding: const EdgeInsets.symmetric(
                           vertical: 19, horizontal: 10),
-                      onPress: () {},
+                      onPress: () {
+                        context.read<AppState>().resetSpeedMatchState();
+                        Navigator.pushNamed(context, SpeedMatchScreen.id);
+                      },
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [

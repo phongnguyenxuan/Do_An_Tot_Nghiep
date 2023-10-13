@@ -4,7 +4,7 @@ import '../configs/style_config.dart';
 
 class CustomButton extends StatefulWidget {
   const CustomButton({
-    required this.onPress,
+    this.onPress,
     required this.child,
     this.color = kColorPrimary,
     this.minWidth = 0,
@@ -20,7 +20,7 @@ class CustomButton extends StatefulWidget {
     this.height,
   });
 
-  final VoidCallback onPress;
+  final VoidCallback? onPress;
   final Widget child;
   final Color color;
   final Color shadowColor;
@@ -50,7 +50,7 @@ class _CustomButtonState extends State<CustomButton> {
         });
       },
       onTapUp: (details) async {
-        widget.onPress.call();
+        widget.onPress?.call();
         
         await Future.delayed(const Duration(milliseconds: 100), () {
           _onButtonTapDown = false;

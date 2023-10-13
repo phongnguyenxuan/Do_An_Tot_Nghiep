@@ -12,6 +12,7 @@ import 'configs/style_config.dart';
 import 'provider/app_state.dart';
 import 'screens/games/find_pair/find_pair_screen.dart';
 import 'screens/games/memory_matrix/memo_matrix_screen.dart';
+import 'screens/games/speed_match/speed_match_screen.dart';
 import 'screens/home/games_screen.dart';
 import 'screens/home/home_screen.dart';
 import 'screens/splash/splash_screen.dart';
@@ -89,6 +90,7 @@ class MainApp extends StatelessWidget {
                 MemoMatrixScreen.id: (_) => const MemoMatrixScreen(),
                 FindPairScreen.id: (_) => const FindPairScreen(),
                 MathScreen.id: (_) => const MathScreen(),
+                SpeedMatchScreen.id: (_) => const SpeedMatchScreen(),
               },
             ),
           );
