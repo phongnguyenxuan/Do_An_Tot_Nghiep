@@ -1,10 +1,6 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import '../configs/style_config.dart';
-import '../provider/app_state.dart';
 
 class TimerWidget extends StatefulWidget {
   const TimerWidget({super.key, required this.onTimerEnd, this.reBuild = true, this.countTime = 0, required this.isSubmit});

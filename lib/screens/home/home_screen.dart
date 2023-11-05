@@ -1,4 +1,9 @@
+import 'package:do_an_tot_nghiep/configs/constants.dart';
+import 'package:do_an_tot_nghiep/screens/home/rank_screen.dart';
+import 'package:do_an_tot_nghiep/screens/home/setting_screen.dart';
+import 'package:do_an_tot_nghiep/screens/result/status_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../configs/style_config.dart';
@@ -36,23 +41,24 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        //setting
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.of(context).pushNamed(SettingScreen.id);
+                          },
                           child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(color: kColorBlack, width: 2),
-                              shape: BoxShape.circle,
-                              color: Colors.white,
-                            ),
-                            width: 44.w,
-                            height: 44.h,
-                            child: Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Image.asset(
-                                "assets/images/gear.png"
+                              decoration: BoxDecoration(
+                                border:
+                                    Border.all(color: kColorBlack, width: 2),
+                                shape: BoxShape.circle,
+                                color: Colors.white,
                               ),
-                            )
-                          ),
+                              width: 44.w,
+                              height: 44.h,
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Image.asset("assets/images/gear.png"),
+                              )),
                         ),
                         GestureDetector(
                           onTap: () {},
@@ -95,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         CustomText(
                           title: "Memo Improve",
-                          fontSize: 30.sp,
+                          fontSize: 25.sp,
                           strokeWidth: 3,
                           color: Colors.black,
                         ),
@@ -116,10 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                           child: Text(
                             "Play",
-                            style: TextStyle(
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w500,
-                            ),
+                            style: k18BlackTextStyle
                           ),
                         ),
                         Padding(
@@ -133,13 +136,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             color: Colors.white,
                             width: 250.w,
                             height: 60.h,
-                            onPress: () {},
+                            onPress: () {
+                              Navigator.of(context).pushNamed(StatusScreen.id);
+                            },
                             child: Text(
                               "Status",
-                              style: TextStyle(
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.w500,
-                              ),
+                              style: k18BlackTextStyle
                             ),
                           ),
                         ),
@@ -152,13 +154,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           color: Colors.white,
                           width: 250.w,
                           height: 60.h,
-                          onPress: () {},
+                          onPress: () {
+                            Navigator.of(context).pushNamed(RankScreen.id);
+                          },
                           child: Text(
                             "Rank",
-                            style: TextStyle(
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w500,
-                            ),
+                            style: k18BlackTextStyle
                           ),
                         ),
                         Padding(
@@ -172,12 +173,15 @@ class _HomeScreenState extends State<HomeScreen> {
                             color: kColorRed,
                             width: 250.w,
                             height: 60.h,
-                            onPress: () {},
+                            onPress: () {
+                              SystemNavigator.pop();
+                            },
                             child: Text(
                               "Quit",
                               style: TextStyle(
                                   fontSize: 18.sp,
-                                  fontWeight: FontWeight.w500,
+                                  fontFamily: kfontFamily,
+                                  fontWeight: FontWeight.w600,
                                   color: Colors.white),
                             ),
                           ),

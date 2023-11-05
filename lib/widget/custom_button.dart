@@ -17,7 +17,7 @@ class CustomButton extends StatefulWidget {
     super.key,
     this.padding,
     this.width,
-    this.height,
+    this.height, this.margin,
   });
 
   final VoidCallback? onPress;
@@ -31,6 +31,7 @@ class CustomButton extends StatefulWidget {
   final BorderRadiusGeometry? borderRadius;
   final BoxBorder? buttonBorder;
   final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? margin;
   final double? width;
   final double? height;
   @override
@@ -63,35 +64,38 @@ class _CustomButtonState extends State<CustomButton> {
           _onButtonTapDown = false;
         });
       },
-      child: Container(
-        margin: _onButtonTapDown || !widget.enabled ? EdgeInsets.only(top: widget.elevation) : null,
-        padding: _onButtonTapDown || !widget.enabled ?  
-          null : 
-          EdgeInsets.only(bottom: widget.elevation,),
-        decoration: BoxDecoration(
-          color: _onButtonTapDown || !widget.enabled ? widget.color : widget.shadowColor,
-          borderRadius: widget.borderRadius,
-          border: widget.buttonBorder
-        ),
-        clipBehavior: Clip.antiAlias,
+      child: Padding(
+        padding: widget.margin ?? EdgeInsets.zero,
         child: Container(
-          padding: widget.padding,
-          width: widget.width,
-          height: widget.height,
-          constraints: BoxConstraints(
-            minWidth: widget.minWidth,
-            minHeight: widget.minHeight,
-          ),
-          alignment: Alignment.center,
+          margin: _onButtonTapDown || !widget.enabled ? EdgeInsets.only(top: widget.elevation) : null,
+          padding: _onButtonTapDown || !widget.enabled ?  
+            null : 
+            EdgeInsets.only(bottom: widget.elevation,),
           decoration: BoxDecoration(
-            color: widget.color,
-            borderRadius: widget.borderRadius
+            color: _onButtonTapDown || !widget.enabled ? widget.color : widget.shadowColor,
+            borderRadius: widget.borderRadius,
+            border: widget.buttonBorder
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              widget.child
-            ],
+          clipBehavior: Clip.antiAlias,
+          child: Container(
+            padding: widget.padding,
+            width: widget.width,
+            height: widget.height,
+            constraints: BoxConstraints(
+              minWidth: widget.minWidth,
+              minHeight: widget.minHeight,
+            ),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: widget.color,
+              borderRadius: widget.borderRadius
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                widget.child
+              ],
+            ),
           ),
         ),
       ),

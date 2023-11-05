@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "646637214210",
+    "project_id": "memoimprove-ccbaf",
+    "storage_bucket": "memoimprove-ccbaf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:646637214210:android:e00dd5b74c38dc1fc5a51b",
+        "android_client_info": {
+          "package_name": "com.example.iq_test"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2eyd0QztZqr4ez94Z_aCKnZwj_4-RcYg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,13 @@
 
+import 'package:hive/hive.dart';
+
+const String kfontFamily = "SofiaPro";
 const String boxAppSettingName = "app_setting";
 const String boxPlayDataName = "play_data";
+const String memoHighScoreDataName = "memo_highscsore";
+const String findPairHighScoreDataName = "find_pair_highscsore";
+const String mathHighScoreDataName = "math_highscsore";
+const String speedMatchHighScoreDataName = "speed_match_highscsore";
 const List<String> supportedLanguage = ['en','vi'];
 const  String defaultLanguage = 'en';
 const Map<String, String> languageCodeToName = {
@@ -105,3 +112,5 @@ List<dynamic> imageUrlList = [
     "assets/images/default_cards/32.png",
     "assets/images/default_cards/33.png",
   ];
+
+final boxPlayData = Hive.box(boxPlayDataName);

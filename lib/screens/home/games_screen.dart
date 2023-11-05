@@ -49,6 +49,7 @@ class _GamesScreenState extends State<GamesScreen> {
                           vertical: 19, horizontal: 10),
                       onPress: () {
                         Navigator.of(context).pushNamed(MemoMatrixScreen.id);
+                        context.read<AppState>().clearMemoState();
                         context.read<AppState>().generateBlock();
                       },
                       child: Column(
@@ -67,10 +68,7 @@ class _GamesScreenState extends State<GamesScreen> {
                           ),
                           Text(
                             "Memory Matrix",
-                            style: TextStyle(
-                                color: kColorBlack,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w500),
+                            style: k16BlackTextStyle,
                           )
                         ],
                       ),
@@ -108,10 +106,7 @@ class _GamesScreenState extends State<GamesScreen> {
                           ),
                           Text(
                             "Find Pair",
-                            style: TextStyle(
-                                color: kColorBlack,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w500),
+                            style: k16BlackTextStyle,
                           )
                         ],
                       ),
@@ -134,8 +129,8 @@ class _GamesScreenState extends State<GamesScreen> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 19, horizontal: 10),
                       onPress: () {
-                        Navigator.of(context).pushNamed(MathScreen.id);
                         context.read<AppState>().generatePlayData();
+                        Navigator.of(context).pushNamed(MathScreen.id);
                       },
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -153,10 +148,7 @@ class _GamesScreenState extends State<GamesScreen> {
                           ),
                           Text(
                             "Math",
-                            style: TextStyle(
-                                color: kColorBlack,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w500),
+                            style: k16BlackTextStyle,
                           )
                         ],
                       ),
@@ -194,10 +186,7 @@ class _GamesScreenState extends State<GamesScreen> {
                           ),
                           Text(
                             "Speed Match",
-                            style: TextStyle(
-                                color: kColorBlack,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w500),
+                            style: k16BlackTextStyle,
                           )
                         ],
                       ),

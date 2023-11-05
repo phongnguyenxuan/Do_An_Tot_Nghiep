@@ -3,15 +3,18 @@ import 'dart:math';
 
 import 'package:do_an_tot_nghiep/extensions/list_extension.dart';
 import 'package:do_an_tot_nghiep/extensions/num_extension.dart';
+import 'package:do_an_tot_nghiep/services/firestore_services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-
 import '../configs/constants.dart';
 import '../configs/level_config.dart';
 import '../functions/power_memo_function.dart';
 import '../models/card_model.dart';
 import '../models/level_model.dart';
 import '../models/questions_model.dart';
+import '../screens/home/home_screen.dart';
+import '../screens/result/result_screen.dart';
 
 class AppState extends ChangeNotifier {
 //variable
@@ -19,29 +22,168 @@ class AppState extends ChangeNotifier {
   late final boxPlayData = Hive.box(boxPlayDataName);
 
 //? MEMORY MATRIX
-  late int _record = boxPlayData.get("record", defaultValue: 0);
-  late List<int> listCorrectBlock = [];
+  late int _memoHighScore =
+      boxPlayData.get(memoHighScoreDataName, defaultValue: 0);
+  late List<int> _listCorrectBlock = [];
   late int _numberBlockCorrect = 3;
-  late LevelModel levelModel;
+  late LevelModel _levelModel;
+  int _currentPlayingIndex = 1;
+  bool _isShowCorrect = false;
+  bool _isAnimatedGrid = false;
+  bool _isPrepareGrid = false;
+  Timer? _timer;
+  final List<int> _listPickBlockCorrect = [];
+  int _indexBlockPickWrong = -1;
+  bool _cancelTimer = false;
+  bool _canPickBlock = true;
+  int _memoScore = 0;
+  int _bonus = 0;
 
-  int get record => _record;
+  int get memoHighScore => _memoHighScore;
+  bool get isShowCorrect => _isShowCorrect;
+  bool get isAnimatedGrid => _isAnimatedGrid;
+  bool get isPrepareGrid => _isPrepareGrid;
+  List<int> get listPickBlockCorrect => _listPickBlockCorrect;
+  int get indexBlockPickWrong => _indexBlockPickWrong;
+  bool get cancelTimer => _cancelTimer;
+  bool get canPickBlock => _canPickBlock;
+  int get memoScore => _memoScore;
+  LevelModel get levelModel => _levelModel;
+  List<int> get listCorrectBlock => _listCorrectBlock;
+  int get bonus => _bonus;
+  int get currentPlayingIndex => _currentPlayingIndex;
 
   void generateBlock({int level = 1}) async {
-    levelModel = LevelConfig.getLevel(level - 1);
-    _numberBlockCorrect = levelModel.correctedCell;
+    _isShowCorrect = false;
+    _isAnimatedGrid = false;
+    _isPrepareGrid = false;
+    _listPickBlockCorrect.clear();
+    _indexBlockPickWrong = -1;
+    _levelModel = LevelConfig.getLevel(level - 1);
+    _numberBlockCorrect = _levelModel.correctedCell;
     int blockCount;
     do {
-      blockCount = levelModel.blockCount;
+      blockCount = _levelModel.blockCount;
     } while (_numberBlockCorrect ~/ blockCount == 1);
-    listCorrectBlock = PowerMemoFunctions.generatePlayData(
-        levelModel.column, levelModel.row, _numberBlockCorrect, blockCount);
+    _listCorrectBlock = PowerMemoFunctions.generatePlayData(
+        _levelModel.column, _levelModel.row, _numberBlockCorrect, blockCount);
     notifyListeners();
   }
 
-  set record(int level) {
-    if (level <= _record) return;
-    _record = level;
-    boxPlayData.put("record", level);
+  void clearMemoState() {
+    _isShowCorrect = false;
+    _isAnimatedGrid = false;
+    _isPrepareGrid = false;
+    _listPickBlockCorrect.clear();
+    _indexBlockPickWrong = -1;
+    _currentPlayingIndex = 1;
+    _memoScore = 0;
+  }
+
+  void showCorrectBlock() async {
+    _isAnimatedGrid = true;
+    _isPrepareGrid = true;
+    notifyListeners();
+    await Future.delayed(const Duration(milliseconds: 100));
+    _isPrepareGrid = false;
+    notifyListeners();
+    await Future.delayed(const Duration(milliseconds: 1500));
+    _isShowCorrect = true;
+    notifyListeners();
+    _timer = Timer(const Duration(milliseconds: 2000), () {
+      _isShowCorrect = false;
+      _isAnimatedGrid = false;
+      notifyListeners();
+    });
+  }
+
+  void onPickBlock(int index, BuildContext context) {
+    if (_isShowCorrect) return;
+
+    if (_listPickBlockCorrect.contains(index)) return;
+
+    if (_listCorrectBlock.contains(index)) {
+      _listPickBlockCorrect.add(index);
+      listScore.add(1);
+      _memoScore += 10;
+      notifyListeners();
+      if (_listPickBlockCorrect.length == _listCorrectBlock.length) {
+        listScore.clear();
+        listScore.add(1);
+        _canPickBlock = false;
+        _cancelTimer = true;
+        _bonus = 50;
+        _memoScore += bonus;
+        _timer = Timer(const Duration(milliseconds: 1500), () {
+          _indexBlockPickWrong = -1;
+          _listPickBlockCorrect.clear();
+          _currentPlayingIndex = _currentPlayingIndex + 1;
+          generateBlock(level: _currentPlayingIndex);
+          showCorrectBlock();
+          _canPickBlock = true;
+          _cancelTimer = false;
+          _bonus = 0;
+        });
+        notifyListeners();
+      }
+      if (_memoScore > _memoHighScore) {
+        _memoHighScore = _memoScore;
+        boxPlayData.put(memoHighScoreDataName, _memoScore);
+      }
+    } else {
+      _canPickBlock = false;
+      _indexBlockPickWrong = index;
+      _cancelTimer = true;
+      _isShowCorrect = true;
+      _timer = Timer(const Duration(milliseconds: 2000), () {
+        _canPickBlock = true;
+        _isShowCorrect = false;
+        showResult(context);
+      });
+      notifyListeners();
+    }
+  }
+
+  Future<void> showResult(BuildContext context) async {
+    boxPlayData.put("memo", _memoScore);
+    setTotalScore();
+    await Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(
+            builder: (_) => ResultScreen(
+                  title: "Memory Matrix",
+                  grade: _memoScore,
+                  highscore: _memoHighScore,
+                  newRecord: (_memoScore >= _memoHighScore),
+                ),
+            settings: const RouteSettings(name: ResultScreen.id)))
+        .then((value) async {
+      // await _onWillPop();
+      if (value == false) {
+        Navigator.of(context).popUntil(ModalRoute.withName(HomeScreen.id));
+      } else if (value == null) {
+        Navigator.of(context).pop();
+      } else {
+        generateBlock();
+        _cancelTimer = false;
+        _indexBlockPickWrong = -1;
+        _listPickBlockCorrect.clear();
+        _currentPlayingIndex = 1;
+        notifyListeners();
+      }
+    });
+  }
+
+  set memoScore(int value) {
+    _score = max(value, 0);
+    notifyListeners();
+  }
+
+  set record(int score) {
+    if (score <= _memoHighScore) return;
+    _memoHighScore = score;
+    boxPlayData
+        .put(memoHighScoreDataName, score)
+        .then((value) => setTotalScore());
     notifyListeners();
   }
 
@@ -49,12 +191,12 @@ class AppState extends ChangeNotifier {
   int _level = 1;
   int _pairCount = 0;
   int _score = 0;
-  late int _findPairHighScore = boxPlayData.get("findpair", defaultValue: 0);
+  late int _findPairHighScore =
+      boxPlayData.get(findPairHighScoreDataName, defaultValue: 0);
   int _findPairScore = 0;
   int _streak = 0;
   int? _previousCardPlay;
   int? _currentCardPlay;
-  Timer? _timer;
   List<CardModel> _playList = <CardModel>[];
   bool _isShowingCard = false;
   int _levelTime = 0;
@@ -118,7 +260,7 @@ class AppState extends ChangeNotifier {
           _findPairScore = _findPairScore + score;
           if (_findPairScore > _findPairHighScore) {
             _findPairHighScore = _findPairScore;
-            boxPlayData.put("findpair", _findPairScore);
+            boxPlayData.put(findPairHighScoreDataName, _findPairScore);
           }
           // Nếu không còn thẻ
           if (!_playList.any((element) => element.isVisible)) {
@@ -186,6 +328,19 @@ class AppState extends ChangeNotifier {
     return;
   }
 
+  Future<void> showResultFindPair(BuildContext context) async {
+    boxPlayData.put("findpair", _findPairScore);
+    setTotalScore();
+    await Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (_) => ResultScreen(
+              title: "Find Pairs",
+              grade: _findPairScore,
+              highscore: _findPairHighScore,
+              newRecord: (_findPairScore > _findPairHighScore),
+            ),
+        settings: const RouteSettings(name: ResultScreen.id)));
+  }
+
   void fetchLevelData(int level) {
     _pairCount = levelConfig[level] ?? 3;
     _levelTime = levelTimeConfig[level] ?? 10;
@@ -200,14 +355,16 @@ class AppState extends ChangeNotifier {
 
   //? Math game
   final List<QuestionModel> playList = [];
-  late int _mathHighScore = boxPlayData.get("math", defaultValue: 0);
+  late int _mathHighScore =
+      boxPlayData.get(mathHighScoreDataName, defaultValue: 0);
 
   int get mathHighScore => _mathHighScore;
 
   set mathHighScore(int value) {
     if (value <= _mathHighScore) return;
     _mathHighScore = value;
-    boxPlayData.put("math", value);
+    boxPlayData.put(mathHighScoreDataName, value);
+    // setTotalScore();
     notifyListeners();
   }
 
@@ -271,7 +428,8 @@ class AppState extends ChangeNotifier {
   bool _canPick = true;
   final List<int> _listScore = [1];
   bool _isShowing = false;
-  late int _speedHighScore = boxPlayData.get("speedMatch", defaultValue: 0);
+  late int _speedHighScore =
+      boxPlayData.get(speedMatchHighScoreDataName, defaultValue: 0);
 
   String get type => _type;
   String get currentType => _currentType;
@@ -346,9 +504,61 @@ class AppState extends ChangeNotifier {
   }
 
   void setSpeedHighScore() {
-    if (_speedMatchScore > _findPairHighScore) {
+    if (_speedMatchScore > _speedHighScore) {
       _speedHighScore = _speedMatchScore;
-      boxPlayData.put("speedMatch", _speedMatchScore);
+      boxPlayData.put(speedMatchHighScoreDataName, _speedMatchScore);
     }
+  }
+
+  Future<void> showResultSpeedMatch(BuildContext context) async {
+    boxPlayData.put("speedMatch", _speedMatchScore);
+    setTotalScore();
+    await Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (_) => ResultScreen(
+              title: "Speed Match",
+              grade: _speedMatchScore,
+              highscore: _speedHighScore,
+              newRecord: (_speedMatchScore > _speedHighScore),
+            ),
+        settings: const RouteSettings(name: ResultScreen.id)));
+  }
+
+  //? Total score
+
+  late int _totalScoree = ((boxPlayData.get("memo", defaultValue: 0) +
+              boxPlayData.get("findpair", defaultValue: 0) +
+              mathHighScore +
+              speedHighScore) / 4).round();
+  int get totalScore => _totalScoree;
+  late List<int> _listTotalScore = boxPlayData.get("listScore", defaultValue: List<int>.empty(growable: true));
+  List<int> get listTotalScore => _listTotalScore;
+  late int _maxScore = 0;
+
+  void setTotalScore() async {
+    final FireStoreServices fireStoreServices = FireStoreServices();
+    if(_listTotalScore.isEmpty) {
+      _listTotalScore.add(0);
+    }
+    _totalScoree = ((await boxPlayData.get("memo", defaultValue: 0) +
+                (await boxPlayData.get("findpair", defaultValue: 0)) +
+                (await boxPlayData.get("math", defaultValue: 0)) +
+                (await boxPlayData.get("speedMatch", defaultValue: 0))) / 4).round();
+    if(!FirebaseAuth.instance.currentUser!.isAnonymous) {
+      fireStoreServices.updateScoreToServer(score: _totalScoree);
+    }
+    _listTotalScore.add(_totalScoree);
+    if (_listTotalScore.length > 4) {
+      _listTotalScore.removeAt(0);
+    }
+    await boxPlayData.put("listScore", _listTotalScore);
+    _listTotalScore = await boxPlayData.get("listScore");
+    notifyListeners();
+  }
+
+  int maxTotalScore() {
+    List<int> clone = List<int>.from(_listTotalScore);
+    clone.sort((a, b) => a.compareTo(b));
+    _maxScore = clone.last;
+    return _maxScore;
   }
 }

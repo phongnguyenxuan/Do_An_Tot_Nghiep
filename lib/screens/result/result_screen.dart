@@ -1,3 +1,5 @@
+import 'package:do_an_tot_nghiep/configs/constants.dart';
+import 'package:do_an_tot_nghiep/screens/result/status_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../configs/style_config.dart';
@@ -11,7 +13,8 @@ class ResultScreen extends StatefulWidget {
     super.key,
     required this.title,
     this.grade = 0,
-    this.newRecord = false, required this.highscore,
+    this.newRecord = false,
+    required this.highscore,
   });
   final String title;
   int grade;
@@ -64,15 +67,16 @@ class _ResultScreenState extends State<ResultScreen> {
                       children: [
                         Image.asset(
                           "assets/images/star.png",
-                          height: 35.h,
-                          width: 33.h,
+                          height: 30.w,
+                          width: 30.w,
                         ),
                         const SizedBox(width: 16),
                         Text(
                           widget.grade.toString(),
                           style: TextStyle(
-                            fontSize: 40.sp,
-                            fontWeight: FontWeight.w600,
+                            fontSize: 35.sp,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: kfontFamily,
                             color: kColorBlack,
                           ),
                         ),
@@ -86,17 +90,18 @@ class _ResultScreenState extends State<ResultScreen> {
                       child: Text(
                         "High score : ${widget.highscore}",
                         style: TextStyle(
-                            fontSize: 20.sp, fontWeight: FontWeight.w500),
+                            fontFamily: kfontFamily,
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.w500),
                       ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 40),
                     child: Image.asset(
-                      "assets/images/${widget.newRecord ? "highscore" : "result"}.png",
-                      height: 150.h,
-                      width: 150.w
-                    ),
+                        "assets/images/${widget.newRecord ? "highscore" : "results"}.png",
+                        height: 150.h,
+                        width: 150.w),
                   ),
                 ],
               ),
@@ -108,24 +113,21 @@ class _ResultScreenState extends State<ResultScreen> {
               ),
               CustomButton(
                   onPress: () {
-                    Navigator.of(context).pop(false);
+                    Navigator.of(context).pushReplacementNamed(StatusScreen.id);
                   },
                   color: Colors.white,
                   shadowColor: kShadowColor2,
                   minWidth: double.maxFinite,
                   borderRadius: BorderRadius.circular(16),
                   minHeight: 60.h,
-                  buttonBorder: Border.all(color: kBorderColor),
-                  elevation: 3,
+                  buttonBorder: Border.all(color: kBorderColor,width: 2),
+                  elevation: 5,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         "Continue",
-                        style: TextStyle(
-                            color: kColorBlack,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w500),
+                        style: k18BlackTextStyle,
                       ),
                       const SizedBox(
                         width: 8,

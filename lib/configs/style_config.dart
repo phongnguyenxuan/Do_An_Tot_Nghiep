@@ -1,4 +1,6 @@
+import 'package:do_an_tot_nghiep/configs/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 const Color kColorPrimary = Color(0xFFFFDB7A);
 const Color kBorderColor = Color(0xFF836B41);
@@ -40,3 +42,72 @@ const MaterialColor primaryMaterialColor = MaterialColor(0xFFFFDB7A, {
   800: Color(0xE6FFDB7A),
   900: Color(0xFFFFDB7A),
 });
+
+TextStyle k45SizeBlackColorStyle = TextStyle(
+    fontFamily: kfontFamily,
+    fontSize: 35.sp,
+    color: kColorBlack,
+    fontWeight: FontWeight.w700);
+
+TextStyle k45SizePrimaryColorStyle = TextStyle(
+    fontFamily: kfontFamily,
+    fontSize: 35.sp,
+    color: kColorPrimary,
+    shadows: const [Shadow(color: kColorBlack, blurRadius: 1)],
+    fontWeight: FontWeight.w700);
+
+TextStyle k25SizeBlackColorStyle = TextStyle(
+    fontFamily: kfontFamily,
+    fontSize: 25.sp,
+    color: kColorBlack,
+    fontWeight: FontWeight.w700,
+    height: 1.5);
+
+TextStyle k15SizeW400BlackColorStyle = TextStyle(
+  fontFamily: kfontFamily,
+  fontSize: 15.sp,
+  color: kColorBlack,
+  fontWeight: FontWeight.w200,
+);
+
+TextStyle k17SizeW500BlackColorStyle = TextStyle(
+    fontFamily: kfontFamily,
+    fontSize: 17.sp,
+    color: kColorBlack,
+    fontWeight: FontWeight.w600,
+    height: 1.2);
+
+TextStyle k13SizeW200BlackColorStyle = TextStyle(
+  fontFamily: kfontFamily,
+  fontSize: 13.sp,
+  color: kColorBlack,
+  fontWeight: FontWeight.w200,
+);
+
+TextStyle kappBarStyle = TextStyle(
+  fontFamily: kfontFamily,
+  color: Colors.black,
+  fontWeight: FontWeight.w400,
+  fontSize: 18.sp,
+);
+
+TextStyle knormalTextStyle = TextStyle(
+  fontFamily: kfontFamily,
+  color: kColorBlack,
+  fontWeight: FontWeight.w500,
+  fontSize: 15.sp,
+);
+
+TextStyle k18BlackTextStyle = TextStyle(
+  fontSize: 18.sp,
+  fontWeight: FontWeight.w700,
+  color: kColorBlack,
+  fontFamily: kfontFamily
+);
+
+TextStyle k16BlackTextStyle = TextStyle(
+  fontFamily: kfontFamily,
+  color: kColorBlack,
+  fontWeight: FontWeight.w500,
+  fontSize: 16.sp,
+);

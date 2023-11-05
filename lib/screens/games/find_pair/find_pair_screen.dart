@@ -6,7 +6,6 @@ import '../../../configs/style_config.dart';
 import '../../../provider/app_state.dart';
 import '../../../widget/custom_appbar.dart';
 import '../../../widget/timer_widget.dart';
-import '../../result/result_screen.dart';
 import '../explain_screen.dart';
 import '../score_overlay.dart';
 import 'play_widget.dart';
@@ -105,16 +104,7 @@ class _FindPairScreenState extends State<FindPairScreen> {
                                     ? TimerWidget(
                                         isSubmit: false,
                                         onTimerEnd: () async {
-                                          await Navigator.of(context).pushReplacement(
-                                                  MaterialPageRoute(
-                                                      builder: (_) =>
-                                                          ResultScreen(
-                                                            title: "Find Pair",
-                                                            grade: grade,
-                                                            newRecord: grade >= context.read<AppState>().findPairHighScore,
-                                                            highscore: context.read<AppState>().findPairHighScore,
-                                                          ),
-                                                      settings:const RouteSettings(name: ResultScreen.id)));
+                                          await context.read<AppState>().showResultFindPair(context);
                                         },
                                         reBuild: false,
                                         countTime: val.item1,
