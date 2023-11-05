@@ -8,7 +8,6 @@ import 'package:tuple/tuple.dart';
 import '../../../configs/style_config.dart';
 import '../../../provider/app_state.dart';
 import '../../../widget/custom_appbar.dart';
-import '../../result/result_screen.dart';
 import '../explain_screen.dart';
 import '../score_overlay.dart';
 
@@ -36,17 +35,6 @@ class _SpeedMatchScreenState extends State<SpeedMatchScreen> {
     super.initState();
   }
 
-  void _showResult(int grade, bool newRecord) async {
-    context.read<AppState>().setSpeedHighScore();
-    await Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (_) => ResultScreen(
-              title: "Speed Match",
-              grade: grade,
-              newRecord: newRecord,
-              highscore: context.read<AppState>().speedHighScore,
-            ),
-        settings: const RouteSettings(name: ResultScreen.id)));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,10 +96,10 @@ class _SpeedMatchScreenState extends State<SpeedMatchScreen> {
                                 height: 4,
                               )
                             : TimerWidget(
-                                onTimerEnd:() => _showResult(value.item1,value.item1 > context.read<AppState>().speedHighScore),
+                                onTimerEnd:() => context.read<AppState>().showResultSpeedMatch(context),
                                 reBuild: false,
                                 isSubmit: false,
-                                countTime: 45,
+                                countTime: 10,
                               ),
                         const Expanded(child: SpeedMatchPlay()),
                       ],

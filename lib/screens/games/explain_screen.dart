@@ -26,10 +26,12 @@ class _ExplainScreen extends State<ExplainScreen>
   int _timeCount = 3;
   late Animation<double> animation;
   bool isVisible = false;
-
+  late AssetImage assetImage;
   @override
   void initState() {
     super.initState();
+    //load image faster
+  assetImage = const AssetImage("assets/images/explain.png");
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 1),
@@ -44,6 +46,11 @@ class _ExplainScreen extends State<ExplainScreen>
     });
   }
 
+  @override
+  void didChangeDependencies() {
+    precacheImage(assetImage, context);
+    super.didChangeDependencies();
+  }
   void _animationListener() {
     if (animation.isCompleted && _timeCount >= 1) {
       setState(() {
@@ -71,10 +78,10 @@ class _ExplainScreen extends State<ExplainScreen>
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset(
-              "assets/images/explain.png",
-              width: 130.w,
-              height: 130.h,
+            Image(
+              image: assetImage,
+              width: 100.w,
+              height: 100.h,
             ),
             SizedBox(
               height: 20.h,

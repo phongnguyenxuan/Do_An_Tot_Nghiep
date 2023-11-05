@@ -1,14 +1,21 @@
+import 'package:do_an_tot_nghiep/provider/user_provider.dart';
+import 'package:do_an_tot_nghiep/screens/auth/auth_state_screen.dart';
+import 'package:do_an_tot_nghiep/screens/auth/login_screen.dart';
 import 'package:do_an_tot_nghiep/screens/games/math_game/math_screen.dart';
+import 'package:do_an_tot_nghiep/screens/home/rank_screen.dart';
+import 'package:do_an_tot_nghiep/screens/home/setting_screen.dart';
+import 'package:do_an_tot_nghiep/screens/result/status_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 
 import 'configs/basic_config.dart';
 import 'configs/style_config.dart';
+import 'firebase_options.dart';
 import 'provider/app_state.dart';
 import 'screens/games/find_pair/find_pair_screen.dart';
 import 'screens/games/memory_matrix/memo_matrix_screen.dart';
@@ -18,13 +25,18 @@ import 'screens/home/home_screen.dart';
 import 'screens/splash/splash_screen.dart';
 
 void main() async {
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  FlutterNativeSplash.remove();
+  WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+ // SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+    systemNavigationBarColor: Colors.transparent
+  ));
   //setup hive
   await setupHive();
   //setup multi language
@@ -33,6 +45,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AppState()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
       ],
       builder: (context, child) {
         return child!;
@@ -40,6 +53,24 @@ void main() async {
       child: const MainApp(),
     ),
   );
+  configLoading();
+}
+
+void configLoading() {
+EasyLoading.instance
+..displayDuration = const Duration(seconds: 3)
+..indicatorType = EasyLoadingIndicatorType.ring
+..loadingStyle = EasyLoadingStyle.custom
+..indicatorSize = 45.0
+..radius = 10.0
+..backgroundColor = Colors.transparent
+..indicatorColor = kColorPrimary
+..textColor = Colors.transparent
+..boxShadow = <BoxShadow>[]
+..maskColor = Colors.transparent
+..userInteractions = false
+..maskType = EasyLoadingMaskType.custom
+..dismissOnTap = false;
 }
 
 class MainApp extends StatelessWidget {
@@ -59,17 +90,9 @@ class MainApp extends StatelessWidget {
       child: ScreenUtilInit(
         //default sized for app is iphone 13
         designSize: const Size(375, 812),
-        minTextAdapt: getDeviceType() == 'phone'
-            ? false
-            : true, // if phone, will not use min text so it will not be so small on device
         builder: (context, child) {
-          return GlobalLoaderOverlay(
-            closeOnBackButton: false,
-            overlayWidget: const Center(
-              child: CircularProgressIndicator(),
-            ),
-            overlayColor: Colors.white24,
-            child: MaterialApp(
+          return MaterialApp(
+              builder: EasyLoading.init(),
               debugShowCheckedModeBanner: false,
               navigatorKey: navigatorKey,
               title: 'Test Memory',
@@ -91,9 +114,13 @@ class MainApp extends StatelessWidget {
                 FindPairScreen.id: (_) => const FindPairScreen(),
                 MathScreen.id: (_) => const MathScreen(),
                 SpeedMatchScreen.id: (_) => const SpeedMatchScreen(),
+                StatusScreen.id: (_) => const StatusScreen(),
+                LoginScreen.id: (_) => const LoginScreen(),
+                AuthState.id: (_) => const AuthState(),
+                SettingScreen.id: (_) => const SettingScreen(),
+                RankScreen.id: (_) => const RankScreen(),
               },
-            ),
-          );
+            );
         },
       ),
     );

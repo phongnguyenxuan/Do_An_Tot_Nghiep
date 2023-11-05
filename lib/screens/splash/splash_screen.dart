@@ -1,7 +1,6 @@
+import 'package:do_an_tot_nghiep/screens/auth/auth_state_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../home/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -21,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
         _shouldShowAnimation = true;
       });
       Future.delayed(const Duration(milliseconds: 2500)).then((value) {
-        Navigator.of(context).pushReplacementNamed(HomeScreen.id);
+        Navigator.of(context).pushReplacementNamed(AuthState.id);
       });
     });
   }

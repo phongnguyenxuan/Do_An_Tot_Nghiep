@@ -4,6 +4,7 @@ import 'package:do_an_tot_nghiep/widget/timer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import '../../../configs/constants.dart';
 import '../../../configs/style_config.dart';
 import '../../../widget/custom_appbar.dart';
 import '../../result/result_screen.dart';
@@ -23,7 +24,7 @@ class _MathScreenState extends State<MathScreen> {
   int _currentPlayingIndex = 0;
   int streak = 0;
   int score = 0;
-  static int mathScore = 0;
+  int mathScore = 0;
   void _onPlayCorrect(bool isCorrect, int answer) {
     setState(() {
       if (isCorrect) {
@@ -38,21 +39,27 @@ class _MathScreenState extends State<MathScreen> {
   }
 
   Future<void> _showResult() async {
-    await Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(
-            builder: (_) => ResultScreen(
-                  title: "Math",
-                  grade: mathScore,
-                  highscore: context.read<AppState>().mathHighScore,
-                  newRecord:(mathScore > context.read<AppState>().mathHighScore),
-                ),
-            settings: const RouteSettings(name: ResultScreen.id)))
-        .then((value) {
-      if (!mounted) return;
-      if (mathScore > context.read<AppState>().mathHighScore) {
-        context.read<AppState>().mathHighScore = mathScore;
-      }
-    });
+    debugPrint("asfdsdafsa $mathScore");
+    await boxPlayData.put("math", mathScore);
+    if (mounted) {
+      context.read<AppState>().setTotalScore();
+      await Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(
+              builder: (_) => ResultScreen(
+                    title: "Math",
+                    grade: mathScore,
+                    highscore: context.read<AppState>().mathHighScore,
+                    newRecord:
+                        (mathScore > context.read<AppState>().mathHighScore),
+                  ),
+              settings: const RouteSettings(name: ResultScreen.id)))
+          .then((value) {
+        if (!mounted) return;
+        if (mathScore > context.read<AppState>().mathHighScore) {
+          context.read<AppState>().mathHighScore = mathScore;
+        }
+      });
+    }
   }
 
   void delay() {
@@ -136,7 +143,7 @@ class _MathScreenState extends State<MathScreen> {
                         },
                         isSubmit: false,
                         reBuild: false,
-                        countTime: 60,
+                        countTime: 4,
                       ),
                       Expanded(
                         child: Container(
