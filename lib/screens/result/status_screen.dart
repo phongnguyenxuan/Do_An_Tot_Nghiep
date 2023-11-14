@@ -1,3 +1,4 @@
+import 'package:do_an_tot_nghiep/configs/constants.dart';
 import 'package:do_an_tot_nghiep/provider/app_state.dart';
 import 'package:do_an_tot_nghiep/widget/custom_appbar.dart';
 import 'package:do_an_tot_nghiep/widget/custom_button.dart';
@@ -31,7 +32,7 @@ class _StatusScreenState extends State<StatusScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kColorWhite,
-      appBar: const CustomAppBar(title: 'Status'),
+      appBar: CustomAppBar(title: translate.history),
       body: Builder(builder:(context) {
         if(totalScore.isEmpty) {
           return Column(
@@ -43,11 +44,11 @@ class _StatusScreenState extends State<StatusScreen> {
               RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
-                text: "No results found\n",
+                text: "${translate.noRes}\n",
                 style: k25SizeBlackColorStyle,
                 children: [
                   TextSpan(
-                    text: "We couldn't find what you're looking for",
+                    text: translate.couldntFind,
                     style: k15SizeW400BlackColorStyle
                   )
                 ]
@@ -93,7 +94,7 @@ class _StatusScreenState extends State<StatusScreen> {
             margin: const EdgeInsets.all(30),
             buttonBorder: Border.all(color: kBorderColor, width: 2),
             child: Text(
-              "Continue",
+              translate.continuew,
               style: k18BlackTextStyle
             ),
           ),
@@ -106,7 +107,7 @@ class _StatusScreenState extends State<StatusScreen> {
     TextStyle style = knormalTextStyle;
     Widget text;
     if (value.toInt() == totalScore.length - 1) {
-      text =  Text('Last play', style: style);
+      text =  Text(translate.currentw, style: style);
     } else {
       text = Text('${value.toInt() + 1}', style: style);
     }

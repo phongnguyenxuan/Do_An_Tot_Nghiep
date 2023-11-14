@@ -58,7 +58,7 @@ TextStyle k45SizePrimaryColorStyle = TextStyle(
 
 TextStyle k25SizeBlackColorStyle = TextStyle(
     fontFamily: kfontFamily,
-    fontSize: 25.sp,
+    fontSize: 23.sp,
     color: kColorBlack,
     fontWeight: FontWeight.w700,
     height: 1.5);

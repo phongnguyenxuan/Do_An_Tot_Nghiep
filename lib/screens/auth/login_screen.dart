@@ -18,168 +18,160 @@ class _LoginScreenState extends State<LoginScreen> {
   final AuthServices authServices = AuthServices();
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-          color: kColorWhite,
-          image: DecorationImage(
-              image: AssetImage(
-                "assets/images/bg.png",
+    return Scaffold(
+      backgroundColor: kColorWhite,
+      body: Column(
+        children: [
+          Align(
+            alignment: Alignment.topRight,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 30, right: 25),
+              child: CustomButton(
+                  onPress: () async {
+                    await authServices.anonymouslySigin();
+                  },
+                  width: 50.w,
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  borderRadius: BorderRadius.circular(27),
+                  color: kColorPrimary,
+                  shadowColor: kShadowColor,
+                  elevation: 0,
+                  buttonBorder: Border.all(width: 2, color: kColorBlack),
+                  child: Text(
+                    translate.skip,
+                    style: TextStyle(
+                        fontFamily: kfontFamily,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w700),
+                  )),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 100),
+            child: RichText(
+              text: TextSpan(
+                  text: translate.welcome,
+                  style: k45SizeBlackColorStyle,
+                  children: [
+                    TextSpan(
+                        text: "\nMemoImprove", style: k45SizePrimaryColorStyle)
+                  ]),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 50),
+            child: Image.asset(
+              "assets/images/happy.png",
+              width: 150.w,
+              height: 150.h,
+            ),
+          ),
+          //sigin with
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 84.w,
+                height: 1,
+                color: kColorBlack,
               ),
-              fit: BoxFit.cover)),
-      child: Scaffold(
-        body: Column(
-          children: [
-            Align(
-              alignment: Alignment.topRight,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 30, right: 25),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 17.w),
+                child: Text(
+                  translate.signInWith,
+                  style: TextStyle(
+                      color: kColorBlack,
+                      fontFamily: kfontFamily,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14.sp),
+                ),
+              ),
+              Container(
+                width: 84.w,
+                height: 1,
+                color: kColorBlack,
+              ),
+            ],
+          ),
+          SizedBox(height: 15.h),
+          //facebook and google
+          Row(
+            children: [
+              //facebook
+              Expanded(
+                  child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: CustomButton(
                     onPress: () async {
-                      await authServices.anonymouslySigin();
+                      await authServices.logInWithFacebook(context);
                     },
-                    width: 50.w,
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    borderRadius: BorderRadius.circular(27),
-                    color: kColorPrimary,
-                    shadowColor: kShadowColor,
-                    elevation: 0,
+                    color: kColorWhite,
                     buttonBorder: Border.all(width: 2, color: kColorBlack),
-                    child: Text(
-                      "Skip",
-                      style: TextStyle(
-                          fontFamily: kfontFamily,
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w700),
+                    padding: const EdgeInsets.all(15),
+                    borderRadius: BorderRadius.circular(27),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 29.w,
+                          height: 29.w,
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage("assets/icons/facebook.png"),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 8.w,
+                        ),
+                        Text(
+                          "FACEBOOK",
+                          style: TextStyle(
+                              fontFamily: kfontFamily,
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w400),
+                        )
+                      ],
                     )),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 100),
-              child: RichText(
-                text: TextSpan(
-                    text: "Welcome to\n",
-                    style: k45SizeBlackColorStyle,
-                    children: [
-                      TextSpan(
-                          text: "MemoImprove", style: k45SizePrimaryColorStyle)
-                    ]),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 50),
-              child: Image.asset(
-                "assets/images/happy.png",
-                width: 150.w,
-                height: 150.h,
-              ),
-            ),
-            //sigin with
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 84.w,
-                  height: 1,
-                  color: kColorBlack,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 17.w),
-                  child: Text(
-                    "sign in with",
-                    style: TextStyle(
-                        color: kColorBlack,
-                        fontFamily: kfontFamily,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14.sp),
-                  ),
-                ),
-                Container(
-                  width: 84.w,
-                  height: 1,
-                  color: kColorBlack,
-                ),
-              ],
-            ),
-            SizedBox(height: 15.h),
-            //facebook and google
-            Row(
-              children: [
-                //facebook
-                Expanded(
-                    child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: CustomButton(
-                      onPress: () async {
-                        await authServices.logInWithFacebook(context);
-                      },
-                      color: kColorWhite,
-                      buttonBorder: Border.all(width: 2, color: kColorBlack),
-                      padding: const EdgeInsets.all(15),
-                      borderRadius: BorderRadius.circular(27),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 29.w,
-                            height: 29.w,
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage("assets/icons/facebook.png"),
-                              ),
+              )),
+              //google
+              Expanded(
+                  child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: CustomButton(
+                    onPress: () async {
+                      await authServices.logInWithGoogle(context);
+                    },
+                    color: kColorWhite,
+                    buttonBorder: Border.all(width: 2, color: kColorBlack),
+                    padding: const EdgeInsets.all(15),
+                    borderRadius: BorderRadius.circular(27),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 29.w,
+                          height: 29.w,
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage("assets/icons/google.png"),
                             ),
                           ),
-                          SizedBox(
-                            width: 8.w,
-                          ),
-                          Text(
-                            "FACEBOOK",
-                            style: TextStyle(
-                                fontFamily: kfontFamily,
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.w400),
-                          )
-                        ],
-                      )),
-                )),
-                //google
-                Expanded(
-                    child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: CustomButton(
-                      onPress: () async {
-                        await authServices.logInWithGoogle(context);
-                      },
-                      color: kColorWhite,
-                      buttonBorder: Border.all(width: 2, color: kColorBlack),
-                      padding: const EdgeInsets.all(15),
-                      borderRadius: BorderRadius.circular(27),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 29.w,
-                            height: 29.w,
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage("assets/icons/google.png"),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 8.w,
-                          ),
-                          Text(
-                            "GOOGLE",
-                            style: TextStyle(
-                                fontFamily: kfontFamily,
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.w400),
-                          )
-                        ],
-                      )),
-                )),
-              ],
-            )
-          ],
-        ),
+                        ),
+                        SizedBox(
+                          width: 8.w,
+                        ),
+                        Text(
+                          "GOOGLE",
+                          style: TextStyle(
+                              fontFamily: kfontFamily,
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w400),
+                        )
+                      ],
+                    )),
+              )),
+            ],
+          )
+        ],
       ),
     );
   }

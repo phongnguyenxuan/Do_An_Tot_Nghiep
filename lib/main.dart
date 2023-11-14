@@ -16,6 +16,7 @@ import 'package:provider/provider.dart';
 import 'configs/basic_config.dart';
 import 'configs/style_config.dart';
 import 'firebase_options.dart';
+import 'generated/l10n.dart';
 import 'provider/app_state.dart';
 import 'screens/games/find_pair/find_pair_screen.dart';
 import 'screens/games/memory_matrix/memo_matrix_screen.dart';
@@ -26,21 +27,17 @@ import 'screens/splash/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp(
+  await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
- // SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
-    systemNavigationBarColor: Colors.transparent
-  ));
+      statusBarColor: Colors.transparent,
+      systemNavigationBarColor: Colors.transparent));
   //setup hive
   await setupHive();
-  //setup multi language
-  // final delegate = await setupAppLanguage();
   runApp(
     MultiProvider(
       providers: [
@@ -57,20 +54,20 @@ void main() async {
 }
 
 void configLoading() {
-EasyLoading.instance
-..displayDuration = const Duration(seconds: 3)
-..indicatorType = EasyLoadingIndicatorType.ring
-..loadingStyle = EasyLoadingStyle.custom
-..indicatorSize = 45.0
-..radius = 10.0
-..backgroundColor = Colors.transparent
-..indicatorColor = kColorPrimary
-..textColor = Colors.transparent
-..boxShadow = <BoxShadow>[]
-..maskColor = Colors.transparent
-..userInteractions = false
-..maskType = EasyLoadingMaskType.custom
-..dismissOnTap = false;
+  EasyLoading.instance
+    ..displayDuration = const Duration(seconds: 3)
+    ..indicatorType = EasyLoadingIndicatorType.ring
+    ..loadingStyle = EasyLoadingStyle.custom
+    ..indicatorSize = 45.0
+    ..radius = 10.0
+    ..backgroundColor = Colors.transparent
+    ..indicatorColor = kColorPrimary
+    ..textColor = Colors.transparent
+    ..boxShadow = <BoxShadow>[]
+    ..maskColor = Colors.transparent
+    ..userInteractions = false
+    ..maskType = EasyLoadingMaskType.custom
+    ..dismissOnTap = false;
 }
 
 class MainApp extends StatelessWidget {
@@ -78,7 +75,6 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //var localizationDelegate = LocalizedApp.of(context).delegate;
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
@@ -86,41 +82,46 @@ class MainApp extends StatelessWidget {
           FocusManager.instance.primaryFocus?.unfocus();
         }
       },
-      // ScreenUtilInit init responsive for app
       child: ScreenUtilInit(
-        //default sized for app is iphone 13
         designSize: const Size(375, 812),
         builder: (context, child) {
-          return MaterialApp(
-              builder: EasyLoading.init(),
-              debugShowCheckedModeBanner: false,
-              navigatorKey: navigatorKey,
-              title: 'Test Memory',
-              localizationsDelegates: const [
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              theme: ThemeData(
-                primarySwatch: primaryMaterialColor,
-                scaffoldBackgroundColor: Colors.transparent,
-              ),
-              initialRoute: SplashScreen.id,
-              routes: {
-                HomeScreen.id: (_) => const HomeScreen(),
-                SplashScreen.id: (_) => const SplashScreen(),
-                GamesScreen.id: (_) => const GamesScreen(),
-                MemoMatrixScreen.id: (_) => const MemoMatrixScreen(),
-                FindPairScreen.id: (_) => const FindPairScreen(),
-                MathScreen.id: (_) => const MathScreen(),
-                SpeedMatchScreen.id: (_) => const SpeedMatchScreen(),
-                StatusScreen.id: (_) => const StatusScreen(),
-                LoginScreen.id: (_) => const LoginScreen(),
-                AuthState.id: (_) => const AuthState(),
-                SettingScreen.id: (_) => const SettingScreen(),
-                RankScreen.id: (_) => const RankScreen(),
-              },
-            );
+          return Consumer<AppState>(
+            builder: (context, value, child) {
+              return MaterialApp(
+                builder: EasyLoading.init(),
+                debugShowCheckedModeBanner: false,
+                navigatorKey: navigatorKey,
+                title: 'Test Memory',
+                localizationsDelegates: const [
+                  S.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: S.delegate.supportedLocales,
+                locale: Locale(value.appLanguage),
+                theme: ThemeData(
+                  primarySwatch: primaryMaterialColor,
+                  scaffoldBackgroundColor: Colors.transparent,
+                ),
+                initialRoute: SplashScreen.id,
+                routes: {
+                  HomeScreen.id: (_) => const HomeScreen(),
+                  SplashScreen.id: (_) => const SplashScreen(),
+                  GamesScreen.id: (_) => const GamesScreen(),
+                  MemoMatrixScreen.id: (_) => const MemoMatrixScreen(),
+                  FindPairScreen.id: (_) => const FindPairScreen(),
+                  MathScreen.id: (_) => const MathScreen(),
+                  SpeedMatchScreen.id: (_) => const SpeedMatchScreen(),
+                  StatusScreen.id: (_) => const StatusScreen(),
+                  LoginScreen.id: (_) => const LoginScreen(),
+                  AuthState.id: (_) => const AuthState(),
+                  SettingScreen.id: (_) => const SettingScreen(),
+                  RankScreen.id: (_) => const RankScreen(),
+                },
+              );
+            },
+          );
         },
       ),
     );

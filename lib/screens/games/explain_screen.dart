@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
 
+import 'package:do_an_tot_nghiep/configs/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -26,12 +27,9 @@ class _ExplainScreen extends State<ExplainScreen>
   int _timeCount = 3;
   late Animation<double> animation;
   bool isVisible = false;
-  late AssetImage assetImage;
   @override
   void initState() {
     super.initState();
-    //load image faster
-  assetImage = const AssetImage("assets/images/explain.png");
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 1),
@@ -48,7 +46,6 @@ class _ExplainScreen extends State<ExplainScreen>
 
   @override
   void didChangeDependencies() {
-    precacheImage(assetImage, context);
     super.didChangeDependencies();
   }
   void _animationListener() {
@@ -71,6 +68,7 @@ class _ExplainScreen extends State<ExplainScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kColorWhite,
       appBar: const CustomAppBar(title: ""),
       body: SizedBox(
         width: double.infinity,
@@ -78,18 +76,21 @@ class _ExplainScreen extends State<ExplainScreen>
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image(
-              image: assetImage,
+            Image.asset(
+              "assets/images/explain.png",
               width: 100.w,
               height: 100.h,
             ),
             SizedBox(
               height: 20.h,
             ),
-            Text(
-                widget.title,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20.sp, color: kColorBlack)),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Text(
+                  widget.title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 20.sp, color: kColorBlack)),
+            ),
             Container(
               margin: const EdgeInsets.only(top: 10),
               height: 60.h,
@@ -106,7 +107,7 @@ class _ExplainScreen extends State<ExplainScreen>
               color: kColorOrange,
               fontSize: 27.sp,
               strokeWidth: 3,
-              title: _timeCount == 0 ? "Start" : "Get ready !!",
+              title: _timeCount == 0 ? translate.start : translate.ready,
             )
           ],
         ),

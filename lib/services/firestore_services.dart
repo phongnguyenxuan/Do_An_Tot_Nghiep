@@ -11,6 +11,7 @@ class FireStoreServices {
     UserModel userModel = UserModel(
         uid: user?.uid,
         userName: user?.displayName,
+        email: user?.email,
         score: score,
         photoURL: user?.photoURL);
     await _firestore.collection("users").doc(user?.uid).set(userModel.toMap());

@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:do_an_tot_nghiep/configs/constants.dart';
 import 'package:do_an_tot_nghiep/configs/style_config.dart';
 import 'package:do_an_tot_nghiep/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -26,34 +28,29 @@ class UserCard extends StatelessWidget {
           //profile image
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Container(
+            child: //avatar
+                Container(
               decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: kBorderColor, width: 2)),
+                shape: BoxShape.circle,
+                border: Border.all(width: 2, color: kBorderColor),
+              ),
               child: CircleAvatar(
                 radius: 25,
-                backgroundColor: Colors.transparent,
                 child: ClipOval(
-                    child: AspectRatio(
-                  aspectRatio: 1 / 1,
-                  child: Image.network(
-                    user.photoURL!,
-                    fit: BoxFit.cover,
-                    loadingBuilder: (context, child, loadingProgress) {
-                      //loading image
-                      if (loadingProgress == null) return child;
-                      return Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.white60,
-                          value: loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded /
-                                  loadingProgress.expectedTotalBytes!
-                              : null,
-                        ),
-                      );
-                    },
+                  child: AspectRatio(
+                    aspectRatio: 1 / 1,
+                    child: CachedNetworkImage(
+                      imageUrl: user.photoURL!,
+                      fit: BoxFit.cover,
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) =>
+                              CircularProgressIndicator(
+                                  value: downloadProgress.progress),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                    ),
                   ),
-                )),
+                ),
               ),
             ),
           ),
@@ -63,11 +60,11 @@ class UserCard extends StatelessWidget {
             children: [
               RichText(
                 text: TextSpan(
-                    text: user.userName!,
+                    text: userLogin.uid.contains(user.uid!) ? translate.score : user.userName!,
                     style: k17SizeW500BlackColorStyle,
                     children: [
                       TextSpan(
-                          text: "\nScore: ${user.score}",
+                          text: "\n${translate.score}: ${user.score}",
                           style: k15SizeW400BlackColorStyle
                           // style: GoogleFonts.nunitoSans(
                           //     color: Colors.white54, fontSize: 12),

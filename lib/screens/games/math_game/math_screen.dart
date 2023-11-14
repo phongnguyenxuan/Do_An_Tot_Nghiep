@@ -86,88 +86,80 @@ class _MathScreenState extends State<MathScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-            image: AssetImage(
-              "assets/images/bg.png",
+    return Builder(
+      builder: (context) {
+        if (_currentIndex == -1) {
+          return ExplainScreen(
+            title: translate.mathMessage,
+          );
+        }
+        return Scaffold(
+          backgroundColor: kColorWhite,
+            appBar: CustomAppBar(
+              title: "Question ${_currentPlayingIndex + 1}",
+              actions: [
+                Visibility(
+                  visible: _currentIndex != -1,
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 16),
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            "assets/images/star.png",
+                            height: 30.w,
+                            width: 30.h,
+                          ),
+                          const SizedBox(width: 7),
+                          Text(
+                            mathScore.toString(),
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500,
+                              color: kColorBlack,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              ],
             ),
-            fit: BoxFit.cover),
-      ),
-      child: Builder(
-        builder: (context) {
-          if (_currentIndex == -1) {
-            return ExplainScreen(
-              title: "Math message",
-            );
-          }
-          return Scaffold(
-              appBar: CustomAppBar(
-                title: "Question ${_currentPlayingIndex + 1}",
-                actions: [
-                  Visibility(
-                    visible: _currentIndex != -1,
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 16),
-                        child: Row(
-                          children: [
-                            Image.asset(
-                              "assets/images/star.png",
-                              height: 30.w,
-                              width: 30.h,
-                            ),
-                            const SizedBox(width: 7),
-                            Text(
-                              mathScore.toString(),
-                              style: TextStyle(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w500,
-                                color: kColorBlack,
-                              ),
-                            ),
-                          ],
+            body: Stack(
+              children: [
+                Column(
+                  children: [
+                    TimerWidget(
+                      onTimerEnd: () {
+                        _showResult();
+                      },
+                      isSubmit: false,
+                      reBuild: false,
+                      countTime: 45,
+                    ),
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.all(20),
+                        child: MathPlayWidget(
+                          index: _currentPlayingIndex,
+                          question: context
+                              .read<AppState>()
+                              .playList[_currentPlayingIndex],
+                          onPlayCorrect: _onPlayCorrect,
                         ),
                       ),
                     ),
-                  )
-                ],
-              ),
-              body: Stack(
-                children: [
-                  Column(
-                    children: [
-                      TimerWidget(
-                        onTimerEnd: () {
-                          _showResult();
-                        },
-                        isSubmit: false,
-                        reBuild: false,
-                        countTime: 4,
-                      ),
-                      Expanded(
-                        child: Container(
-                          padding: const EdgeInsets.all(20),
-                          child: MathPlayWidget(
-                            index: _currentPlayingIndex,
-                            question: context
-                                .read<AppState>()
-                                .playList[_currentPlayingIndex],
-                            onPlayCorrect: _onPlayCorrect,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  ScoreOverlay(
-                    score: score,
-                    bonus: 0,
-                    streak: streak,
-                  )
-                ],
-              ));
-        },
-      ),
+                  ],
+                ),
+                ScoreOverlay(
+                  score: score,
+                  bonus: 0,
+                  streak: streak,
+                )
+              ],
+            ));
+      },
     );
   }
 }

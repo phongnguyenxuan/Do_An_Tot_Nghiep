@@ -5,11 +5,13 @@ class UserModel {
   final String? uid;
   final String? userName;
   final String? photoURL;
+  final String? email;
   int? score;
   UserModel({
     required this.uid,
     required this.userName,
     required this.photoURL,
+    required this.email,
     this.score,
   });
 
@@ -17,11 +19,13 @@ class UserModel {
     String? uid,
     String? userName,
     String? photoURL,
+    String? email,
     int? score,
   }) {
     return UserModel(
       uid: uid ?? this.uid,
       userName: userName ?? this.userName,
+      email: email ?? this.email,
       photoURL: photoURL ?? this.photoURL,
       score: score ?? this.score,
     );
@@ -33,6 +37,7 @@ class UserModel {
       'userName': userName,
       'photoURL': photoURL,
       'score': score,
+      'email' : email,
     };
   }
 
@@ -41,6 +46,7 @@ class UserModel {
       uid: map?['uid'] as String,
       userName: map?['userName'] as String,
       photoURL: map?['photoURL'] as String,
+      email: map?['email'] as String,
       score: map?['score'] != null ? map!['score'] as int : null,
     );
   }
