@@ -1,4 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:do_an_tot_nghiep/custom_icon_icons.dart';
+import 'package:do_an_tot_nghiep/provider/app_state.dart';
+import 'package:do_an_tot_nghiep/screens/home/home_screen.dart';
 import 'package:do_an_tot_nghiep/services/auth_services.dart';
 import 'package:do_an_tot_nghiep/widget/custom_appbar.dart';
 import 'package:do_an_tot_nghiep/widget/custom_button.dart';
@@ -6,7 +9,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:provider/provider.dart';
 
+import '../../configs/constants.dart';
 import '../../configs/style_config.dart';
 
 class SettingScreen extends StatefulWidget {
@@ -19,131 +24,157 @@ class SettingScreen extends StatefulWidget {
 class _SettingScreenState extends State<SettingScreen> {
   bool enableSound = true;
   final AuthServices authServices = AuthServices();
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext ctx) {
     return StreamBuilder(
       stream: FirebaseAuth.instance.idTokenChanges(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return Container();
+          return Container(color: kColorWhite,);
         } else {
           User user = snapshot.data!;
-          return Container(
-            decoration: const BoxDecoration(
-              color: kColorWhite,
-              image: DecorationImage(
-                  image: AssetImage(
-                    "assets/images/bg.png",
-                  ),
-                  fit: BoxFit.cover),
+          return Scaffold(
+            backgroundColor: kColorWhite,
+            appBar: CustomAppBar(
+              title: translate.settings,
             ),
-            child: Scaffold(
-              appBar: const CustomAppBar(title: "Settings"),
-              body: Column(
-                children: [
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  user.isAnonymous
-                      ? secondHeader(context, user)
-                      : mainHeader(user, context),
-                  Container(
-                    height: 2,
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 20),
-                    color: kBorderColor,
-                  ),
-                  // feature
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 50.h,
-                        ),
-                        //sound
-                        Row(
+            body: Column(
+              children: [
+                SizedBox(
+                  height: 20.h,
+                ),
+                user.isAnonymous
+                    ? secondHeader(context, user)
+                    : mainHeader(user, context),
+                Container(
+                  height: 2,
+                  margin: const EdgeInsets.symmetric(
+                      horizontal: 20, vertical: 20),
+                  color: kBorderColor,
+                ),
+                // feature
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 50.h,
+                      ),
+                      //sound
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            translate.sound,
+                            style: k25SizeBlackColorStyle,
+                          ),
+                          const SizedBox(
+                            width: 15,
+                          ),
+                          Icon(
+                            enableSound
+                                ? CustomIcon.volume
+                                : CustomIcon.volume_slash,
+                          ),
+                          const Spacer(),
+                          FlutterSwitch(
+                            activeColor: primaryMaterialColor.shade300,
+                            activeToggleColor: kColorPrimary,
+                            switchBorder:
+                                Border.all(width: 2, color: kBorderColor),
+                            value: enableSound,
+                            onToggle: (value) {
+                              setState(() {
+                                enableSound = value;
+                              });
+                            },
+                          )
+                        ],
+                      ),
+                      // language
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              "Sound",
+                              translate.language,
                               style: k25SizeBlackColorStyle,
                             ),
-                            const SizedBox(
-                              width: 15,
-                            ),
-                            Icon(
-                              enableSound
-                                  ? CustomIcon.volume
-                                  : CustomIcon.volume_slash,
-                            ),
                             const Spacer(),
-                            FlutterSwitch(
-                              activeColor: primaryMaterialColor.shade300,
-                              activeToggleColor: kColorPrimary,
-                              switchBorder:
-                                  Border.all(width: 2, color: kBorderColor),
-                              value: enableSound,
-                              onToggle: (value) {
+                            DropdownButton<String>(
+                              value: ctx.read<AppState>().appLanguage,
+                              underline: Container(),
+                              borderRadius: BorderRadius.circular(15),
+                              elevation: 2,
+                              items: supportedLanguage
+                                  .map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 7),
+                                        child: Text(value.toUpperCase()),
+                                      ),
+                                      Container(
+                                        width: 30,
+                                        height: 30,
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image: AssetImage(
+                                                    "assets/images/$value.png"))),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              }).toList(),
+                              onChanged: (String? value) {
                                 setState(() {
-                                  enableSound = value;
+                                  ctx.read<AppState>().appLanguage = value!;
                                 });
                               },
-                            )
+                            ),
                           ],
                         ),
-                        // language
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Language",
-                                style: k25SizeBlackColorStyle,
-                              ),
-                              const SizedBox(
-                                width: 15,
-                              ),
-                              const Spacer(),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 30.h,
-                        ),
-                        // contactus
-                        CustomButton(
-                            borderRadius: BorderRadius.circular(20),
-                            color: kButtonColor,
-                            shadowColor: kShadowColor2,
-                            buttonBorder:
-                                Border.all(width: 2, color: kColorBlack),
-                            padding: const EdgeInsets.all(20),
-                            child: Text(
-                              "Contact us",
-                              style: k17SizeW500BlackColorStyle,
-                            )),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        //Terms and privacy
-                        CustomButton(
-                            borderRadius: BorderRadius.circular(20),
-                            color: kButtonColor,
-                            shadowColor: kShadowColor2,
-                            buttonBorder:
-                                Border.all(width: 2, color: kColorBlack),
-                            padding: const EdgeInsets.all(20),
-                            child: Text(
-                              "Terms and privacy",
-                              style: k17SizeW500BlackColorStyle,
-                            )),
-                      ],
-                    ),
-                  )
-                ],
-              ),
+                      ),
+                      SizedBox(
+                        height: 30.h,
+                      ),
+                      // contactus
+                      CustomButton(
+                          borderRadius: BorderRadius.circular(20),
+                          color: kButtonColor,
+                          shadowColor: kShadowColor2,
+                          buttonBorder:
+                              Border.all(width: 2, color: kColorBlack),
+                          padding: const EdgeInsets.all(20),
+                          child: Text(
+                            translate.contact,
+                            style: k17SizeW500BlackColorStyle,
+                          )),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      //Terms and privacy
+                      CustomButton(
+                          borderRadius: BorderRadius.circular(20),
+                          color: kButtonColor,
+                          shadowColor: kShadowColor2,
+                          buttonBorder:
+                              Border.all(width: 2, color: kColorBlack),
+                          padding: const EdgeInsets.all(20),
+                          child: Text(
+                            translate.termAndPr,
+                            style: k17SizeW500BlackColorStyle,
+                          )),
+                    ],
+                  ),
+                )
+              ],
             ),
           );
         }
@@ -198,7 +229,7 @@ class _SettingScreenState extends State<SettingScreen> {
                                   width: 2, color: kBorderColor)),
                           title: Center(
                             child: Text(
-                              "Sign in with",
+                              translate.signInWith,
                               style: k17SizeW500BlackColorStyle,
                             ),
                           ),
@@ -281,7 +312,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 elevation: 5,
                 padding: const EdgeInsets.all(8),
                 child: Text(
-                  "Log in",
+                  translate.logIn,
                   style: knormalTextStyle,
                 ))
           ],
@@ -299,18 +330,26 @@ class _SettingScreenState extends State<SettingScreen> {
         ),
         //avatar
         Container(
-          width: 80.w,
-          height: 80.w,
-          //  padding: const EdgeInsets.all(100),
           decoration: BoxDecoration(
-              color: kColorPrimary,
-              border: Border.all(width: 2, color: kBorderColor),
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                  image: NetworkImage(
-                    user.photoURL!,
-                  ),
-                  fit: BoxFit.cover)),
+            shape: BoxShape.circle,
+            border: Border.all(width: 2, color: kBorderColor),
+          ),
+          child: CircleAvatar(
+            radius: 35,
+            child: ClipOval(
+              child: AspectRatio(
+                aspectRatio: 1 / 1,
+                child: CachedNetworkImage(
+                  imageUrl: user.photoURL!,
+                  fit: BoxFit.cover,
+                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                      CircularProgressIndicator(
+                          value: downloadProgress.progress),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),
+              ),
+            ),
+          ),
         ),
         SizedBox(
           width: 15.w,
@@ -343,7 +382,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 elevation: 5,
                 padding: const EdgeInsets.all(8),
                 child: Text(
-                  "Log out",
+                  translate.logOut,
                   style: knormalTextStyle,
                 ))
           ],

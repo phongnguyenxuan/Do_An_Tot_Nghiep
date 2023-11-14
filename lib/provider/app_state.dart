@@ -21,6 +21,27 @@ class AppState extends ChangeNotifier {
   late final boxAppData = Hive.box(boxAppSettingName);
   late final boxPlayData = Hive.box(boxPlayDataName);
 
+  // AppState() {
+  //   fetchLevelData(level);
+  // }
+  AppState({
+    String appLanguage = defaultLanguage,
+  }) : _appLanguage = appLanguage;
+
+//? APP SETTING
+  late String _appLanguage =
+      boxAppData.get("language", defaultValue: defaultLanguage);
+
+  String get appLanguage {
+    return _appLanguage;
+  }
+
+  set appLanguage(String language) {
+    _appLanguage = language;
+    boxAppData.put("language", language);
+    notifyListeners();
+  }
+
 //? MEMORY MATRIX
   late int _memoHighScore =
       boxPlayData.get(memoHighScoreDataName, defaultValue: 0);
@@ -336,7 +357,7 @@ class AppState extends ChangeNotifier {
               title: "Find Pairs",
               grade: _findPairScore,
               highscore: _findPairHighScore,
-              newRecord: (_findPairScore > _findPairHighScore),
+              newRecord: (_findPairScore >= _findPairHighScore),
             ),
         settings: const RouteSettings(name: ResultScreen.id)));
   }
@@ -347,10 +368,6 @@ class AppState extends ChangeNotifier {
     resetPlayState();
     _playList = generatePlayList();
     showAllCard();
-  }
-
-  AppState() {
-    fetchLevelData(level);
   }
 
   //? Math game
@@ -518,7 +535,7 @@ class AppState extends ChangeNotifier {
               title: "Speed Match",
               grade: _speedMatchScore,
               highscore: _speedHighScore,
-              newRecord: (_speedMatchScore > _speedHighScore),
+              newRecord: (_speedMatchScore >= _speedHighScore),
             ),
         settings: const RouteSettings(name: ResultScreen.id)));
   }
@@ -528,22 +545,27 @@ class AppState extends ChangeNotifier {
   late int _totalScoree = ((boxPlayData.get("memo", defaultValue: 0) +
               boxPlayData.get("findpair", defaultValue: 0) +
               mathHighScore +
-              speedHighScore) / 4).round();
+              speedHighScore) /
+          4)
+      .round();
   int get totalScore => _totalScoree;
-  late List<int> _listTotalScore = boxPlayData.get("listScore", defaultValue: List<int>.empty(growable: true));
+  late List<int> _listTotalScore = boxPlayData.get("listScore",
+      defaultValue: List<int>.empty(growable: true));
   List<int> get listTotalScore => _listTotalScore;
   late int _maxScore = 0;
 
   void setTotalScore() async {
     final FireStoreServices fireStoreServices = FireStoreServices();
-    if(_listTotalScore.isEmpty) {
+    if (_listTotalScore.isEmpty) {
       _listTotalScore.add(0);
     }
     _totalScoree = ((await boxPlayData.get("memo", defaultValue: 0) +
                 (await boxPlayData.get("findpair", defaultValue: 0)) +
                 (await boxPlayData.get("math", defaultValue: 0)) +
-                (await boxPlayData.get("speedMatch", defaultValue: 0))) / 4).round();
-    if(!FirebaseAuth.instance.currentUser!.isAnonymous) {
+                (await boxPlayData.get("speedMatch", defaultValue: 0))) /
+            4)
+        .round();
+    if (!FirebaseAuth.instance.currentUser!.isAnonymous && _totalScoree != 0) {
       fireStoreServices.updateScoreToServer(score: _totalScoree);
     }
     _listTotalScore.add(_totalScoree);

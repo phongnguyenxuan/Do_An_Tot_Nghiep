@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:do_an_tot_nghiep/configs/constants.dart';
 import 'package:do_an_tot_nghiep/configs/style_config.dart';
 import 'package:do_an_tot_nghiep/provider/app_state.dart';
 import 'package:do_an_tot_nghiep/screens/games/speed_match/card_animation.dart';
@@ -39,7 +40,7 @@ class _SpeedMatchPlayState extends State<SpeedMatchPlay> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Dose the CURRENT card match the card that came IMEDIATELY BEFORE it ?",
+                  translate.doseThe,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20.sp,
@@ -222,7 +223,7 @@ class _SpeedMatchPlayState extends State<SpeedMatchPlay> {
                       context.read<AppState>().onPickAnswer(false);
                     } : null,
                     child: Text(
-                      "No",
+                      translate.no,
                       style: TextStyle(
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w500,
@@ -243,7 +244,7 @@ class _SpeedMatchPlayState extends State<SpeedMatchPlay> {
                       context.read<AppState>().onPickAnswer(true);
                     }: null,
                     child: Text(
-                      "Yes",
+                      translate.yes,
                       style: TextStyle(
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w500,

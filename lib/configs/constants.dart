@@ -1,6 +1,8 @@
 
 import 'package:hive/hive.dart';
 
+import '../generated/l10n.dart';
+
 const String kfontFamily = "SofiaPro";
 const String boxAppSettingName = "app_setting";
 const String boxPlayDataName = "play_data";
@@ -8,12 +10,9 @@ const String memoHighScoreDataName = "memo_highscsore";
 const String findPairHighScoreDataName = "find_pair_highscsore";
 const String mathHighScoreDataName = "math_highscsore";
 const String speedMatchHighScoreDataName = "speed_match_highscsore";
-const List<String> supportedLanguage = ['en','vi'];
+const List<String> supportedLanguage = ["en", "vi"];
 const  String defaultLanguage = 'en';
-const Map<String, String> languageCodeToName = {
-  "en" : "English",
-  "vi" : "Tiếng Việt",
-};
+var translate = S.current;
 
 //FIND PAIR
 const Map<int, int> levelConfig = {

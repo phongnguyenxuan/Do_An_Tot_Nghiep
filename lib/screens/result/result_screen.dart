@@ -37,110 +37,102 @@ class _ResultScreenState extends State<ResultScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-          color: kColorWhite,
-          image: DecorationImage(
-              image: AssetImage(
-                "assets/images/bg.png",
-              ),
-              fit: BoxFit.cover)),
-      child: Scaffold(
-        appBar: CustomAppBar(
-          title: widget.title,
-        ),
-        body: Container(
-          margin: const EdgeInsets.all(30),
-          child: Column(
-            children: [
-              Column(
-                children: [
-                  CustomText(
-                      title: widget.newRecord ? "New High Score" : "Your score",
-                      fontSize: 25.sp,
-                      strokeWidth: 2,
-                      color: Colors.black),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 24),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          "assets/images/star.png",
-                          height: 30.w,
-                          width: 30.w,
-                        ),
-                        const SizedBox(width: 16),
-                        Text(
-                          widget.grade.toString(),
-                          style: TextStyle(
-                            fontSize: 35.sp,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: kfontFamily,
-                            color: kColorBlack,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Visibility(
-                    visible: !widget.newRecord,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: Text(
-                        "High score : ${widget.highscore}",
-                        style: TextStyle(
-                            fontFamily: kfontFamily,
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 40),
-                    child: Image.asset(
-                        "assets/images/${widget.newRecord ? "highscore" : "results"}.png",
-                        height: 150.h,
-                        width: 150.w),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              CustomButton(
-                  onPress: () {
-                    Navigator.of(context).pushReplacementNamed(StatusScreen.id);
-                  },
-                  color: Colors.white,
-                  shadowColor: kShadowColor2,
-                  minWidth: double.maxFinite,
-                  borderRadius: BorderRadius.circular(16),
-                  minHeight: 60.h,
-                  buttonBorder: Border.all(color: kBorderColor,width: 2),
-                  elevation: 5,
+    return Scaffold(
+      backgroundColor: kColorWhite,
+      appBar: CustomAppBar(
+        title: widget.title,
+      ),
+      body: Container(
+        margin: const EdgeInsets.all(30),
+        child: Column(
+          children: [
+            Column(
+              children: [
+                CustomText(
+                    title: widget.newRecord ? translate.highScore : translate.score,
+                    fontSize: 25.sp,
+                    strokeWidth: 2,
+                    color: Colors.black),
+                Padding(
+                  padding: const EdgeInsets.only(top: 24),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        "Continue",
-                        style: k18BlackTextStyle,
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
                       Image.asset(
-                        "assets/images/arrow-right.png",
-                        width: 20.w,
-                        height: 20.h,
+                        "assets/images/star.png",
+                        height: 30.w,
+                        width: 30.w,
+                      ),
+                      const SizedBox(width: 16),
+                      Text(
+                        widget.grade.toString(),
+                        style: TextStyle(
+                          fontSize: 35.sp,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: kfontFamily,
+                          color: kColorBlack,
+                        ),
                       ),
                     ],
-                  )),
-            ],
-          ),
+                  ),
+                ),
+                Visibility(
+                  visible: !widget.newRecord,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Text(
+                      "${translate.highScore} : ${widget.highscore}",
+                      style: TextStyle(
+                          fontFamily: kfontFamily,
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 40),
+                  child: Image.asset(
+                      "assets/images/${widget.newRecord ? "highscore" : "results"}.png",
+                      height: 150.h,
+                      width: 150.w),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 24,
+            ),
+            const SizedBox(
+              height: 24,
+            ),
+            CustomButton(
+                onPress: () {
+                  Navigator.of(context).pushReplacementNamed(StatusScreen.id);
+                },
+                color: Colors.white,
+                shadowColor: kShadowColor2,
+                minWidth: double.maxFinite,
+                borderRadius: BorderRadius.circular(16),
+                minHeight: 60.h,
+                buttonBorder: Border.all(color: kBorderColor,width: 2),
+                elevation: 5,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      translate.continuew,
+                      style: k18BlackTextStyle,
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    Image.asset(
+                      "assets/images/arrow-right.png",
+                      width: 20.w,
+                      height: 20.h,
+                    ),
+                  ],
+                )),
+          ],
         ),
       ),
     );

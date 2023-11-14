@@ -41,7 +41,6 @@ class AuthServices {
       if (context.mounted) firebaseSignInWithCredential(credential, context);
     } on PlatformException catch (e) {
       EasyLoading.dismiss();
-      print("ffffffffffffffffffffffffffffffff: $e");
     }
   }
 
@@ -84,12 +83,21 @@ class AuthServices {
       UserModel userModel = UserModel(
           uid: credential0.user?.uid,
           userName: credential0.user?.displayName,
+          email: credential0.user?.email,
           score: 0,
           photoURL: credential0.user?.photoURL);
-      await _firestore
-          .collection("users")
+      _firestore
+          .collection('users')
           .doc(credential0.user?.uid)
-          .set(userModel.toMap());
+          .get()
+          .then((value) async {
+        if (!value.exists) {
+          await _firestore
+              .collection("users")
+              .doc(credential0.user?.uid)
+              .set(userModel.toMap());
+        }
+      });
     } on FirebaseAuthException catch (e) {
       Future(() {
         SnackBar snackBar = SnackBar(
@@ -111,6 +119,8 @@ class AuthServices {
   Future<void> signOut() async {
     try {
       EasyLoading.show();
+      await _googleSignIn.signOut();
+      await _facebookAuth.logOut();
       await _auth.signOut();
       EasyLoading.dismiss();
     } on FirebaseAuthException catch (e) {
