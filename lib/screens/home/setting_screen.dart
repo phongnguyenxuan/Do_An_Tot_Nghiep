@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:do_an_tot_nghiep/custom_icon_icons.dart';
 import 'package:do_an_tot_nghiep/provider/app_state.dart';
-import 'package:do_an_tot_nghiep/screens/home/home_screen.dart';
 import 'package:do_an_tot_nghiep/services/auth_services.dart';
 import 'package:do_an_tot_nghiep/widget/custom_appbar.dart';
 import 'package:do_an_tot_nghiep/widget/custom_button.dart';
@@ -11,6 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:provider/provider.dart';
 
+import '../../configs/basic_config.dart';
 import '../../configs/constants.dart';
 import '../../configs/style_config.dart';
 
@@ -31,7 +31,9 @@ class _SettingScreenState extends State<SettingScreen> {
       stream: FirebaseAuth.instance.idTokenChanges(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return Container(color: kColorWhite,);
+          return Container(
+            color: kColorWhite,
+          );
         } else {
           User user = snapshot.data!;
           return Scaffold(
@@ -49,8 +51,8 @@ class _SettingScreenState extends State<SettingScreen> {
                     : mainHeader(user, context),
                 Container(
                   height: 2,
-                  margin: const EdgeInsets.symmetric(
-                      horizontal: 20, vertical: 20),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   color: kBorderColor,
                 ),
                 // feature
@@ -190,20 +192,11 @@ class _SettingScreenState extends State<SettingScreen> {
           width: 25.w,
         ),
         //avatar
-        Container(
+        Image.asset(
+          "assets/images/anonymous.png",
+          fit: BoxFit.cover,
           width: 80.w,
           height: 80.w,
-          padding: const EdgeInsets.all(10),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-              color: kColorPrimary,
-              border: Border.all(width: 2, color: kBorderColor),
-              shape: BoxShape.circle,
-              image: const DecorationImage(
-                  image: AssetImage(
-                    "assets/images/anonymous.png",
-                  ),
-                  fit: BoxFit.cover)),
         ),
         SizedBox(
           width: 15.w,
@@ -249,7 +242,8 @@ class _SettingScreenState extends State<SettingScreen> {
                                           await authServices
                                               .linkAccount(false, context)
                                               .then((value) {
-                                            Navigator.of(context).pop(true);
+                                            navigatorKey.currentState
+                                                ?.pop(true);
                                           });
                                         },
                                         color: kColorWhite,
@@ -278,7 +272,8 @@ class _SettingScreenState extends State<SettingScreen> {
                                           await authServices
                                               .linkAccount(true, context)
                                               .then((value) {
-                                            Navigator.of(context).pop(true);
+                                            navigatorKey.currentState
+                                                ?.pop(true);
                                           });
                                         },
                                         color: kColorWhite,
@@ -371,9 +366,10 @@ class _SettingScreenState extends State<SettingScreen> {
             //logout
             CustomButton(
                 onPress: () async {
+                  context.read<AppState>().totalScore = 0;
                   await authServices
                       .signOut()
-                      .then((value) => Navigator.of(context).pop());
+                      .then((value) => navigatorKey.currentState?.pop());
                 },
                 borderRadius: BorderRadius.circular(15),
                 buttonBorder: Border.all(width: 2, color: kColorBlack),

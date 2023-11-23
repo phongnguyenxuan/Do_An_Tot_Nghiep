@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import '../../configs/basic_config.dart';
 import '../../configs/style_config.dart';
 import '../../provider/app_state.dart';
 import '../../widget/custom_button.dart';
@@ -47,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   //setting
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context).pushNamed(SettingScreen.id);
+                      navigatorKey.currentState?.pushNamed(SettingScreen.id);
                     },
                     child: Container(
                         decoration: BoxDecoration(
@@ -130,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: 250.w,
                     height: 60.h,
                     onPress: () {
-                      Navigator.pushNamed(context, GamesScreen.id);
+                      navigatorKey.currentState?.pushNamed(GamesScreen.id);
                     },
                     child: Text(translate.play, style: k18BlackTextStyle),
                   ),
@@ -145,10 +146,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: 250.w,
                       height: 60.h,
                       onPress: () {
-                        Navigator.of(context).pushNamed(StatusScreen.id);
+                        navigatorKey.currentState?.pushNamed(StatusScreen.id);
                       },
-                      child:
-                          Text(translate.history, style: k18BlackTextStyle),
+                      child: Text(translate.history, style: k18BlackTextStyle),
                     ),
                   ),
                   CustomButton(
@@ -160,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: 250.w,
                     height: 60.h,
                     onPress: () {
-                      Navigator.of(context).pushNamed(RankScreen.id);
+                      navigatorKey.currentState?.pushNamed(RankScreen.id);
                     },
                     child: Text(translate.rank, style: k18BlackTextStyle),
                   ),

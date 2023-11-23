@@ -58,9 +58,9 @@ void configLoading() {
     ..displayDuration = const Duration(seconds: 3)
     ..indicatorType = EasyLoadingIndicatorType.ring
     ..loadingStyle = EasyLoadingStyle.custom
-    ..indicatorSize = 45.0
-    ..radius = 10.0
-    ..backgroundColor = Colors.transparent
+    ..indicatorSize = 50.0
+    ..radius = 20.0
+    ..backgroundColor = kColorOrangeLight
     ..indicatorColor = kColorPrimary
     ..textColor = Colors.transparent
     ..boxShadow = <BoxShadow>[]

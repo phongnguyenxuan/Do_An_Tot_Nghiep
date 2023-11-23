@@ -51,7 +51,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "quit": MessageLookupByLibrary.simpleMessage("Quit"),
         "rank": MessageLookupByLibrary.simpleMessage("Rank"),
         "ready": MessageLookupByLibrary.simpleMessage("Get ready !!"),
-        "score": MessageLookupByLibrary.simpleMessage("Your score"),
+        "score": MessageLookupByLibrary.simpleMessage("Score"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
         "signInWith": MessageLookupByLibrary.simpleMessage("Sign in with"),
         "skip": MessageLookupByLibrary.simpleMessage("Skip"),

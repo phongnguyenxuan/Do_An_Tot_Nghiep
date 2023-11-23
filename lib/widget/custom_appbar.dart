@@ -2,6 +2,7 @@ import 'package:do_an_tot_nghiep/configs/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../configs/basic_config.dart';
 import '../configs/style_config.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -31,7 +32,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           onTap: onBackButtonPress ??
               () async {
                 if (context.mounted) {
-                  Navigator.of(context).pop();
+                  navigatorKey.currentState?.pop();
                 }
               },
           behavior: HitTestBehavior.translucent,

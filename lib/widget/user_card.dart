@@ -60,16 +60,16 @@ class UserCard extends StatelessWidget {
             children: [
               RichText(
                 text: TextSpan(
-                    text: userLogin.uid.contains(user.uid!) ? translate.score : user.userName!,
-                    style: k17SizeW500BlackColorStyle,
-                    children: [
-                      TextSpan(
-                          text: "\n${translate.score}: ${user.score}",
-                          style: k15SizeW400BlackColorStyle
-                          // style: GoogleFonts.nunitoSans(
-                          //     color: Colors.white54, fontSize: 12),
-                          )
-                    ]),
+                  text: userLogin.uid.contains(user.uid!)
+                      ? translate.you
+                      : user.userName!,
+                  style: k17SizeW500BlackColorStyle,
+                  children: [
+                    TextSpan(
+                        text: "\n${translate.score}: ${user.score}",
+                        style: k15SizeW400BlackColorStyle)
+                  ],
+                ),
               ),
             ],
           ),

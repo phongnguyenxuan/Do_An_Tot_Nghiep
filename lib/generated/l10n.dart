@@ -270,10 +270,10 @@ class S {
     );
   }
 
-  /// `Your score`
+  /// `Score`
   String get score {
     return Intl.message(
-      'Your score',
+      'Score',
       name: 'score',
       desc: '',
       args: [],
