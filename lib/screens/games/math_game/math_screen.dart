@@ -4,6 +4,7 @@ import 'package:do_an_tot_nghiep/widget/timer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import '../../../configs/basic_config.dart';
 import '../../../configs/constants.dart';
 import '../../../configs/style_config.dart';
 import '../../../widget/custom_appbar.dart';
@@ -43,8 +44,8 @@ class _MathScreenState extends State<MathScreen> {
     await boxPlayData.put("math", mathScore);
     if (mounted) {
       context.read<AppState>().setTotalScore();
-      await Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(
+      await navigatorKey.currentState
+        ?.pushReplacement(MaterialPageRoute(
               builder: (_) => ResultScreen(
                     title: "Math",
                     grade: mathScore,

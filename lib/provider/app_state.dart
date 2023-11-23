@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:do_an_tot_nghiep/configs/basic_config.dart';
 import 'package:do_an_tot_nghiep/extensions/list_extension.dart';
 import 'package:do_an_tot_nghiep/extensions/num_extension.dart';
 import 'package:do_an_tot_nghiep/services/firestore_services.dart';
@@ -168,8 +169,8 @@ class AppState extends ChangeNotifier {
   Future<void> showResult(BuildContext context) async {
     boxPlayData.put("memo", _memoScore);
     setTotalScore();
-    await Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(
+    await navigatorKey.currentState
+        ?.pushReplacement(MaterialPageRoute(
             builder: (_) => ResultScreen(
                   title: "Memory Matrix",
                   grade: _memoScore,
@@ -180,9 +181,9 @@ class AppState extends ChangeNotifier {
         .then((value) async {
       // await _onWillPop();
       if (value == false) {
-        Navigator.of(context).popUntil(ModalRoute.withName(HomeScreen.id));
+        navigatorKey.currentState?.popUntil(ModalRoute.withName(HomeScreen.id));
       } else if (value == null) {
-        Navigator.of(context).pop();
+        navigatorKey.currentState?.pop();
       } else {
         generateBlock();
         _cancelTimer = false;
@@ -352,7 +353,8 @@ class AppState extends ChangeNotifier {
   Future<void> showResultFindPair(BuildContext context) async {
     boxPlayData.put("findpair", _findPairScore);
     setTotalScore();
-    await Navigator.of(context).pushReplacement(MaterialPageRoute(
+    await navigatorKey.currentState
+        ?.pushReplacement(MaterialPageRoute(
         builder: (_) => ResultScreen(
               title: "Find Pairs",
               grade: _findPairScore,
@@ -530,7 +532,8 @@ class AppState extends ChangeNotifier {
   Future<void> showResultSpeedMatch(BuildContext context) async {
     boxPlayData.put("speedMatch", _speedMatchScore);
     setTotalScore();
-    await Navigator.of(context).pushReplacement(MaterialPageRoute(
+    await navigatorKey.currentState
+        ?.pushReplacement(MaterialPageRoute(
         builder: (_) => ResultScreen(
               title: "Speed Match",
               grade: _speedMatchScore,
@@ -549,6 +552,12 @@ class AppState extends ChangeNotifier {
           4)
       .round();
   int get totalScore => _totalScoree;
+
+  set totalScore(int score) {
+    _totalScoree = 0;
+    notifyListeners();
+  }
+
   late List<int> _listTotalScore = boxPlayData.get("listScore",
       defaultValue: List<int>.empty(growable: true));
   List<int> get listTotalScore => _listTotalScore;

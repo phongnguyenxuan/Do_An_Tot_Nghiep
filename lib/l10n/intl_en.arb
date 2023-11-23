@@ -21,7 +21,7 @@
     "findPairMessage" : "Pay close attention to the cards you flip over. Try to remember the positions of the cards.",
     "mathMessage" : "Choice the answer to solving math problems, quickly and accurately as possible.",
     "speedMatchMessage" : "Remember the previous card shown and select whether or not the next card matches the previous card.",
-    "score" : "Your score",
+    "score" : "Score",
     "highScore" : "High score",
     "continuew" : "Continue",
     "currentw" : "Current",

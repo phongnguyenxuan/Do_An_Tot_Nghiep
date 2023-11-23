@@ -2,6 +2,7 @@ import 'package:do_an_tot_nghiep/configs/constants.dart';
 import 'package:do_an_tot_nghiep/screens/result/status_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../configs/basic_config.dart';
 import '../../configs/style_config.dart';
 import '../../widget/custom_appbar.dart';
 import '../../widget/custom_button.dart';
@@ -49,7 +50,9 @@ class _ResultScreenState extends State<ResultScreen> {
             Column(
               children: [
                 CustomText(
-                    title: widget.newRecord ? translate.highScore : translate.score,
+                    title: widget.newRecord
+                        ? translate.highScore
+                        : translate.score,
                     fontSize: 25.sp,
                     strokeWidth: 2,
                     color: Colors.black),
@@ -106,14 +109,15 @@ class _ResultScreenState extends State<ResultScreen> {
             ),
             CustomButton(
                 onPress: () {
-                  Navigator.of(context).pushReplacementNamed(StatusScreen.id);
+                  navigatorKey.currentState
+                      ?.pushReplacementNamed(StatusScreen.id);
                 },
                 color: Colors.white,
                 shadowColor: kShadowColor2,
                 minWidth: double.maxFinite,
                 borderRadius: BorderRadius.circular(16),
                 minHeight: 60.h,
-                buttonBorder: Border.all(color: kBorderColor,width: 2),
+                buttonBorder: Border.all(color: kBorderColor, width: 2),
                 elevation: 5,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

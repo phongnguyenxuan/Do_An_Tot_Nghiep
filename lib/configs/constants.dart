@@ -1,4 +1,3 @@
-
 import 'package:hive/hive.dart';
 
 import '../generated/l10n.dart';

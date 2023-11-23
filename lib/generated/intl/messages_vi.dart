@@ -53,7 +53,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "quit": MessageLookupByLibrary.simpleMessage("Thoát"),
         "rank": MessageLookupByLibrary.simpleMessage("Xếp hạng"),
         "ready": MessageLookupByLibrary.simpleMessage("Sẵn sàng !!"),
-        "score": MessageLookupByLibrary.simpleMessage("Điểm của bạn"),
+        "score": MessageLookupByLibrary.simpleMessage("Điểm"),
         "settings": MessageLookupByLibrary.simpleMessage("Cài đặt"),
         "signInWith": MessageLookupByLibrary.simpleMessage("Đăng nhập với"),
         "skip": MessageLookupByLibrary.simpleMessage("Bỏ qua"),

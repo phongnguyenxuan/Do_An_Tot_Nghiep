@@ -2,6 +2,8 @@ import 'package:do_an_tot_nghiep/screens/auth/auth_state_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../configs/basic_config.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
   static String id = "SplashScreen";
@@ -20,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
         _shouldShowAnimation = true;
       });
       Future.delayed(const Duration(milliseconds: 2500)).then((value) {
-        Navigator.of(context).pushReplacementNamed(AuthState.id);
+        navigatorKey.currentState?.pushReplacementNamed(AuthState.id);
       });
     });
   }

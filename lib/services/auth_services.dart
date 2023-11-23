@@ -15,7 +15,6 @@ class AuthServices {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FacebookAuth _facebookAuth = FacebookAuth.instance;
-
   // get user details
   Future<UserModel> getUserDetails() async {
     User currentUser = _auth.currentUser!;
@@ -29,23 +28,25 @@ class AuthServices {
   // GOOGLE SIGN IN
   Future<void> logInWithGoogle(BuildContext context) async {
     try {
-      EasyLoading.show();
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-      EasyLoading.dismiss();
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
-      if (context.mounted) firebaseSignInWithCredential(credential, context);
+        EasyLoading.show();
+        final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+        final GoogleSignInAuthentication? googleAuth =
+            await googleUser?.authentication;
+        EasyLoading.dismiss();
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth?.accessToken,
+          idToken: googleAuth?.idToken,
+        );
+        if (context.mounted) firebaseSignInWithCredential(credential, context);
     } on PlatformException catch (e) {
+      print(e);
       EasyLoading.dismiss();
     }
   }
 
   //Facebook login
   Future<void> logInWithFacebook(BuildContext context) async {
+    EasyLoading.show();
     final LoginResult result =
         await _facebookAuth.login(permissions: ['email', 'public_profile']);
     if (result.status == LoginStatus.success) {
@@ -53,6 +54,7 @@ class AuthServices {
           FacebookAuthProvider.credential(result.accessToken!.token);
       if (context.mounted) firebaseSignInWithCredential(credential, context);
     }
+    EasyLoading.dismiss();
   }
 
   // ANONYMOUSLY SIGNIN
@@ -109,6 +111,10 @@ class AuthServices {
             style: TextStyle(
                 fontFamily: kfontFamily, color: Colors.white, fontSize: 14.sp),
           ),
+          margin: EdgeInsets.only(
+              bottom: MediaQuery.of(context).size.height - 100,
+              right: 20,
+              left: 20),
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       });

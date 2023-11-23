@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import '../../configs/basic_config.dart';
 import '../../configs/style_config.dart';
 
 class StatusScreen extends StatefulWidget {
@@ -22,9 +23,9 @@ class _StatusScreenState extends State<StatusScreen> {
   List<int> showingTooltipOnSpots = [];
   @override
   void initState() {
-      totalScore = context.read<AppState>().listTotalScore;
-      showingTooltipOnSpots =
-          List<int>.generate(totalScore.length, (index) => index);
+    totalScore = context.read<AppState>().listTotalScore;
+    showingTooltipOnSpots =
+        List<int>.generate(totalScore.length, (index) => index);
     super.initState();
   }
 
@@ -33,32 +34,37 @@ class _StatusScreenState extends State<StatusScreen> {
     return Scaffold(
       backgroundColor: kColorWhite,
       appBar: CustomAppBar(title: translate.history),
-      body: Builder(builder:(context) {
-        if(totalScore.isEmpty) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Center(child: Image.asset("assets/images/empty.png",width: 150.w,)),
-              SizedBox(height: 15.h,),
-              RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                text: "${translate.noRes}\n",
-                style: k25SizeBlackColorStyle,
-                children: [
-                  TextSpan(
-                    text: translate.couldntFind,
-                    style: k15SizeW400BlackColorStyle
-                  )
-                ]
-              ))
-
-            ],
-          );
-        } 
-        return mainBody(context);
-      },),
+      body: Builder(
+        builder: (context) {
+          if (totalScore.isEmpty) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                    child: Image.asset(
+                  "assets/images/empty.png",
+                  width: 150.w,
+                )),
+                SizedBox(
+                  height: 15.h,
+                ),
+                RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                        text: "${translate.noRes}\n",
+                        style: k25SizeBlackColorStyle,
+                        children: [
+                          TextSpan(
+                              text: translate.couldntFind,
+                              style: k15SizeW400BlackColorStyle)
+                        ]))
+              ],
+            );
+          }
+          return mainBody(context);
+        },
+      ),
     );
   }
 
@@ -80,10 +86,12 @@ class _StatusScreenState extends State<StatusScreen> {
                   duration: const Duration(milliseconds: 1000),
                 )),
           ),
-          SizedBox(height: 50.h,),
+          SizedBox(
+            height: 50.h,
+          ),
           CustomButton(
             onPress: () {
-              Navigator.of(context).pop();
+              navigatorKey.currentState?.pop();
             },
             minHeight: 60.h,
             elevation: 5,
@@ -93,10 +101,7 @@ class _StatusScreenState extends State<StatusScreen> {
             minWidth: double.maxFinite,
             margin: const EdgeInsets.all(30),
             buttonBorder: Border.all(color: kBorderColor, width: 2),
-            child: Text(
-              translate.continuew,
-              style: k18BlackTextStyle
-            ),
+            child: Text(translate.continuew, style: k18BlackTextStyle),
           ),
         ],
       ),
@@ -107,7 +112,7 @@ class _StatusScreenState extends State<StatusScreen> {
     TextStyle style = knormalTextStyle;
     Widget text;
     if (value.toInt() == totalScore.length - 1) {
-      text =  Text(translate.currentw, style: style);
+      text = Text(translate.currentw, style: style);
     } else {
       text = Text('${value.toInt() + 1}', style: style);
     }

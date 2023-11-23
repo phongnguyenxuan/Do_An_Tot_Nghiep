@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import '../../configs/basic_config.dart';
 import '../../configs/style_config.dart';
 import '../../provider/app_state.dart';
 import '../../widget/custom_appbar.dart';
@@ -43,7 +44,7 @@ class _GamesScreenState extends State<GamesScreen> {
                     padding: const EdgeInsets.symmetric(
                         vertical: 19, horizontal: 10),
                     onPress: () {
-                      Navigator.of(context).pushNamed(MemoMatrixScreen.id);
+                      navigatorKey.currentState?.pushNamed(MemoMatrixScreen.id);
                       context.read<AppState>().clearMemoState();
                       context.read<AppState>().generateBlock();
                     },
@@ -82,7 +83,7 @@ class _GamesScreenState extends State<GamesScreen> {
                     padding: const EdgeInsets.symmetric(
                         vertical: 19, horizontal: 10),
                     onPress: () {
-                      Navigator.of(context).pushNamed(FindPairScreen.id);
+                      navigatorKey.currentState?.pushNamed(FindPairScreen.id);
                       context.read<AppState>().clearPlayState();
                     },
                     child: Column(
@@ -125,7 +126,7 @@ class _GamesScreenState extends State<GamesScreen> {
                         vertical: 19, horizontal: 10),
                     onPress: () {
                       context.read<AppState>().generatePlayData();
-                      Navigator.of(context).pushNamed(MathScreen.id);
+                      navigatorKey.currentState?.pushNamed(MathScreen.id);
                     },
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -163,7 +164,8 @@ class _GamesScreenState extends State<GamesScreen> {
                         vertical: 19, horizontal: 10),
                     onPress: () {
                       context.read<AppState>().resetSpeedMatchState();
-                      Navigator.pushNamed(context, SpeedMatchScreen.id);
+                      navigatorKey.currentState
+                          ?.pushNamed(SpeedMatchScreen.id);
                     },
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
