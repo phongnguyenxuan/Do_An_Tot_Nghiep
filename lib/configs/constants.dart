@@ -11,6 +11,7 @@ const String mathHighScoreDataName = "math_highscsore";
 const String speedMatchHighScoreDataName = "speed_match_highscsore";
 const List<String> supportedLanguage = ["en", "vi"];
 const  String defaultLanguage = 'en';
+const bool defaultAudio = true;
 var translate = S.current;
 
 //FIND PAIR
@@ -112,3 +113,6 @@ List<dynamic> imageUrlList = [
   ];
 
 final boxPlayData = Hive.box(boxPlayDataName);
+
+String correctSound = "correct";
+String clickSound = "click";

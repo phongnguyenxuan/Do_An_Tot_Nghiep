@@ -34,6 +34,7 @@ void main() async {
     DeviceOrientation.portraitUp,
   ]);
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarIconBrightness: Brightness.dark,
       statusBarColor: Colors.transparent,
       systemNavigationBarColor: Colors.transparent));
   //setup hive

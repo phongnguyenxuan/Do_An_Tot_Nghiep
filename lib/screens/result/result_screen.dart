@@ -109,8 +109,7 @@ class _ResultScreenState extends State<ResultScreen> {
             ),
             CustomButton(
                 onPress: () {
-                  navigatorKey.currentState
-                      ?.pushReplacementNamed(StatusScreen.id);
+                  Navigator.of(context).pushReplacementNamed(StatusScreen.id);
                 },
                 color: Colors.white,
                 shadowColor: kShadowColor2,

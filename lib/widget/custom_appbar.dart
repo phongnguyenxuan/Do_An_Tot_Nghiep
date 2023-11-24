@@ -1,9 +1,11 @@
 import 'package:do_an_tot_nghiep/configs/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 import '../configs/basic_config.dart';
 import '../configs/style_config.dart';
+import '../provider/app_state.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({
@@ -29,12 +31,21 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         toolbarHeight: toolBarHeight.h,
         leadingWidth: 70,
         leading: GestureDetector(
-          onTap: onBackButtonPress ??
-              () async {
-                if (context.mounted) {
-                  navigatorKey.currentState?.pop();
+          onTap: onBackButtonPress == null
+              ? () async {
+                  if (context.mounted) {
+                    context
+                        .read<AppState>()
+                        .playSound(clickSound)
+                        .then((value) => navigatorKey.currentState?.pop());
+                  }
                 }
-              },
+              : () {
+                  context
+                      .read<AppState>()
+                      .playSound(clickSound)
+                      .then((value) => onBackButtonPress);
+                },
           behavior: HitTestBehavior.translucent,
           child: Center(
             child: Container(
