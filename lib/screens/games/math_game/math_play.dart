@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import '../../../configs/constants.dart';
 import '../../../configs/style_config.dart';
 import '../../../models/questions_model.dart';
 import '../../../provider/app_state.dart';
@@ -37,6 +38,7 @@ class _MathPlayWidget extends State<MathPlayWidget>
   void _onPickAnswer(int answer) {
     if (_isAnswerCorrect) return;
     if (answer == widget.question.result) {
+      context.read<AppState>().playSound(correctSound);
       setState(() {
         _isAnswerCorrect = true;
       });

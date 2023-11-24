@@ -75,7 +75,7 @@ class _SettingScreenState extends State<SettingScreen> {
                             width: 15,
                           ),
                           Icon(
-                            enableSound
+                            ctx.read<AppState>().appAudio
                                 ? CustomIcon.volume
                                 : CustomIcon.volume_slash,
                           ),
@@ -85,10 +85,10 @@ class _SettingScreenState extends State<SettingScreen> {
                             activeToggleColor: kColorPrimary,
                             switchBorder:
                                 Border.all(width: 2, color: kBorderColor),
-                            value: enableSound,
+                            value: ctx.read<AppState>().appAudio,
                             onToggle: (value) {
                               setState(() {
-                                enableSound = value;
+                                ctx.read<AppState>().appAudio = value;
                               });
                             },
                           )

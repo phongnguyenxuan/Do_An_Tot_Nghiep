@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: kColorWhite,
       body: Container(
-        margin: const EdgeInsets.symmetric(vertical: 20),
+        margin: const EdgeInsets.symmetric(vertical: 30),
         child: Column(
           children: [
             Padding(
@@ -48,7 +48,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   //setting
                   GestureDetector(
                     onTap: () {
-                      navigatorKey.currentState?.pushNamed(SettingScreen.id);
+                      context.read<AppState>().playSound(clickSound).then(
+                          (value) => navigatorKey.currentState
+                              ?.pushNamed(SettingScreen.id));
                     },
                     child: Container(
                         decoration: BoxDecoration(

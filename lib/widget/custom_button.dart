@@ -1,4 +1,7 @@
+import 'package:do_an_tot_nghiep/configs/constants.dart';
+import 'package:do_an_tot_nghiep/provider/app_state.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../configs/style_config.dart';
 
@@ -17,7 +20,8 @@ class CustomButton extends StatefulWidget {
     super.key,
     this.padding,
     this.width,
-    this.height, this.margin,
+    this.height,
+    this.margin,
   });
 
   final VoidCallback? onPress;
@@ -39,7 +43,6 @@ class CustomButton extends StatefulWidget {
 }
 
 class _CustomButtonState extends State<CustomButton> {
-
   bool _onButtonTapDown = false;
 
   @override
@@ -51,11 +54,14 @@ class _CustomButtonState extends State<CustomButton> {
         });
       },
       onTapUp: (details) async {
-        widget.onPress?.call();
-        
+        context
+            .read<AppState>()
+            .playSound(clickSound)
+            .then((value) => widget.onPress?.call());
+
         await Future.delayed(const Duration(milliseconds: 100), () {
           _onButtonTapDown = false;
-          if(!mounted) return;
+          if (!mounted) return;
           setState(() {});
         });
       },
@@ -67,15 +73,20 @@ class _CustomButtonState extends State<CustomButton> {
       child: Padding(
         padding: widget.margin ?? EdgeInsets.zero,
         child: Container(
-          margin: _onButtonTapDown || !widget.enabled ? EdgeInsets.only(top: widget.elevation) : null,
-          padding: _onButtonTapDown || !widget.enabled ?  
-            null : 
-            EdgeInsets.only(bottom: widget.elevation,),
+          margin: _onButtonTapDown || !widget.enabled
+              ? EdgeInsets.only(top: widget.elevation)
+              : null,
+          padding: _onButtonTapDown || !widget.enabled
+              ? null
+              : EdgeInsets.only(
+                  bottom: widget.elevation,
+                ),
           decoration: BoxDecoration(
-            color: _onButtonTapDown || !widget.enabled ? widget.color : widget.shadowColor,
-            borderRadius: widget.borderRadius,
-            border: widget.buttonBorder
-          ),
+              color: _onButtonTapDown || !widget.enabled
+                  ? widget.color
+                  : widget.shadowColor,
+              borderRadius: widget.borderRadius,
+              border: widget.buttonBorder),
           clipBehavior: Clip.antiAlias,
           child: Container(
             padding: widget.padding,
@@ -87,14 +98,10 @@ class _CustomButtonState extends State<CustomButton> {
             ),
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: widget.color,
-              borderRadius: widget.borderRadius
-            ),
+                color: widget.color, borderRadius: widget.borderRadius),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                widget.child
-              ],
+              children: [widget.child],
             ),
           ),
         ),

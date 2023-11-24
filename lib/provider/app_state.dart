@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math';
-
 import 'package:do_an_tot_nghiep/configs/basic_config.dart';
 import 'package:do_an_tot_nghiep/extensions/list_extension.dart';
 import 'package:do_an_tot_nghiep/extensions/num_extension.dart';
@@ -8,30 +7,40 @@ import 'package:do_an_tot_nghiep/services/firestore_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:just_audio/just_audio.dart';
 import '../configs/constants.dart';
 import '../configs/level_config.dart';
 import '../functions/power_memo_function.dart';
 import '../models/card_model.dart';
 import '../models/level_model.dart';
 import '../models/questions_model.dart';
-import '../screens/home/home_screen.dart';
 import '../screens/result/result_screen.dart';
 
 class AppState extends ChangeNotifier {
 //variable
-  late final boxAppData = Hive.box(boxAppSettingName);
-  late final boxPlayData = Hive.box(boxPlayDataName);
-
-  // AppState() {
-  //   fetchLevelData(level);
-  // }
-  AppState({
-    String appLanguage = defaultLanguage,
-  }) : _appLanguage = appLanguage;
+  final boxAppData = Hive.box(boxAppSettingName);
+  final boxPlayData = Hive.box(boxPlayDataName);
 
 //? APP SETTING
-  late String _appLanguage =
-      boxAppData.get("language", defaultValue: defaultLanguage);
+  late String _appLanguage;
+  late bool _appAudio;
+  late AudioPlayer audioPlayer;
+
+  AppState() {
+    _appLanguage = boxAppData.get("language") ?? defaultLanguage;
+    _appAudio = boxAppData.get("audio") ?? defaultAudio;
+    audioPlayer = AudioPlayer();
+  }
+
+  bool get appAudio {
+    return _appAudio;
+  }
+
+  set appAudio(bool audio) {
+    _appAudio = audio;
+    boxAppData.put("audio", audio);
+    notifyListeners();
+  }
 
   String get appLanguage {
     return _appLanguage;
@@ -41,6 +50,18 @@ class AppState extends ChangeNotifier {
     _appLanguage = language;
     boxAppData.put("language", language);
     notifyListeners();
+  }
+
+
+  Future<void> playSound(String path) async {
+    try {
+      if (_appAudio) {
+        audioPlayer.setAsset("assets/sounds/$path.wav", preload: false);
+        audioPlayer.play();
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 
 //? MEMORY MATRIX
@@ -125,6 +146,7 @@ class AppState extends ChangeNotifier {
     if (_listPickBlockCorrect.contains(index)) return;
 
     if (_listCorrectBlock.contains(index)) {
+      playSound(correctSound);
       _listPickBlockCorrect.add(index);
       listScore.add(1);
       _memoScore += 10;
@@ -160,39 +182,23 @@ class AppState extends ChangeNotifier {
       _timer = Timer(const Duration(milliseconds: 2000), () {
         _canPickBlock = true;
         _isShowCorrect = false;
-        showResult(context);
+        showResult();
       });
       notifyListeners();
     }
   }
 
-  Future<void> showResult(BuildContext context) async {
+  Future<void> showResult() async {
     boxPlayData.put("memo", _memoScore);
     setTotalScore();
-    await navigatorKey.currentState
-        ?.pushReplacement(MaterialPageRoute(
-            builder: (_) => ResultScreen(
-                  title: "Memory Matrix",
-                  grade: _memoScore,
-                  highscore: _memoHighScore,
-                  newRecord: (_memoScore >= _memoHighScore),
-                ),
-            settings: const RouteSettings(name: ResultScreen.id)))
-        .then((value) async {
-      // await _onWillPop();
-      if (value == false) {
-        navigatorKey.currentState?.popUntil(ModalRoute.withName(HomeScreen.id));
-      } else if (value == null) {
-        navigatorKey.currentState?.pop();
-      } else {
-        generateBlock();
-        _cancelTimer = false;
-        _indexBlockPickWrong = -1;
-        _listPickBlockCorrect.clear();
-        _currentPlayingIndex = 1;
-        notifyListeners();
-      }
-    });
+    await navigatorKey.currentState?.pushReplacement(MaterialPageRoute(
+        builder: (_) => ResultScreen(
+              title: "Memory Matrix",
+              grade: _memoScore,
+              highscore: _memoHighScore,
+              newRecord: (_memoScore >= _memoHighScore),
+            ),
+        settings: const RouteSettings(name: ResultScreen.id)));
   }
 
   set memoScore(int value) {
@@ -263,7 +269,6 @@ class AppState extends ChangeNotifier {
     if (_currentCardPlay == index) {
       // Lật thẻ
       _playList[index].isFlipped = true;
-      // _audioState?.playClickSound();
       notifyListeners();
       //Chờ animation kết thúc
       await Future.delayed(const Duration(milliseconds: 200));
@@ -274,7 +279,7 @@ class AppState extends ChangeNotifier {
       } else {
         // Check nếu hai thẻ trùng nhau
         if (_playList[index] == _playList[_previousCardPlay!]) {
-          //  _audioState?.playCorrectSound();
+          playSound(correctSound);
           _playList[index].isVisible = false;
           _playList[_previousCardPlay!].isVisible = false;
           _streak++;
@@ -353,8 +358,7 @@ class AppState extends ChangeNotifier {
   Future<void> showResultFindPair(BuildContext context) async {
     boxPlayData.put("findpair", _findPairScore);
     setTotalScore();
-    await navigatorKey.currentState
-        ?.pushReplacement(MaterialPageRoute(
+    await navigatorKey.currentState?.pushReplacement(MaterialPageRoute(
         builder: (_) => ResultScreen(
               title: "Find Pairs",
               grade: _findPairScore,
@@ -482,10 +486,12 @@ class AppState extends ChangeNotifier {
   Future<void> onPickAnswer(bool isTrue) async {
     // score = currentType.compareTo(type).toString();
     if (_currentType.compareTo(_type) == 0 && isTrue == true) {
+      playSound(correctSound);
       _streak++;
       _listScore.add(1);
       streak > 5 ? score += 10 + 5 * (5 - 1) : score += 10 + 5 * (_streak - 1);
     } else if (_currentType.compareTo(_type) != 0 && isTrue == false) {
+      playSound(correctSound);
       _streak++;
       _listScore.add(1);
       streak > 5 ? score += 10 + 5 * (5 - 1) : score += 10 + 5 * (_streak - 1);
@@ -532,8 +538,7 @@ class AppState extends ChangeNotifier {
   Future<void> showResultSpeedMatch(BuildContext context) async {
     boxPlayData.put("speedMatch", _speedMatchScore);
     setTotalScore();
-    await navigatorKey.currentState
-        ?.pushReplacement(MaterialPageRoute(
+    await navigatorKey.currentState?.pushReplacement(MaterialPageRoute(
         builder: (_) => ResultScreen(
               title: "Speed Match",
               grade: _speedMatchScore,

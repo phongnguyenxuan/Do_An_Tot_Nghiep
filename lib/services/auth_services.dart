@@ -38,8 +38,7 @@ class AuthServices {
           idToken: googleAuth?.idToken,
         );
         if (context.mounted) firebaseSignInWithCredential(credential, context);
-    } on PlatformException catch (e) {
-      print(e);
+    } on PlatformException catch (_) {
       EasyLoading.dismiss();
     }
   }
@@ -63,7 +62,7 @@ class AuthServices {
       EasyLoading.show();
       await FirebaseAuth.instance.signInAnonymously();
       EasyLoading.dismiss();
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException catch (_) {
       EasyLoading.dismiss();
     }
   }
@@ -111,10 +110,6 @@ class AuthServices {
             style: TextStyle(
                 fontFamily: kfontFamily, color: Colors.white, fontSize: 14.sp),
           ),
-          margin: EdgeInsets.only(
-              bottom: MediaQuery.of(context).size.height - 100,
-              right: 20,
-              left: 20),
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       });
@@ -129,7 +124,7 @@ class AuthServices {
       await _facebookAuth.logOut();
       await _auth.signOut();
       EasyLoading.dismiss();
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException catch (_) {
       EasyLoading.dismiss();
       //showSnackBar(context, e.message!); // Displaying the error message
     }
