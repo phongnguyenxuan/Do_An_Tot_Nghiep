@@ -51,7 +51,8 @@ class _FindPairScreenState extends State<FindPairScreen> {
           int grade = value.item2;
           return Builder(
             builder: (context) {
-              if (_currentIndex == -1) return ExplainScreen(title: translate.findPairMessage);
+              if (_currentIndex == -1)
+                return ExplainScreen(title: translate.findPairMessage);
               return Scaffold(
                 backgroundColor: kColorWhite,
                 appBar: CustomAppBar(
@@ -98,7 +99,12 @@ class _FindPairScreenState extends State<FindPairScreen> {
                                   ? TimerWidget(
                                       isSubmit: false,
                                       onTimerEnd: () async {
-                                        await context.read<AppState>().showResultFindPair(context);
+                                        Future.delayed(const Duration(seconds: 2),
+                                            () {
+                                          context
+                                              .read<AppState>()
+                                              .showResultFindPair(context);
+                                        });
                                       },
                                       reBuild: false,
                                       countTime: val.item1,
@@ -114,8 +120,7 @@ class _FindPairScreenState extends State<FindPairScreen> {
                       selector: (ctx, state) =>
                           Tuple2(state.score, state.streak),
                       builder: (context, value, child) => ScoreOverlay(
-                          bonus: 0,
-                          score: value.item1, streak: value.item2),
+                          bonus: 0, score: value.item1, streak: value.item2),
                     )
                   ],
                 ),

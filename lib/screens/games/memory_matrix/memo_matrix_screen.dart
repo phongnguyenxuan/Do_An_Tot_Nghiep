@@ -9,6 +9,7 @@ import 'package:tuple/tuple.dart';
 
 import '../../../configs/style_config.dart';
 import '../../../provider/app_state.dart';
+import '../../../services/audio_service.dart';
 import '../../../widget/custom_appbar.dart';
 import '../../../widget/custom_elevated_widget.dart';
 import '../../../widget/custom_text.dart';
@@ -29,14 +30,17 @@ class _MemoMatrixScreenState extends State<MemoMatrixScreen> {
   Timer? _timer;
   int indexBlockPickWrong = -1;
   bool cancelTimer = false;
-  List<int>listPickBlockCorrect = [];
+  List<int> listPickBlockCorrect = [];
 
   void delay() {
     Future.delayed(const Duration(milliseconds: 4300), () {
-      setState(() {
-        _currentIndex = 1;
-      });
-      context.read<AppState>().showCorrectBlock();
+      if (mounted) {
+        setState(() {
+          _currentIndex = 1;
+        });
+        context.read<AppState>().playBGSound(bgSound);
+        context.read<AppState>().showCorrectBlock();
+      }
     });
   }
 
@@ -50,6 +54,7 @@ class _MemoMatrixScreenState extends State<MemoMatrixScreen> {
 
   @override
   void dispose() {
+    AudioService.stopBGAudio();
     super.dispose();
     _timer?.cancel();
   }
@@ -137,7 +142,8 @@ class _MemoMatrixScreenState extends State<MemoMatrixScreen> {
                                       child: Stack(
                                         children: <Widget>[
                                           CustomText(
-                                            title: "Level ${context.read<AppState>().currentPlayingIndex}",
+                                            title:
+                                                "Level ${context.read<AppState>().currentPlayingIndex}",
                                             fontSize: 32.sp,
                                             strokeWidth: 2,
                                             color: Colors.black,
@@ -152,64 +158,113 @@ class _MemoMatrixScreenState extends State<MemoMatrixScreen> {
                                             return const SizedBox();
                                           }
                                           return SizedBox(
-                                            width: context.read<AppState>().levelModel.row * 42 +
-                                                ((context.read<AppState>().levelModel.row -1) * 7),
+                                            width: context
+                                                        .read<AppState>()
+                                                        .levelModel
+                                                        .row *
+                                                    42 +
+                                                ((context
+                                                            .read<AppState>()
+                                                            .levelModel
+                                                            .row -
+                                                        1) *
+                                                    7),
                                             child: AnimationLimiter(
                                               child: GridView.builder(
-                                                physics: const NeverScrollableScrollPhysics(),
+                                                physics:
+                                                    const NeverScrollableScrollPhysics(),
                                                 shrinkWrap: true,
                                                 gridDelegate:
                                                     SliverGridDelegateWithFixedCrossAxisCount(
-                                                  crossAxisCount: context.read<AppState>().levelModel.row,
+                                                  crossAxisCount: context
+                                                      .read<AppState>()
+                                                      .levelModel
+                                                      .row,
                                                   crossAxisSpacing: 7,
                                                   mainAxisSpacing: 7,
                                                   childAspectRatio: 1,
                                                   mainAxisExtent: 42,
                                                 ),
                                                 itemCount: value,
-                                                itemBuilder: (BuildContext context, index) {
-                                                  return AnimationConfiguration.staggeredGrid(
-                                                    columnCount: context.read<AppState>().levelModel.row,
+                                                itemBuilder:
+                                                    (BuildContext context,
+                                                        index) {
+                                                  return AnimationConfiguration
+                                                      .staggeredGrid(
+                                                    columnCount: context
+                                                        .read<AppState>()
+                                                        .levelModel
+                                                        .row,
                                                     position: index,
                                                     duration: Duration(
-                                                        milliseconds: (1000 / value).floor()),
+                                                        milliseconds:
+                                                            (1000 / value)
+                                                                .floor()),
                                                     child: ScaleAnimation(
-                                                      duration:
-                                                          const Duration(
-                                                              milliseconds:
-                                                                  700),
+                                                      duration: const Duration(
+                                                          milliseconds: 700),
                                                       child: FadeInAnimation(
                                                         duration:
                                                             const Duration(
                                                                 milliseconds:
                                                                     700),
                                                         child: GestureDetector(
-                                                          onTap: context.read<AppState>().canPickBlock
+                                                          onTap: context
+                                                                  .read<
+                                                                      AppState>()
+                                                                  .canPickBlock
                                                               ? () {
-                                                                setState(() {
-                                                                  listPickBlockCorrect = context.read<AppState>().listPickBlockCorrect;
-                                                                });
-                                                                  context.read<AppState>().onPickBlock(index,context);
+                                                                  setState(() {
+                                                                    listPickBlockCorrect = context
+                                                                        .read<
+                                                                            AppState>()
+                                                                        .listPickBlockCorrect;
+                                                                  });
+                                                                  context
+                                                                      .read<
+                                                                          AppState>()
+                                                                      .onPickBlock(
+                                                                          index,
+                                                                          context);
                                                                 }
                                                               : null,
-                                                          child: CustomElevatedWidget(
-                                                            shadowColor: ((context.read<AppState>().listCorrectBlock.contains(index)
-                                                                          && isShowCorrect) ||
-                                                                    context.read<AppState>()
+                                                          child:
+                                                              CustomElevatedWidget(
+                                                            shadowColor: ((context
+                                                                            .read<
+                                                                                AppState>()
+                                                                            .listCorrectBlock
+                                                                            .contains(
+                                                                                index) &&
+                                                                        isShowCorrect) ||
+                                                                    context
+                                                                        .read<
+                                                                            AppState>()
                                                                         .listPickBlockCorrect
-                                                                        .contains(index))
+                                                                        .contains(
+                                                                            index))
                                                                 ? kShadowBrightCyan
-                                                                : context.read<AppState>().indexBlockPickWrong ==
+                                                                : context
+                                                                            .read<AppState>()
+                                                                            .indexBlockPickWrong ==
                                                                         index
                                                                     ? kShadowRed
                                                                     : kShadowColor,
-                                                            backGroundColor: ((context.read<AppState>().listCorrectBlock.contains(
-                                                                            index) &&
+                                                            backGroundColor: ((context
+                                                                            .read<
+                                                                                AppState>()
+                                                                            .listCorrectBlock
+                                                                            .contains(
+                                                                                index) &&
                                                                         isShowCorrect) ||
-                                                                        listPickBlockCorrect
-                                                                        .contains(index))
+                                                                    listPickBlockCorrect
+                                                                        .contains(
+                                                                            index))
                                                                 ? kColorBrightCyan
-                                                                : context.read<AppState>().indexBlockPickWrong == index
+                                                                : context
+                                                                            .read<AppState>()
+                                                                            .indexBlockPickWrong ==
+                                                                        index
                                                                     ? kColorRed
                                                                     : kColorOrangeLight,
                                                             elevation: 3,
@@ -248,12 +303,16 @@ class _MemoMatrixScreenState extends State<MemoMatrixScreen> {
                 children: List<Widget>.generate(
                     context.read<AppState>().listScore.length,
                     (indx) => ScoreOverlay(
-                          score:  context.read<AppState>().memoScore,
-                          bonus:  context.read<AppState>().bonus,
+                          score: context.read<AppState>().memoScore,
+                          bonus: context.read<AppState>().bonus,
                           streak: 0,
                         )),
               ),
-                ScoreOverlay(score: context.read<AppState>().memoScore, streak: 1, bonus: context.read<AppState>().bonus,)
+              ScoreOverlay(
+                score: context.read<AppState>().memoScore,
+                streak: 1,
+                bonus: context.read<AppState>().bonus,
+              )
             ],
           ),
         );

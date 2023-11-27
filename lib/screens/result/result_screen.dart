@@ -1,8 +1,9 @@
 import 'package:do_an_tot_nghiep/configs/constants.dart';
+import 'package:do_an_tot_nghiep/provider/app_state.dart';
 import 'package:do_an_tot_nghiep/screens/result/status_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../configs/basic_config.dart';
+import 'package:provider/provider.dart';
 import '../../configs/style_config.dart';
 import '../../widget/custom_appbar.dart';
 import '../../widget/custom_button.dart';
@@ -29,11 +30,12 @@ class ResultScreen extends StatefulWidget {
 }
 
 class _ResultScreenState extends State<ResultScreen> {
-  bool newRecord = false;
-
   @override
   void initState() {
     super.initState();
+    if(widget.newRecord) {
+      context.read<AppState>().playExtraSound(highScoreSound);
+    }
   }
 
   @override

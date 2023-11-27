@@ -34,17 +34,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           onTap: onBackButtonPress == null
               ? () async {
                   if (context.mounted) {
-                    context
-                        .read<AppState>()
-                        .playSound(clickSound)
-                        .then((value) => navigatorKey.currentState?.pop());
+                    context.read<AppState>().playSound(clickSound);
+                    Navigator.pop(context);
                   }
                 }
               : () {
-                  context
-                      .read<AppState>()
-                      .playSound(clickSound)
-                      .then((value) => onBackButtonPress);
+                  context.read<AppState>().playSound(clickSound);
+                  onBackButtonPress;
                 },
           behavior: HitTestBehavior.translucent,
           child: Center(

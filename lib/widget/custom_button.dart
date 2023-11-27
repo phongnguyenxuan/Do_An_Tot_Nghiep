@@ -54,10 +54,8 @@ class _CustomButtonState extends State<CustomButton> {
         });
       },
       onTapUp: (details) async {
-        context
-            .read<AppState>()
-            .playSound(clickSound)
-            .then((value) => widget.onPress?.call());
+        context.read<AppState>().playSound(clickSound);
+        widget.onPress?.call();
 
         await Future.delayed(const Duration(milliseconds: 100), () {
           _onButtonTapDown = false;

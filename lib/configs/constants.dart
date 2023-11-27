@@ -116,3 +116,7 @@ final boxPlayData = Hive.box(boxPlayDataName);
 
 String correctSound = "correct";
 String clickSound = "click";
+String pickSound = "pick";
+String highScoreSound = "highscore";
+String countdownSound = "countdown";
+String bgSound = "bg_music";
