@@ -48,9 +48,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   //setting
                   GestureDetector(
                     onTap: () {
-                      context.read<AppState>().playSound(clickSound).then(
-                          (value) => navigatorKey.currentState
-                              ?.pushNamed(SettingScreen.id));
+                      context.read<AppState>().playSound(clickSound);
+                          navigatorKey.currentState
+                              ?.pushNamed(SettingScreen.id);
                     },
                     child: Container(
                         decoration: BoxDecoration(

@@ -30,7 +30,7 @@ class _MathScreenState extends State<MathScreen> {
     setState(() {
       if (isCorrect) {
         streak++;
-        score = 10 + 5 * (streak - 1);
+        streak > 5 ? score += 10 + 5 * (5 - 1) : score += 10 + 5 * (streak - 1);
         mathScore = mathScore + score;
       } else {
         streak = 0;

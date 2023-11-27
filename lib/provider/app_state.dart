@@ -3,11 +3,11 @@ import 'dart:math';
 import 'package:do_an_tot_nghiep/configs/basic_config.dart';
 import 'package:do_an_tot_nghiep/extensions/list_extension.dart';
 import 'package:do_an_tot_nghiep/extensions/num_extension.dart';
+import 'package:do_an_tot_nghiep/services/audio_service.dart';
 import 'package:do_an_tot_nghiep/services/firestore_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:just_audio/just_audio.dart';
 import '../configs/constants.dart';
 import '../configs/level_config.dart';
 import '../functions/power_memo_function.dart';
@@ -24,12 +24,10 @@ class AppState extends ChangeNotifier {
 //? APP SETTING
   late String _appLanguage;
   late bool _appAudio;
-  late AudioPlayer audioPlayer;
 
   AppState() {
     _appLanguage = boxAppData.get("language") ?? defaultLanguage;
     _appAudio = boxAppData.get("audio") ?? defaultAudio;
-    audioPlayer = AudioPlayer();
   }
 
   bool get appAudio {
@@ -52,15 +50,24 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
+  playSound(String path) async {
+    if (_appAudio) {
+      AudioService.audioCache.load('$path.mp3');
+      AudioService.playShortAudio('$path.mp3');
+    }
+  }
 
-  Future<void> playSound(String path) async {
-    try {
-      if (_appAudio) {
-        audioPlayer.setAsset("assets/sounds/$path.wav", preload: false);
-        audioPlayer.play();
-      }
-    } catch (e) {
-      debugPrint(e.toString());
+  playExtraSound(String path) async {
+    if (_appAudio) {
+      AudioService.audioCache.load('$path.mp3');
+      AudioService.playExtraAudio('$path.mp3');
+    }
+  }
+
+  playBGSound(String path) async {
+    if (_appAudio) {
+      AudioService.audioCache.load('$path.mp3');
+      AudioService.playBGAudio('$path.mp3');
     }
   }
 
@@ -175,6 +182,8 @@ class AppState extends ChangeNotifier {
         boxPlayData.put(memoHighScoreDataName, _memoScore);
       }
     } else {
+      playSound(pickSound);
+      AudioService.stopBGAudio();
       _canPickBlock = false;
       _indexBlockPickWrong = index;
       _cancelTimer = true;
@@ -268,6 +277,7 @@ class AppState extends ChangeNotifier {
 
     if (_currentCardPlay == index) {
       // Lật thẻ
+      playSound(pickSound);
       _playList[index].isFlipped = true;
       notifyListeners();
       //Chờ animation kết thúc
@@ -283,7 +293,9 @@ class AppState extends ChangeNotifier {
           _playList[index].isVisible = false;
           _playList[_previousCardPlay!].isVisible = false;
           _streak++;
-          score += 10 + 5 * (_streak - 1);
+          streak > 5
+              ? score += 10 + 5 * (5 - 1)
+              : score += 10 + 5 * (_streak - 1);
           _findPairScore = _findPairScore + score;
           if (_findPairScore > _findPairHighScore) {
             _findPairHighScore = _findPairScore;
@@ -505,7 +517,9 @@ class AppState extends ChangeNotifier {
     _currentType = _type;
     flipCard();
     randomType();
-    notifyListeners();
+    if (navigatorKey.currentContext!.mounted) {
+      notifyListeners();
+    }
   }
 
   Future flipCard() async {

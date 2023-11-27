@@ -2,8 +2,11 @@
 import 'dart:async';
 
 import 'package:do_an_tot_nghiep/configs/constants.dart';
+import 'package:do_an_tot_nghiep/provider/app_state.dart';
+import 'package:do_an_tot_nghiep/services/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 import '../../../configs/style_config.dart';
 import '../../widget/custom_appbar.dart';
@@ -29,7 +32,12 @@ class _ExplainScreen extends State<ExplainScreen>
   bool isVisible = false;
   @override
   void initState() {
+    init();
     super.initState();
+  }
+
+  void init() {
+      context.read<AppState>().playExtraSound(countdownSound);
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 1),
@@ -44,10 +52,6 @@ class _ExplainScreen extends State<ExplainScreen>
     });
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
   void _animationListener() {
     if (animation.isCompleted && _timeCount >= 1) {
       setState(() {
@@ -60,6 +64,7 @@ class _ExplainScreen extends State<ExplainScreen>
 
   @override
   void dispose() {
+    AudioService.stopExtraAudio();
     _controller.removeListener(_animationListener);
     _controller.dispose();
     super.dispose();
@@ -86,8 +91,7 @@ class _ExplainScreen extends State<ExplainScreen>
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Text(
-                  widget.title,
+              child: Text(widget.title,
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 20.sp, color: kColorBlack)),
             ),
