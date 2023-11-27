@@ -1,5 +1,6 @@
 import 'package:do_an_tot_nghiep/provider/app_state.dart';
 import 'package:do_an_tot_nghiep/screens/games/math_game/math_play.dart';
+import 'package:do_an_tot_nghiep/services/audio_service.dart';
 import 'package:do_an_tot_nghiep/widget/timer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -40,7 +41,6 @@ class _MathScreenState extends State<MathScreen> {
   }
 
   Future<void> _showResult() async {
-    debugPrint("asfdsdafsa $mathScore");
     await boxPlayData.put("math", mathScore);
     if (mounted) {
       context.read<AppState>().setTotalScore();
@@ -68,6 +68,7 @@ class _MathScreenState extends State<MathScreen> {
       setState(() {
         _currentIndex = 1;
       });
+      context.read<AppState>().playBGSound(bgSound);
     });
   }
 
@@ -82,6 +83,7 @@ class _MathScreenState extends State<MathScreen> {
   @override
   void dispose() {
     mathScore = 0;
+    AudioService.stopBGAudio();
     super.dispose();
   }
 

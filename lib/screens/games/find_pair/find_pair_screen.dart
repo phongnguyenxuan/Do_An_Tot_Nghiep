@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 import '../../../configs/style_config.dart';
 import '../../../provider/app_state.dart';
+import '../../../services/audio_service.dart';
 import '../../../widget/custom_appbar.dart';
 import '../../../widget/timer_widget.dart';
 import '../explain_screen.dart';
@@ -26,6 +27,7 @@ class _FindPairScreenState extends State<FindPairScreen> {
       setState(() {
         _currentIndex = 1;
       });
+      context.read<AppState>().playBGSound(bgSound);
     });
   }
 
@@ -39,6 +41,7 @@ class _FindPairScreenState extends State<FindPairScreen> {
 
   @override
   void dispose() {
+    AudioService.stopBGAudio();
     super.dispose();
   }
 
@@ -51,8 +54,9 @@ class _FindPairScreenState extends State<FindPairScreen> {
           int grade = value.item2;
           return Builder(
             builder: (context) {
-              if (_currentIndex == -1)
+              if (_currentIndex == -1) {
                 return ExplainScreen(title: translate.findPairMessage);
+              }
               return Scaffold(
                 backgroundColor: kColorWhite,
                 appBar: CustomAppBar(
@@ -99,8 +103,9 @@ class _FindPairScreenState extends State<FindPairScreen> {
                                   ? TimerWidget(
                                       isSubmit: false,
                                       onTimerEnd: () async {
-                                        Future.delayed(const Duration(seconds: 2),
-                                            () {
+                                        AudioService.stopBGAudio();
+                                        Future.delayed(
+                                            const Duration(seconds: 2), () {
                                           context
                                               .read<AppState>()
                                               .showResultFindPair(context);

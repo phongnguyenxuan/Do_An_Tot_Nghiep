@@ -105,40 +105,49 @@ class _SettingScreenState extends State<SettingScreen> {
                               style: k25SizeBlackColorStyle,
                             ),
                             const Spacer(),
-                            DropdownButton<String>(
-                              value: ctx.read<AppState>().appLanguage,
-                              underline: Container(),
-                              borderRadius: BorderRadius.circular(15),
-                              elevation: 2,
-                              items: supportedLanguage
-                                  .map<DropdownMenuItem<String>>(
-                                      (String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 7),
-                                        child: Text(value.toUpperCase()),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 5),
+                              child: DropdownButton<String>(
+                                value: ctx.read<AppState>().appLanguage,
+                                underline: Container(),
+                                borderRadius: BorderRadius.circular(15),
+                                elevation: 2,
+                                padding: EdgeInsets.zero,
+                                items: supportedLanguage
+                                    .map<DropdownMenuItem<String>>(
+                                        (String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    alignment: AlignmentDirectional.centerStart,
+                                    child: SizedBox(
+                                      width: 70.w,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 7),
+                                            child: Text(value.toUpperCase()),
+                                          ),
+                                          Container(
+                                            width: 30,
+                                            height: 30,
+                                            decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                    image: AssetImage(
+                                                        "assets/images/$value.png"))),
+                                          )
+                                        ],
                                       ),
-                                      Container(
-                                        width: 30,
-                                        height: 30,
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image: AssetImage(
-                                                    "assets/images/$value.png"))),
-                                      )
-                                    ],
-                                  ),
-                                );
-                              }).toList(),
-                              onChanged: (String? value) {
-                                setState(() {
-                                  ctx.read<AppState>().appLanguage = value!;
-                                });
-                              },
+                                    ),
+                                  );
+                                }).toList(),
+                                onChanged: (String? value) {
+                                  setState(() {
+                                    ctx.read<AppState>().appLanguage = value!;
+                                  });
+                                },
+                              ),
                             ),
                           ],
                         ),

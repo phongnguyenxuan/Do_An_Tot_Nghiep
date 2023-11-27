@@ -403,11 +403,11 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void generatePlayData({bool shouldNotifyListener = true}) {
+  void generatePlayData() {
     List<QuestionModel> list = [];
     var startNumber = 0;
-    var endNumber = 99;
-    while (list.length < 100) {
+    var endNumber = 10;
+    while (list.length < 150) {
       int firstNumber =
           Random().nextInt(endNumber - startNumber + 1) + startNumber;
       int secondNumber =
@@ -417,17 +417,21 @@ class AppState extends ChangeNotifier {
       int result = 0;
       switch (element) {
         case "×":
-          result = firstNumber * secondNumber;
+          result = (firstNumber * secondNumber);
           break;
         case "÷":
+          if (secondNumber == 0) {
+            secondNumber =
+                Random().nextInt(endNumber - startNumber + 1) + startNumber;
+          }
           firstNumber = firstNumber * secondNumber;
           result = (firstNumber / secondNumber).round();
           break;
         case "+":
-          result = firstNumber + secondNumber;
+          result = (firstNumber + secondNumber);
           break;
         case "−":
-          result = firstNumber - secondNumber;
+          result = (firstNumber - secondNumber);
           break;
       }
       var question = QuestionModel(
@@ -435,7 +439,7 @@ class AppState extends ChangeNotifier {
           secondNumber: secondNumber,
           math: element,
           result: result);
-      if (!list.contains(question)) list.add(question);
+      list.add(question);
     }
     playList.clear();
     playList.addAll(list);
