@@ -1,5 +1,6 @@
 import 'package:do_an_tot_nghiep/configs/constants.dart';
 import 'package:do_an_tot_nghiep/screens/games/speed_match/speed_match_play.dart';
+import 'package:do_an_tot_nghiep/services/audio_service.dart';
 import 'package:do_an_tot_nghiep/widget/timer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,6 +28,7 @@ class _SpeedMatchScreenState extends State<SpeedMatchScreen> {
       setState(() {
         _currentIndex = 1;
       });
+      context.read<AppState>().playBGSound(bgSound);
     });
   }
 
@@ -34,6 +36,11 @@ class _SpeedMatchScreenState extends State<SpeedMatchScreen> {
   void initState() {
     delay();
     super.initState();
+  }
+  @override
+  void dispose() {
+    AudioService.stopBGAudio();
+    super.dispose();
   }
 
 
