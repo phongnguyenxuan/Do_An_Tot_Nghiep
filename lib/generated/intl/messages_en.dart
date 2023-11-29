@@ -45,6 +45,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Remember the highlighted tiles. The tiles reveal themselves momentarily before flipping back over."),
         "needSign": MessageLookupByLibrary.simpleMessage(
             "You need to be signed in to use this feature."),
+        "newHighScore": MessageLookupByLibrary.simpleMessage("New high score"),
         "no": MessageLookupByLibrary.simpleMessage("No"),
         "noRes": MessageLookupByLibrary.simpleMessage("No results found."),
         "play": MessageLookupByLibrary.simpleMessage("Play"),

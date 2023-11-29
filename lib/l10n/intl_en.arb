@@ -23,6 +23,7 @@
     "speedMatchMessage" : "Remember the previous card shown and select whether or not the next card matches the previous card.",
     "score" : "Score",
     "highScore" : "High score",
+    "newHighScore":"New high score",
     "continuew" : "Continue",
     "currentw" : "Current",
     "noRes" : "No results found.",

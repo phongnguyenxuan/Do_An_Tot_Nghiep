@@ -290,6 +290,16 @@ class S {
     );
   }
 
+  /// `New high score`
+  String get newHighScore {
+    return Intl.message(
+      'New high score',
+      name: 'newHighScore',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Continue`
   String get continuew {
     return Intl.message(

@@ -23,6 +23,7 @@
     "speedMatchMessage" : "Ghi nhớ thẻ trước đó được hiển thị và chọn xem thẻ tiếp theo có khớp với thẻ trước đó hay không.",
     "score" : "Điểm",
     "highScore" : "Điểm cao",
+    "newHighScore":"Điểm cao mới",
     "continuew" : "Tiếp tục",
     "currentw" : "Hiện tại",
     "noRes" : "Không có kết quả được tìm thấy.",
