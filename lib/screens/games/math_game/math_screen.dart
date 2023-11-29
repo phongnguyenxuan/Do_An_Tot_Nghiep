@@ -45,7 +45,7 @@ class _MathScreenState extends State<MathScreen> {
     if (mounted) {
       context.read<AppState>().setTotalScore();
       await navigatorKey.currentState
-        ?.pushReplacement(MaterialPageRoute(
+          ?.pushReplacement(MaterialPageRoute(
               builder: (_) => ResultScreen(
                     title: "Math",
                     grade: mathScore,
@@ -95,7 +95,7 @@ class _MathScreenState extends State<MathScreen> {
           );
         }
         return Scaffold(
-          backgroundColor: kColorWhite,
+            backgroundColor: kColorWhite,
             appBar: CustomAppBar(
               title: "Question ${_currentPlayingIndex + 1}",
               actions: [
@@ -133,7 +133,12 @@ class _MathScreenState extends State<MathScreen> {
                   children: [
                     TimerWidget(
                       onTimerEnd: () {
-                        _showResult();
+                        Future.delayed(
+                          const Duration(seconds: 2),
+                          () {
+                            _showResult();
+                          },
+                        );
                       },
                       isSubmit: false,
                       reBuild: false,

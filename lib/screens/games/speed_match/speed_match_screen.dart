@@ -36,7 +36,6 @@ class _SpeedMatchScreenState extends State<SpeedMatchScreen> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Builder(
@@ -90,7 +89,13 @@ class _SpeedMatchScreenState extends State<SpeedMatchScreen> {
                               height: 4,
                             )
                           : TimerWidget(
-                              onTimerEnd:() => context.read<AppState>().showResultSpeedMatch(context),
+                              onTimerEnd: () {
+                                Future.delayed(const Duration(seconds: 2), () {
+                                  context
+                                      .read<AppState>()
+                                      .showResultSpeedMatch(context);
+                                });
+                              },
                               reBuild: false,
                               isSubmit: false,
                               countTime: 45,
@@ -104,11 +109,10 @@ class _SpeedMatchScreenState extends State<SpeedMatchScreen> {
                         (indx) => Selector<AppState, Tuple2<int, int>>(
                               selector: (ctx, state) =>
                                   Tuple2(state.score, state.streak),
-                              builder: (context, value, child) =>
-                                  ScoreOverlay(
-                                      bonus: 0,
-                                      score: value.item1,
-                                      streak: value.item2),
+                              builder: (context, value, child) => ScoreOverlay(
+                                  bonus: 0,
+                                  score: value.item1,
+                                  streak: value.item2),
                             )),
                   )
                 ],

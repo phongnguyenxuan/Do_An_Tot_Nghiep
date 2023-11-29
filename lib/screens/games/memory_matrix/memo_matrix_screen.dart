@@ -123,7 +123,12 @@ class _MemoMatrixScreenState extends State<MemoMatrixScreen> {
                               isSubmit: !context.read<AppState>().canPickBlock,
                               onTimerEnd: () {
                                 if (!context.read<AppState>().cancelTimer) {
-                                  context.read<AppState>().showResult();
+                                  Future.delayed(
+                                    const Duration(seconds: 2),
+                                    () {
+                                      context.read<AppState>().showResult();
+                                    },
+                                  );
                                 }
                               },
                               reBuild: false,
