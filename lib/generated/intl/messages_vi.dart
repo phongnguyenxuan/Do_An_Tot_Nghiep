@@ -46,6 +46,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Hãy nhớ các ô được đánh dấu. Các ô hiện ra trong giây lát trước khi lật lại."),
         "needSign": MessageLookupByLibrary.simpleMessage(
             "Bạn cần đăng nhập để sử dụng chức năng này."),
+        "newHighScore": MessageLookupByLibrary.simpleMessage("Điểm cao mới"),
         "no": MessageLookupByLibrary.simpleMessage("Không"),
         "noRes": MessageLookupByLibrary.simpleMessage(
             "Không có kết quả được tìm thấy."),

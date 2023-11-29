@@ -61,7 +61,7 @@ class _ResultScreenState extends State<ResultScreen> {
                     children: [
                       CustomText(
                           title: (widget.newRecord && widget.grade != 0)
-                              ? translate.highScore
+                              ? translate.newHighScore
                               : translate.score,
                           fontSize: 25.sp,
                           strokeWidth: 2,
