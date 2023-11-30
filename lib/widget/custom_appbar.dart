@@ -2,8 +2,6 @@ import 'package:do_an_tot_nghiep/configs/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-
-import '../configs/basic_config.dart';
 import '../configs/style_config.dart';
 import '../provider/app_state.dart';
 
