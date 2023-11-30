@@ -104,12 +104,16 @@ class _FindPairScreenState extends State<FindPairScreen> {
                                       isSubmit: false,
                                       onTimerEnd: () async {
                                         AudioService.stopBGAudio();
-                                        Future.delayed(
-                                            const Duration(seconds: 2), () {
-                                          context
-                                              .read<AppState>()
-                                              .showResultFindPair(context);
-                                        });
+                                        if (!context
+                                            .read<AppState>()
+                                            .cancelTimer) {
+                                          Future.delayed(
+                                              const Duration(seconds: 2), () {
+                                            context
+                                                .read<AppState>()
+                                                .showResultFindPair(context);
+                                          });
+                                        }
                                       },
                                       reBuild: false,
                                       countTime: val.item1,

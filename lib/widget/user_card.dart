@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 
 class UserCard extends StatelessWidget {
   final UserModel user;
-  const UserCard({super.key, required this.user});
+  final int index;
+  const UserCard({super.key, required this.user, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +26,7 @@ class UserCard extends StatelessWidget {
           border: Border.all(color: kBorderColor, width: 2)),
       child: Row(
         children: [
+          Text("# ${index + 1}", style: k17SizeW500BlackColorStyle,),
           //profile image
           Padding(
             padding: const EdgeInsets.all(10.0),

@@ -28,16 +28,16 @@ class AuthServices {
   // GOOGLE SIGN IN
   Future<void> logInWithGoogle(BuildContext context) async {
     try {
-        EasyLoading.show();
-        final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-        final GoogleSignInAuthentication? googleAuth =
-            await googleUser?.authentication;
-        EasyLoading.dismiss();
-        final credential = GoogleAuthProvider.credential(
-          accessToken: googleAuth?.accessToken,
-          idToken: googleAuth?.idToken,
-        );
-        if (context.mounted) firebaseSignInWithCredential(credential, context);
+      EasyLoading.show();
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+      EasyLoading.dismiss();
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+      if (context.mounted) firebaseSignInWithCredential(credential, context);
     } on PlatformException catch (_) {
       EasyLoading.dismiss();
     }

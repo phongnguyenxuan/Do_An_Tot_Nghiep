@@ -303,13 +303,14 @@ class AppState extends ChangeNotifier {
           }
           // Nếu không còn thẻ
           if (!_playList.any((element) => element.isVisible)) {
-            //  _audioState?.playFinishSound();
+            _cancelTimer = true;
             _timer?.cancel();
             _level++;
             await Future.delayed(const Duration(milliseconds: 500));
             fetchLevelData(level);
           }
         } else {
+          _cancelTimer = false;
           _playList[index].isFlipped = false;
           _playList[_previousCardPlay!].isFlipped = false;
           _streak = 0;
@@ -329,6 +330,7 @@ class AppState extends ChangeNotifier {
     _previousCardPlay = null;
     _levelTime = levelTimeConfig[_pairCount] ?? 10;
     _isShowingCard = false;
+   // _cancelTimer = false;
     for (var element in _playList) {
       element.isFlipped = false;
       element.isVisible = true;
@@ -348,6 +350,7 @@ class AppState extends ChangeNotifier {
   }
 
   void showAllCard() {
+    _cancelTimer = true;
     // hien thi cac cap
     for (var element in _playList) {
       element.isFlipped = true;
@@ -358,6 +361,7 @@ class AppState extends ChangeNotifier {
       if (showTime == timer.tick) {
         for (var element in _playList) {
           element.isFlipped = false;
+          _cancelTimer = false;
         }
         _isShowingCard = true;
         timer.cancel();
