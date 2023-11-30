@@ -36,18 +36,22 @@ const Map<int, int> levelConfig = {
   18 : 15,
   19 : 18,
   20 : 18,
+  21 : 18,
+  22 : 20,
+  23 : 20,
 };
 const Map<int,int> showAllConfig = {
   3 : 6,
   4 : 3,
-  6 : 5,
-  8 : 6,
-  9 : 7,
-  10 : 8,
-  12 : 9,
-  14 : 10,
-  15 : 11,
-  18 : 12,
+  6 : 4,
+  8 : 4,
+  9 : 4,
+  10 : 5,
+  12 : 5,
+  14 : 5,
+  15 : 6,
+  18 : 6,
+  20 : 6,
 };
 
 const Map<int,int> levelColConfig = {
@@ -60,20 +64,22 @@ const Map<int,int> levelColConfig = {
   12 : 4,
   14 : 4,
   15 : 5,
-  18 : 6
+  18 : 6,
+  20 : 7,
 };
 
 const Map<int, int> levelTimeConfig = {
-  3 : 5,
+  3 : 6,
   4 : 6,
   6 : 8,
   8 : 10,
-  9 : 50,
-  10 : 60,
-  12 : 100,
-  14 : 100,
-  15 : 120,
-  18 : 120,
+  9 : 20,
+  10 : 25,
+  12 : 30,
+  14 : 35,
+  15 : 40,
+  18 : 45,
+  20 : 45,
 };
 
 List<dynamic> imageUrlList = [
