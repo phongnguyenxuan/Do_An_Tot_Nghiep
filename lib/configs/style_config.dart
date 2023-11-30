@@ -24,6 +24,7 @@ const Color kColorGreenOpacity = Color(0xFFE1FFEC);
 const Color kColorOrangeLight = Color(0xFFFFF4E5);
 const Color kColorBrightCyan = Color(0xFF28D9FF);
 const Color kShadowBrightCyan = Color(0xFF00A8CD);
+const Color kColorRank = Color.fromARGB(255, 240, 231, 180);
 
 const Color kColorOrange = Color(0xFFFEB704);
 const Color kTextColorOrange = Color(0xFFF1B81A);
