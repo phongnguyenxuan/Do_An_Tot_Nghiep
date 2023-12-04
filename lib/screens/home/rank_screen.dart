@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:do_an_tot_nghiep/configs/constants.dart';
 import 'package:do_an_tot_nghiep/configs/style_config.dart';
@@ -77,72 +76,78 @@ class _RankScreenState extends State<RankScreen> {
               Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                    border: const Border(
-                      top: BorderSide(color: kBorderColor, width: 0),
-                      left: BorderSide(color: kBorderColor, width: 0),
-                      right: BorderSide(color: kBorderColor, width: 0),
-                      bottom: BorderSide(color: kBorderColor, width: 2),
-                    ),
-                    borderRadius: BorderRadius.circular(30)),
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 35,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        LeaderBoard(
-                          user: listUser[1],
-                          index: 1,
-                          nameTextStyle: TextStyle(
-                              fontFamily: kfontFamily,
-                              color: kColorBlack,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 15.sp),
-                          scoreTextStyle: TextStyle(
-                              fontFamily: kfontFamily,
-                              color: kColorBrightCyan,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 17.sp),
-                          radius: 30,
-                        ),
-                        LeaderBoard(
-                          user: listUser[0],
-                          nameTextStyle: TextStyle(
-                              fontFamily: kfontFamily,
-                              color: kColorBlack,
-                              fontWeight: FontWeight.w900,
-                              fontSize: 17.sp),
-                          scoreTextStyle: TextStyle(
-                              fontFamily: kfontFamily,
-                              color: kColorOrange,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20.sp),
-                          index: 0,
-                          radius: 45,
-                        ),
-                        LeaderBoard(
-                          user: listUser[2],
-                          index: 2,
-                          nameTextStyle: TextStyle(
-                              fontFamily: kfontFamily,
-                              color: kColorBlack,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 13.sp),
-                          scoreTextStyle: TextStyle(
-                              color: kBorderColor,
-                              fontFamily: kfontFamily,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15.sp),
-                          radius: 30,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 35,
-                    ),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: kBorderColor,
+                      offset: Offset(0, 2)
+                    )
                   ],
+                    borderRadius: BorderRadius.circular(30)),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: kColorWhite,
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 35,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          LeaderBoard(
+                            user: listUser[1],
+                            index: 1,
+                            nameTextStyle: TextStyle(
+                                fontFamily: kfontFamily,
+                                color: kColorBlack,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15.sp),
+                            scoreTextStyle: TextStyle(
+                                fontFamily: kfontFamily,
+                                color: kColorBrightCyan,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17.sp),
+                            radius: 30,
+                          ),
+                          LeaderBoard(
+                            user: listUser[0],
+                            nameTextStyle: TextStyle(
+                                fontFamily: kfontFamily,
+                                color: kColorBlack,
+                                fontWeight: FontWeight.w900,
+                                fontSize: 17.sp),
+                            scoreTextStyle: TextStyle(
+                                fontFamily: kfontFamily,
+                                color: kColorOrange,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20.sp),
+                            index: 0,
+                            radius: 45,
+                          ),
+                          LeaderBoard(
+                            user: listUser[2],
+                            index: 2,
+                            nameTextStyle: TextStyle(
+                                fontFamily: kfontFamily,
+                                color: kColorBlack,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 13.sp),
+                            scoreTextStyle: TextStyle(
+                                color: kBorderColor,
+                                fontFamily: kfontFamily,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15.sp),
+                            radius: 30,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 35,
+                      ),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(

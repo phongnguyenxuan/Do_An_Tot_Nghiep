@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:do_an_tot_nghiep/configs/basic_config.dart';
 import 'package:do_an_tot_nghiep/configs/constants.dart';
 import 'package:do_an_tot_nghiep/configs/style_config.dart';
 import 'package:do_an_tot_nghiep/models/user_model.dart';
@@ -37,7 +38,7 @@ class AuthServices {
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
       );
-      if (context.mounted) firebaseSignInWithCredential(credential, context);
+      firebaseSignInWithCredential(credential);
     } on PlatformException catch (_) {
       EasyLoading.dismiss();
     }
@@ -51,7 +52,8 @@ class AuthServices {
     if (result.status == LoginStatus.success) {
       final credential =
           FacebookAuthProvider.credential(result.accessToken!.token);
-      if (context.mounted) firebaseSignInWithCredential(credential, context);
+      firebaseSignInWithCredential(credential).then((value) {
+      });
     }
     EasyLoading.dismiss();
   }
@@ -76,8 +78,8 @@ class AuthServices {
     }
   }
 
-  Future<void> firebaseSignInWithCredential(
-      OAuthCredential credential, BuildContext context) async {
+  Future<UserCredential?> firebaseSignInWithCredential(
+      OAuthCredential credential) async {
     try {
       UserCredential? credential0 =
           await _auth.signInWithCredential(credential);
@@ -99,6 +101,7 @@ class AuthServices {
               .set(userModel.toMap());
         }
       });
+      return credential0;
     } on FirebaseAuthException catch (e) {
       Future(() {
         SnackBar snackBar = SnackBar(
@@ -111,8 +114,10 @@ class AuthServices {
                 fontFamily: kfontFamily, color: Colors.white, fontSize: 14.sp),
           ),
         );
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        ScaffoldMessenger.of(navigatorKey.currentContext!)
+            .showSnackBar(snackBar);
       });
+      return null;
     }
   }
 
@@ -120,8 +125,8 @@ class AuthServices {
   Future<void> signOut() async {
     try {
       EasyLoading.show();
-      await _googleSignIn.signOut();
       await _facebookAuth.logOut();
+      await _googleSignIn.signOut();
       await _auth.signOut();
       EasyLoading.dismiss();
     } on FirebaseAuthException catch (_) {

@@ -4,6 +4,7 @@
         android:label="Memo Improve"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
+        android:enableOnBackInvokedCallback="true"
         android:usesCleartextTraffic="true">
         <meta-data
         android:name="com.facebook.sdk.ApplicationId"
