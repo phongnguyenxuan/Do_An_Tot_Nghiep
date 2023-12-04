@@ -50,7 +50,7 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  playSound(String path) async {
+  Future<void> playSound(String path) async {
     if (_appAudio) {
       AudioService.audioCache.load('$path.mp3');
       AudioService.playShortAudio('$path.mp3');
@@ -330,7 +330,7 @@ class AppState extends ChangeNotifier {
     _previousCardPlay = null;
     _levelTime = levelTimeConfig[_pairCount] ?? 10;
     _isShowingCard = false;
-   // _cancelTimer = false;
+    // _cancelTimer = false;
     for (var element in _playList) {
       element.isFlipped = false;
       element.isVisible = true;
@@ -410,7 +410,7 @@ class AppState extends ChangeNotifier {
   void generatePlayData() {
     List<QuestionModel> list = [];
     var startNumber = 0;
-    var endNumber = 10;
+    var endNumber = 20;
     while (list.length < 150) {
       int firstNumber =
           Random().nextInt(endNumber - startNumber + 1) + startNumber;
@@ -419,6 +419,7 @@ class AppState extends ChangeNotifier {
       var math = ["×", "÷", "+", "−"];
       var element = math[Random().nextInt(math.length)];
       int result = 0;
+      print("number:$firstNumber  $secondNumber $element");
       switch (element) {
         case "×":
           result = (firstNumber * secondNumber);
@@ -435,6 +436,8 @@ class AppState extends ChangeNotifier {
           result = (firstNumber + secondNumber);
           break;
         case "−":
+          secondNumber =
+              Random().nextInt(firstNumber - startNumber + 1) + startNumber;
           result = (firstNumber - secondNumber);
           break;
       }

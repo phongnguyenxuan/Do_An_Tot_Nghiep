@@ -51,7 +51,8 @@ class LeaderBoard extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            border: Border.all(width: 2, color: kBorderColor),
+            border: Border.all(width: 2, 
+            color:kBorderColor),
           ),
           child: CircleAvatar(
             radius: radius,

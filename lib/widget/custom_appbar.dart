@@ -31,14 +31,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         leading: GestureDetector(
           onTap: onBackButtonPress == null
               ? () async {
-                  if (context.mounted) {
-                    context.read<AppState>().playSound(clickSound);
-                    Navigator.pop(context);
-                  }
+                  await context.read<AppState>().playSound(clickSound).then(
+                        (value) => Navigator.pop(context),
+                      );
                 }
-              : () {
-                  context.read<AppState>().playSound(clickSound);
-                  onBackButtonPress;
+              : () async {
+                  await context.read<AppState>().playSound(clickSound).then(
+                        (value) => onBackButtonPress,
+                      );
                 },
           behavior: HitTestBehavior.translucent,
           child: Center(
