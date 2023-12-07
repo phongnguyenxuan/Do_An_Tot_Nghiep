@@ -30,6 +30,8 @@ dependencies:
   cached_network_image: ^3.3.0
   audioplayers: ^5.2.1
   confetti: ^0.7.0
+  scrollable_positioned_list: ^0.3.8
+  flutter_markdown: ^0.6.18+2
 
 dev_dependencies:
   flutter_test:
@@ -55,6 +57,7 @@ flutter:
     - assets/images/default_cards/
     - assets/images/shape/
     - assets/audio/
+    - assets/res/
   fonts:
     - family:  CustomIcon
       fonts:

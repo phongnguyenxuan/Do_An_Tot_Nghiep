@@ -8,7 +8,7 @@ import 'package:do_an_tot_nghiep/widget/user_card.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class RankScreen extends StatefulWidget {
   const RankScreen({super.key});
@@ -19,6 +19,8 @@ class RankScreen extends StatefulWidget {
 }
 
 class _RankScreenState extends State<RankScreen> {
+  final ItemScrollController itemScrollController = ItemScrollController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,6 +68,14 @@ class _RankScreenState extends State<RankScreen> {
           .orderBy('score', descending: true)
           .snapshots(),
       builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Container(
+            color: kColorWhite,
+            child: const Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
         if (snapshot.data != null) {
           List<UserModel> listUser = [];
           for (var element in snapshot.data!.docs) {
@@ -75,14 +85,9 @@ class _RankScreenState extends State<RankScreen> {
             children: [
               Container(
                 width: double.infinity,
-                decoration: BoxDecoration(
-                  boxShadow: const [
-                    BoxShadow(
-                      color: kBorderColor,
-                      offset: Offset(0, 2)
-                    )
-                  ],
-                    borderRadius: BorderRadius.circular(30)),
+                decoration: BoxDecoration(boxShadow: const [
+                  BoxShadow(color: kBorderColor, offset: Offset(0, 2))
+                ], borderRadius: BorderRadius.circular(30)),
                 child: Container(
                   decoration: BoxDecoration(
                     color: kColorWhite,
@@ -98,12 +103,13 @@ class _RankScreenState extends State<RankScreen> {
                         children: [
                           LeaderBoard(
                             user: listUser[1],
+                            boderColor: kColorBrightCyan,
                             index: 1,
                             nameTextStyle: TextStyle(
                                 fontFamily: kfontFamily,
                                 color: kColorBlack,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 15.sp),
+                                fontWeight: FontWeight.w500,
+                                fontSize: 13.sp),
                             scoreTextStyle: TextStyle(
                                 fontFamily: kfontFamily,
                                 color: kColorBrightCyan,
@@ -113,6 +119,7 @@ class _RankScreenState extends State<RankScreen> {
                           ),
                           LeaderBoard(
                             user: listUser[0],
+                            boderColor: kColorOrange,
                             nameTextStyle: TextStyle(
                                 fontFamily: kfontFamily,
                                 color: kColorBlack,
@@ -129,6 +136,7 @@ class _RankScreenState extends State<RankScreen> {
                           LeaderBoard(
                             user: listUser[2],
                             index: 2,
+                            boderColor: kBorderColor,
                             nameTextStyle: TextStyle(
                                 fontFamily: kfontFamily,
                                 color: kColorBlack,
@@ -154,23 +162,27 @@ class _RankScreenState extends State<RankScreen> {
                 height: 15,
               ),
               Expanded(
-                child: AnimationLimiter(
-                  child: ListView.builder(
-                    itemCount: listUser.length,
-                    physics: const BouncingScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return AnimationConfiguration.staggeredList(
-                          duration: const Duration(milliseconds: 375),
-                          position: index,
-                          child: (index == 0 || index == 1 || index == 2)
-                              ? Container()
-                              : ScaleAnimation(
-                                  child: UserCard(
-                                  user: listUser[index],
-                                  index: index,
-                                )));
-                    },
-                  ),
+                child: ScrollablePositionedList.builder(
+                  itemCount: listUser.length,
+                  itemScrollController: itemScrollController,
+                  itemBuilder: (context, index) {
+                    if (listUser[index]
+                        .uid!
+                        .contains(FirebaseAuth.instance.currentUser!.uid)) {
+                      Future.delayed(const Duration(milliseconds: 300), () {
+                        itemScrollController.scrollTo(
+                            index: index,
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeIn);
+                      });
+                    }
+                    return (index == 0 || index == 1 || index == 2)
+                        ? Container()
+                        : UserCard(
+                            user: listUser[index],
+                            index: index,
+                          );
+                  },
                 ),
               ),
             ],

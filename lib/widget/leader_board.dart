@@ -10,13 +10,13 @@ class LeaderBoard extends StatelessWidget {
   const LeaderBoard(
       {super.key,
       required this.user,
-      this.boderColor,
+      required this.boderColor,
       this.scoreTextStyle,
       this.nameTextStyle,
       required this.index,
       this.radius});
   final UserModel user;
-  final Color? boderColor;
+  final Color boderColor;
   final TextStyle? scoreTextStyle;
   final TextStyle? nameTextStyle;
   final int index;
@@ -40,19 +40,19 @@ class LeaderBoard extends StatelessWidget {
                           fontFamily: kfontFamily,
                           color: kBorderColor,
                           fontWeight: FontWeight.bold,
-                          fontSize: 20.sp)
+                          fontSize: 25.sp)
                       : TextStyle(
                           fontFamily: kfontFamily,
                           color: kBorderColor,
                           fontWeight: FontWeight.bold,
-                          fontSize: 17.sp),
+                          fontSize: 25.sp),
                 ),
               ),
         Container(
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(width: 2, 
-            color:kBorderColor),
+            color: boderColor),
           ),
           child: CircleAvatar(
             radius: radius,

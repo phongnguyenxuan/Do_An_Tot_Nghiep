@@ -15,4 +15,13 @@
     <style name="NormalTheme" parent="@android:style/Theme.Black.NoTitleBar">
         <item name="android:windowBackground">?android:colorBackground</item>
     </style>
+    <style name="Translucent" parent="Translucent.Base"/>
+
+    <style name="Translucent.Base" parent="android:Theme.Translucent.NoTitleBar">
+        <item name="android:progressBarStyle">@style/InvisibleProgress</item>
+    </style>
+    
+    <style name="InvisibleProgress">
+        <item name="android:visibility">gone</item>
+    </style>    
 </resources>

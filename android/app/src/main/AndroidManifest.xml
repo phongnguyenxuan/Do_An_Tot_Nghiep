@@ -12,6 +12,11 @@
         <meta-data 
         android:name="com.facebook.sdk.ClientToken" 
         android:value="@string/facebook_client_token"/>
+        <activity xmlns:tools="http://schemas.android.com/tools"
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:theme="@style/Translucent"
+            tools:replace="android:theme"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
