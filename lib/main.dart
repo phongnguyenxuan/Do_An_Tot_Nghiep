@@ -4,6 +4,7 @@ import 'package:do_an_tot_nghiep/screens/auth/login_screen.dart';
 import 'package:do_an_tot_nghiep/screens/games/math_game/math_screen.dart';
 import 'package:do_an_tot_nghiep/screens/home/rank_screen.dart';
 import 'package:do_an_tot_nghiep/screens/home/setting_screen.dart';
+import 'package:do_an_tot_nghiep/screens/home/terms_privacy.dart';
 import 'package:do_an_tot_nghiep/screens/result/status_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -124,6 +125,7 @@ class _MainAppState extends State<MainApp> {
                   AuthState.id: (_) => const AuthState(),
                   SettingScreen.id: (_) => const SettingScreen(),
                   RankScreen.id: (_) => const RankScreen(),
+                  TermPrivacyScreen.id: (_) => const TermPrivacyScreen(),
                 },
               );
             },

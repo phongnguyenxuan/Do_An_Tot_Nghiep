@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:do_an_tot_nghiep/custom_icon_icons.dart';
 import 'package:do_an_tot_nghiep/provider/app_state.dart';
+import 'package:do_an_tot_nghiep/screens/home/terms_privacy.dart';
 import 'package:do_an_tot_nghiep/services/auth_services.dart';
 import 'package:do_an_tot_nghiep/widget/custom_appbar.dart';
 import 'package:do_an_tot_nghiep/widget/custom_button.dart';
@@ -172,6 +173,9 @@ class _SettingScreenState extends State<SettingScreen> {
                       ),
                       //Terms and privacy
                       CustomButton(
+                        onPress: () {
+                          navigatorKey.currentState!.pushNamed(TermPrivacyScreen.id);
+                        },
                           borderRadius: BorderRadius.circular(20),
                           color: kButtonColor,
                           shadowColor: kShadowColor2,

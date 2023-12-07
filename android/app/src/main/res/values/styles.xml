@@ -15,6 +15,17 @@
     <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
         <item name="android:windowBackground">?android:colorBackground</item>
     </style>
+
+     <style name="Translucent" parent="Translucent.Base"/>
+
+    <style name="Translucent.Base" parent="android:Theme.Translucent.NoTitleBar">
+        <item name="android:progressBarStyle">@style/InvisibleProgress</item>
+    </style>
+
+    <style name="InvisibleProgress">
+        <item name="android:visibility">gone</item>
+    </style>
+    
     <string name="facebook_app_id">302292849270158</string>
     <string name="facebook_client_token">85a10ec14771198d4192dd79bdb0ead4</string>   
 </resources>
