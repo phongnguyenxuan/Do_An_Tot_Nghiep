@@ -43,7 +43,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           behavior: HitTestBehavior.translucent,
           child: Center(
             child: Container(
-              margin: const EdgeInsets.all(10),
+              margin:  EdgeInsets.all(10.h),
               decoration: BoxDecoration(
                   color: kColorPrimary,
                   shape: BoxShape.circle,

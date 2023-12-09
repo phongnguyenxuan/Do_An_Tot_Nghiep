@@ -35,11 +35,11 @@ class _ResultScreenState extends State<ResultScreen> {
       ConfettiController(duration: const Duration(seconds: 4));
   @override
   void initState() {
-    super.initState();
-    if (widget.newRecord) {
+    if (widget.newRecord && widget.grade > 0) {
       _controllerCenter.play();
       context.read<AppState>().playExtraSound(highScoreSound);
     }
+    super.initState();
   }
 
   @override
