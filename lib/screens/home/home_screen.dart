@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: kColorWhite,
       body: Container(
-        margin: const EdgeInsets.symmetric(vertical: 30),
+        margin: EdgeInsets.symmetric(vertical: 30.h),
         child: Column(
           children: [
             Padding(
@@ -49,8 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   GestureDetector(
                     onTap: () {
                       context.read<AppState>().playSound(clickSound);
-                          navigatorKey.currentState
-                              ?.pushNamed(SettingScreen.id);
+                      navigatorKey.currentState?.pushNamed(SettingScreen.id);
                     },
                     child: Container(
                         decoration: BoxDecoration(
@@ -112,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: EdgeInsets.symmetric(vertical: 20.h),
                     child: Image.asset(
                       "assets/images/logo.png",
                       width: 120.w,
@@ -125,8 +124,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     strokeWidth: 3,
                     color: Colors.black,
                   ),
-                  const SizedBox(
-                    height: 50,
+                  SizedBox(
+                    height: 50.h,
                   ),
                   CustomButton(
                     elevation: 5,
@@ -142,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Text(translate.play, style: k18BlackTextStyle),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    padding: EdgeInsets.symmetric(vertical: 20.h),
                     child: CustomButton(
                       elevation: 5,
                       borderRadius: BorderRadius.circular(10),
@@ -171,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Text(translate.rank, style: k18BlackTextStyle),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    padding: EdgeInsets.symmetric(vertical: 20.h),
                     child: CustomButton(
                       elevation: 5,
                       borderRadius: BorderRadius.circular(10),

@@ -61,21 +61,14 @@ class _RankScreenState extends State<RankScreen> {
     );
   }
 
-  StreamBuilder<QuerySnapshot<Map<String, dynamic>>> mainBody() {
-    return StreamBuilder(
-      stream: FirebaseFirestore.instance
+  FutureBuilder<QuerySnapshot<Map<String, dynamic>>> mainBody() {
+    return FutureBuilder(
+      future: FirebaseFirestore.instance
           .collection("users")
           .orderBy('score', descending: true)
-          .snapshots(),
+          .get(),
       builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return Container(
-            color: kColorWhite,
-            child: const Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }
+        debugPrint("state: ${snapshot.connectionState.name}");
         if (snapshot.data != null) {
           List<UserModel> listUser = [];
           for (var element in snapshot.data!.docs) {
