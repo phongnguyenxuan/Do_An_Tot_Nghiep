@@ -95,18 +95,19 @@ class _FindPairScreenState extends State<FindPairScreen> {
                   children: [
                     Column(
                       children: [
-                        Selector<AppState, Tuple2<int, bool>>(
-                            selector: (ctx, state) =>
-                                Tuple2(state.levelTime, state.isShowingCard),
+                        Selector<AppState, Tuple3<int, bool, bool>>(
+                            selector: (ctx, state) => Tuple3(state.levelTime,
+                                state.isShowingCard, state.cancelTimer),
                             builder: (context, val, child) {
-                              return val.item2
-                                  ? TimerWidget(
+                              return !val.item2 || val.item3
+                                  ? const SizedBox(
+                                      height: 4,
+                                    )
+                                  : TimerWidget(
                                       isSubmit: false,
                                       onTimerEnd: () async {
                                         AudioService.stopBGAudio();
-                                        if (!context
-                                            .read<AppState>()
-                                            .cancelTimer) {
+                                        if (!val.item3) {
                                           Future.delayed(
                                               const Duration(seconds: 2), () {
                                             context
@@ -117,9 +118,6 @@ class _FindPairScreenState extends State<FindPairScreen> {
                                       },
                                       reBuild: false,
                                       countTime: val.item1,
-                                    )
-                                  : const SizedBox(
-                                      height: 4,
                                     );
                             }),
                         const Expanded(child: PlayWidget()),

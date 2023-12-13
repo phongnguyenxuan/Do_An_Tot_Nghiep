@@ -61,12 +61,11 @@ class _RankScreenState extends State<RankScreen> {
     );
   }
 
-  FutureBuilder<QuerySnapshot<Map<String, dynamic>>> mainBody() {
-    return FutureBuilder(
-      future: FirebaseFirestore.instance
+  StreamBuilder<QuerySnapshot<Map<String, dynamic>>> mainBody() {
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance
           .collection("users")
-          .orderBy('score', descending: true)
-          .get(),
+          .orderBy('score', descending: true).snapshots(),
       builder: (context, snapshot) {
         debugPrint("state: ${snapshot.connectionState.name}");
         if (snapshot.data != null) {
@@ -158,6 +157,7 @@ class _RankScreenState extends State<RankScreen> {
                 child: ScrollablePositionedList.builder(
                   itemCount: listUser.length,
                   itemScrollController: itemScrollController,
+                  physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) {
                     if (listUser[index]
                         .uid!

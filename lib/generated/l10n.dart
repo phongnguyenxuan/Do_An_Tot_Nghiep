@@ -190,10 +190,10 @@ class S {
     );
   }
 
-  /// `Terms and privacy`
+  /// `Terms & privacy`
   String get termAndPr {
     return Intl.message(
-      'Terms and privacy',
+      'Terms & privacy',
       name: 'termAndPr',
       desc: '',
       args: [],
