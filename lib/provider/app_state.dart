@@ -305,12 +305,12 @@ class AppState extends ChangeNotifier {
           if (!_playList.any((element) => element.isVisible)) {
             _cancelTimer = true;
             _timer?.cancel();
-            _level++;
+            await Future.delayed(const Duration(seconds: 1), (){_level++;});
             await Future.delayed(const Duration(milliseconds: 500));
             fetchLevelData(level);
           }
         } else {
-          _cancelTimer = false;
+         // _cancelTimer = false;
           _playList[index].isFlipped = false;
           _playList[_previousCardPlay!].isFlipped = false;
           _streak = 0;
@@ -330,7 +330,7 @@ class AppState extends ChangeNotifier {
     _previousCardPlay = null;
     _levelTime = levelTimeConfig[_pairCount] ?? 10;
     _isShowingCard = false;
-    // _cancelTimer = false;
+    _cancelTimer = false;
     for (var element in _playList) {
       element.isFlipped = false;
       element.isVisible = true;

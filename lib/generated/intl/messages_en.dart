@@ -60,7 +60,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "speedMatchMessage": MessageLookupByLibrary.simpleMessage(
             "Remember the previous card shown and select whether or not the next card matches the previous card."),
         "start": MessageLookupByLibrary.simpleMessage("Start"),
-        "termAndPr": MessageLookupByLibrary.simpleMessage("Terms and privacy"),
+        "termAndPr": MessageLookupByLibrary.simpleMessage("Terms & privacy"),
         "welcome": MessageLookupByLibrary.simpleMessage("Welcome to"),
         "yes": MessageLookupByLibrary.simpleMessage("Yes"),
         "you": MessageLookupByLibrary.simpleMessage("You")
