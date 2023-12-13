@@ -68,12 +68,12 @@ class _RankScreenState extends State<RankScreen> {
           .orderBy('score', descending: true).snapshots(),
       builder: (context, snapshot) {
         debugPrint("state: ${snapshot.connectionState.name}");
+        List<UserModel> listUser = [];
         if (snapshot.data != null) {
-          List<UserModel> listUser = [];
           for (var element in snapshot.data!.docs) {
             listUser.add(UserModel.fromMap(element.data()));
           }
-          return Column(
+          return listUser.isNotEmpty ? Column(
             children: [
               Container(
                 width: double.infinity,
@@ -179,6 +179,11 @@ class _RankScreenState extends State<RankScreen> {
                 ),
               ),
             ],
+          ) : Container(
+            color: kColorWhite,
+            child: const Center(
+              child: CircularProgressIndicator(),
+            ),
           );
         } else {
           return Container(
