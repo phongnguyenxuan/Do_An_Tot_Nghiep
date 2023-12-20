@@ -25,15 +25,18 @@ class MessageLookup extends MessageLookupByLibrary {
         "accExists": MessageLookupByLibrary.simpleMessage(
             "An account already exists with the same email but different sign in credentials."),
         "contact": MessageLookupByLibrary.simpleMessage("Contact us"),
+        "contact_": MessageLookupByLibrary.simpleMessage("Contact"),
         "continuew": MessageLookupByLibrary.simpleMessage("Continue"),
         "couldntFind": MessageLookupByLibrary.simpleMessage(
             "We couldn’t find what you’re looking for."),
         "currentw": MessageLookupByLibrary.simpleMessage("Current"),
         "doseThe": MessageLookupByLibrary.simpleMessage(
             "Dose the CURRENT card match the card that came IMEDIATELY BEFORE it ?"),
+        "error": MessageLookupByLibrary.simpleMessage("Error"),
         "findPairMessage": MessageLookupByLibrary.simpleMessage(
             "Pay close attention to the cards you flip over. Try to remember the positions of the cards."),
         "games": MessageLookupByLibrary.simpleMessage("Games"),
+        "hello": MessageLookupByLibrary.simpleMessage("Hello"),
         "highScore": MessageLookupByLibrary.simpleMessage("High score"),
         "history": MessageLookupByLibrary.simpleMessage("History"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
@@ -60,6 +63,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "speedMatchMessage": MessageLookupByLibrary.simpleMessage(
             "Remember the previous card shown and select whether or not the next card matches the previous card."),
         "start": MessageLookupByLibrary.simpleMessage("Start"),
+        "success": MessageLookupByLibrary.simpleMessage("Login success"),
         "termAndPr": MessageLookupByLibrary.simpleMessage("Terms & privacy"),
         "welcome": MessageLookupByLibrary.simpleMessage("Welcome to"),
         "yes": MessageLookupByLibrary.simpleMessage("Yes"),

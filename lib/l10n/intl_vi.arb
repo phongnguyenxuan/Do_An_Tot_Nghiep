@@ -32,5 +32,9 @@
     "doseThe" : "Thẻ HIỆN TẠI có khớp với thẻ ĐÃ ĐẾN TRƯỚC ĐÓ hay không?",
     "yes" : "Có",
     "no" : "Không",
-    "you" : "Bạn"
+    "you" : "Bạn",
+    "success" : "Đăng nhập thành công",
+    "hello" : "Xin chào",
+    "contact_" : "Liên hệ",
+    "error" : "Lỗi"
 }

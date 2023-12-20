@@ -26,15 +26,18 @@ class MessageLookup extends MessageLookupByLibrary {
             "Tồn tại một tài khoản khác cùng email nhưng khác thông tin đăng nhập."),
         "contact":
             MessageLookupByLibrary.simpleMessage("Liên hệ với chúng tôi"),
+        "contact_": MessageLookupByLibrary.simpleMessage("Liên hệ"),
         "continuew": MessageLookupByLibrary.simpleMessage("Tiếp tục"),
         "couldntFind": MessageLookupByLibrary.simpleMessage(
             "Không thể tìm thấy những gì bạn đang tìm kiếm."),
         "currentw": MessageLookupByLibrary.simpleMessage("Hiện tại"),
         "doseThe": MessageLookupByLibrary.simpleMessage(
             "Thẻ HIỆN TẠI có khớp với thẻ ĐÃ ĐẾN TRƯỚC ĐÓ hay không?"),
+        "error": MessageLookupByLibrary.simpleMessage("Lỗi"),
         "findPairMessage": MessageLookupByLibrary.simpleMessage(
             "Hãy chú ý đến những lá bài bạn lật lên. Cố gắng ghi nhớ vị trí của các thẻ."),
         "games": MessageLookupByLibrary.simpleMessage("Trò chơi"),
+        "hello": MessageLookupByLibrary.simpleMessage("Xin chào"),
         "highScore": MessageLookupByLibrary.simpleMessage("Điểm cao"),
         "history": MessageLookupByLibrary.simpleMessage("Lịch sử"),
         "language": MessageLookupByLibrary.simpleMessage("Ngôn ngữ"),
@@ -62,6 +65,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "speedMatchMessage": MessageLookupByLibrary.simpleMessage(
             "Ghi nhớ thẻ trước đó được hiển thị và chọn xem thẻ tiếp theo có khớp với thẻ trước đó hay không."),
         "start": MessageLookupByLibrary.simpleMessage("Bắt đầu"),
+        "success": MessageLookupByLibrary.simpleMessage("Đăng nhập thành công"),
         "termAndPr": MessageLookupByLibrary.simpleMessage(
             "Điều khoản và quyền riêng tư"),
         "welcome": MessageLookupByLibrary.simpleMessage("Chào mừng tới"),

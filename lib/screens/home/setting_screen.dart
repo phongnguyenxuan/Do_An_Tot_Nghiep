@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:do_an_tot_nghiep/custom_icon_icons.dart';
+import 'package:do_an_tot_nghiep/dialogs/contact_dialog.dart';
 import 'package:do_an_tot_nghiep/provider/app_state.dart';
 import 'package:do_an_tot_nghiep/screens/home/terms_privacy.dart';
 import 'package:do_an_tot_nghiep/services/auth_services.dart';
@@ -123,7 +124,8 @@ class _SettingScreenState extends State<SettingScreen> {
                                     child: SizedBox(
                                       width: 70.w,
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
                                         children: [
                                           Padding(
                                             padding: const EdgeInsets.symmetric(
@@ -158,6 +160,9 @@ class _SettingScreenState extends State<SettingScreen> {
                       ),
                       // contactus
                       CustomButton(
+                          onPress: () {
+                            showContactDialog(context);
+                          },
                           borderRadius: BorderRadius.circular(20),
                           color: kButtonColor,
                           shadowColor: kShadowColor2,
@@ -173,9 +178,10 @@ class _SettingScreenState extends State<SettingScreen> {
                       ),
                       //Terms and privacy
                       CustomButton(
-                        onPress: () {
-                          navigatorKey.currentState!.pushNamed(TermPrivacyScreen.id);
-                        },
+                          onPress: () {
+                            navigatorKey.currentState!
+                                .pushNamed(TermPrivacyScreen.id);
+                          },
                           borderRadius: BorderRadius.circular(20),
                           color: kButtonColor,
                           shadowColor: kShadowColor2,

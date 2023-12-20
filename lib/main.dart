@@ -11,7 +11,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import 'configs/basic_config.dart';
@@ -41,13 +40,15 @@ void main() async {
   //setup hive
   await setupHive();
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => AppState(),
-      builder: (context, child) {
-        return child!;
-      },
-      child: const MainApp(),
-    ),
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => AppState()),
+        ],
+        builder: (context, child) {
+          return child!;
+        },
+        child: const MainApp()
+      )
   );
   configLoading();
 }
@@ -91,7 +92,7 @@ class _MainAppState extends State<MainApp> {
         builder: (context, child) {
           return Consumer<AppState>(
             builder: (context, value, child) {
-              return GetMaterialApp(
+              return MaterialApp(
                 builder: EasyLoading.init(),
                 debugShowCheckedModeBanner: false,
                 navigatorKey: navigatorKey,

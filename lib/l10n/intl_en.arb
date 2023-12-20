@@ -32,5 +32,9 @@
     "doseThe" : "Dose the CURRENT card match the card that came IMEDIATELY BEFORE it ?",
     "yes" : "Yes",
     "no" : "No",
-    "you" : "You"
+    "you" : "You",
+    "success" : "Login success",
+    "hello" : "Hello",
+    "contact_" : "Contact",
+    "error" : "Error"
 }
