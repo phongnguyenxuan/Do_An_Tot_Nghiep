@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'package:do_an_tot_nghiep/provider/app_state.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../configs/style_config.dart';
 
 class TimerWidget extends StatefulWidget {
@@ -27,7 +29,7 @@ class _TimerWidgetState extends State<TimerWidget> {
       const Duration(milliseconds: 1), 
       (timer) {
         if(!mounted) return;
-        _time --;
+        !context.read<AppState>().pauseTimer ? _time -- : null;
         if(_time > 0) {
           setState(() {});
           widget.isSubmit ? _timer?.cancel() : null;

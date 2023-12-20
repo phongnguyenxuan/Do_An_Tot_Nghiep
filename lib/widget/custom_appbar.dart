@@ -29,21 +29,17 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         toolbarHeight: toolBarHeight.h,
         leadingWidth: 70,
         leading: GestureDetector(
-          onTap: onBackButtonPress == null
-              ? () async {
-                  await context.read<AppState>().playSound(clickSound).then(
-                        (value) => Navigator.pop(context),
-                      );
-                }
-              : () async {
-                  await context.read<AppState>().playSound(clickSound).then(
-                        (value) => onBackButtonPress,
-                      );
-                },
+          onTap: () async {
+            await context.read<AppState>().playSound(clickSound);
+            if (await onBackButtonPress?.call() ?? true) {
+              if(!context.mounted) return;
+              Navigator.of(context).pop();
+            }
+          },
           behavior: HitTestBehavior.translucent,
           child: Center(
             child: Container(
-              margin:  EdgeInsets.all(10.h),
+              margin: EdgeInsets.all(10.h),
               decoration: BoxDecoration(
                   color: kColorPrimary,
                   shape: BoxShape.circle,

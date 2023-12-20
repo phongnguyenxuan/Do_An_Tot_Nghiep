@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../../../configs/basic_config.dart';
 import '../../../configs/constants.dart';
 import '../../../configs/style_config.dart';
+import '../../../dialogs/pause_dialog.dart';
 import '../../../widget/custom_appbar.dart';
 import '../../result/result_screen.dart';
 import '../explain_screen.dart';
@@ -56,7 +57,9 @@ class _MathScreenState extends State<MathScreen> {
               settings: const RouteSettings(name: ResultScreen.id)))
           .then((value) {
         if (!mounted) return;
-        if (mathScore > context.read<AppState>().mathHighScore) {
+        // print("scrore $mathScore");
+        if (mathScore >= context.read<AppState>().mathHighScore) {
+          print("scrore $mathScore");
           context.read<AppState>().mathHighScore = mathScore;
         }
       });
@@ -70,6 +73,12 @@ class _MathScreenState extends State<MathScreen> {
       });
       context.read<AppState>().playBGSound(bgSound);
     });
+  }
+
+    Future<bool> _onGoBack() async {
+    if (_currentIndex == -1) return true;
+    final result = await showPauseDialog(context) ?? true;
+    return result;
   }
 
   @override
@@ -100,6 +109,7 @@ class _MathScreenState extends State<MathScreen> {
             backgroundColor: kColorWhite,
             appBar: CustomAppBar(
               title: "Question ${_currentPlayingIndex + 1}",
+              onBackButtonPress: _onGoBack,
               actions: [
                 Visibility(
                   visible: _currentIndex != -1,
@@ -144,7 +154,7 @@ class _MathScreenState extends State<MathScreen> {
                       },
                       isSubmit: false,
                       reBuild: false,
-                      countTime: 45,
+                      countTime: 4,
                     ),
                     Expanded(
                       child: Container(

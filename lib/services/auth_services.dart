@@ -3,13 +3,17 @@ import 'package:do_an_tot_nghiep/configs/basic_config.dart';
 import 'package:do_an_tot_nghiep/configs/constants.dart';
 import 'package:do_an_tot_nghiep/configs/style_config.dart';
 import 'package:do_an_tot_nghiep/models/user_model.dart';
+import 'package:do_an_tot_nghiep/provider/app_state.dart';
+import 'package:do_an_tot_nghiep/widget/snack_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 
 class AuthServices {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -41,6 +45,7 @@ class AuthServices {
       firebaseSignInWithCredential(credential);
     } on PlatformException catch (_) {
       EasyLoading.dismiss();
+      showError(_.message!);
     }
   }
 
@@ -52,8 +57,7 @@ class AuthServices {
     if (result.status == LoginStatus.success) {
       final credential =
           FacebookAuthProvider.credential(result.accessToken!.token);
-      firebaseSignInWithCredential(credential).then((value) {
-      });
+      firebaseSignInWithCredential(credential).then((value) {});
     }
     EasyLoading.dismiss();
   }
@@ -66,6 +70,7 @@ class AuthServices {
       EasyLoading.dismiss();
     } on FirebaseAuthException catch (_) {
       EasyLoading.dismiss();
+      showError(_.message!);
     }
   }
 
@@ -81,6 +86,7 @@ class AuthServices {
   Future<UserCredential?> firebaseSignInWithCredential(
       OAuthCredential credential) async {
     try {
+      EasyLoading.show();
       UserCredential? credential0 =
           await _auth.signInWithCredential(credential);
       UserModel userModel = UserModel(
@@ -101,37 +107,30 @@ class AuthServices {
               .set(userModel.toMap());
         }
       });
+      EasyLoading.dismiss();
+      showSuccess("Login success, Hello", userModel.userName!);
       return credential0;
     } on FirebaseAuthException catch (e) {
+      EasyLoading.dismiss();
       Future(() {
-        SnackBar snackBar = SnackBar(
-          backgroundColor: kColorPrimary,
-          elevation: 0,
-          content: Text(
-            e.message!,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontFamily: kfontFamily, color: Colors.white, fontSize: 14.sp),
-          ),
-        );
-        ScaffoldMessenger.of(navigatorKey.currentContext!)
-            .showSnackBar(snackBar);
+        showError(e.message!);
       });
       return null;
     }
   }
 
   // SIGN OUT
-  Future<void> signOut() async {
+  Future<void> signOut(BuildContext? context) async {
     try {
       EasyLoading.show();
+      context?.read<AppState>().clearHistory();
       await _facebookAuth.logOut();
       await _googleSignIn.signOut();
       await _auth.signOut();
       EasyLoading.dismiss();
     } on FirebaseAuthException catch (_) {
       EasyLoading.dismiss();
-      //showSnackBar(context, e.message!); // Displaying the error message
+      showError(_.message!);
     }
   }
 }

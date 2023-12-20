@@ -1,4 +1,3 @@
-import 'package:do_an_tot_nghiep/provider/user_provider.dart';
 import 'package:do_an_tot_nghiep/screens/auth/auth_state_screen.dart';
 import 'package:do_an_tot_nghiep/screens/auth/login_screen.dart';
 import 'package:do_an_tot_nghiep/screens/games/math_game/math_screen.dart';
@@ -12,6 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import 'configs/basic_config.dart';
@@ -41,11 +41,8 @@ void main() async {
   //setup hive
   await setupHive();
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => AppState()),
-        ChangeNotifierProvider(create: (_) => UserProvider()),
-      ],
+    ChangeNotifierProvider(
+      create: (_) => AppState(),
       builder: (context, child) {
         return child!;
       },
@@ -94,7 +91,7 @@ class _MainAppState extends State<MainApp> {
         builder: (context, child) {
           return Consumer<AppState>(
             builder: (context, value, child) {
-              return MaterialApp(
+              return GetMaterialApp(
                 builder: EasyLoading.init(),
                 debugShowCheckedModeBanner: false,
                 navigatorKey: navigatorKey,
