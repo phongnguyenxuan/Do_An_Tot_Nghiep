@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:do_an_tot_nghiep/configs/basic_config.dart';
 import 'package:do_an_tot_nghiep/configs/constants.dart';
-import 'package:do_an_tot_nghiep/configs/style_config.dart';
 import 'package:do_an_tot_nghiep/models/user_model.dart';
 import 'package:do_an_tot_nghiep/provider/app_state.dart';
 import 'package:do_an_tot_nghiep/widget/snack_bar.dart';
@@ -10,8 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
@@ -43,9 +39,9 @@ class AuthServices {
         idToken: googleAuth?.idToken,
       );
       firebaseSignInWithCredential(credential);
-    } on PlatformException catch (_) {
+    } on PlatformException catch (e) {
       EasyLoading.dismiss();
-      showError(_.message!);
+      showError(translate.error,e.message!);
     }
   }
 
@@ -68,9 +64,9 @@ class AuthServices {
       EasyLoading.show();
       await FirebaseAuth.instance.signInAnonymously();
       EasyLoading.dismiss();
-    } on FirebaseAuthException catch (_) {
+    } on FirebaseAuthException catch (e) {
       EasyLoading.dismiss();
-      showError(_.message!);
+      showError(translate.error,e.message!);
     }
   }
 
@@ -108,12 +104,12 @@ class AuthServices {
         }
       });
       EasyLoading.dismiss();
-      showSuccess("Login success, Hello", userModel.userName!);
+      showSuccess("${translate.success},","${translate.hello} ${userModel.userName!}");
       return credential0;
     } on FirebaseAuthException catch (e) {
       EasyLoading.dismiss();
       Future(() {
-        showError(e.message!);
+        showError(translate.error,e.message!);
       });
       return null;
     }
@@ -128,9 +124,9 @@ class AuthServices {
       await _googleSignIn.signOut();
       await _auth.signOut();
       EasyLoading.dismiss();
-    } on FirebaseAuthException catch (_) {
+    } on FirebaseAuthException catch (e) {
       EasyLoading.dismiss();
-      showError(_.message!);
+      showError(translate.error,e.message!);
     }
   }
 }

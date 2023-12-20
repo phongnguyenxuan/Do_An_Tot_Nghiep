@@ -1,7 +1,7 @@
+import 'package:do_an_tot_nghiep/configs/style_config.dart';
 import 'package:do_an_tot_nghiep/screens/auth/auth_state_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../configs/basic_config.dart';
 
@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
       setState(() {
         _shouldShowAnimation = true;
       });
-      Future.delayed(const Duration(milliseconds: 2500)).then((value) {
+      Future.delayed(const Duration(milliseconds: 3000)).then((value) {
         navigatorKey.currentState?.pushReplacementNamed(AuthState.id);
       });
     });
@@ -36,21 +36,16 @@ class _SplashScreenState extends State<SplashScreen> {
         statusBarColor: Colors.transparent
       ),
       child: Scaffold(
-        backgroundColor: const Color(0xFF1a243a),
+        backgroundColor: kColorWhite,
         body: AnimatedOpacity(
           opacity: _shouldShowAnimation ? 1 : 0,
-          duration: const Duration(milliseconds: 1500),
-          curve: Curves.elasticInOut,
-          child: AnimatedScale(
-            scale: _shouldShowAnimation ? 1 : 0.3,
-            duration: const Duration(milliseconds: 1500),
-            curve: Curves.elasticInOut,
-            child: Center(
-              child: Image.asset(
-                "assets/images/splash_icon.png",
-                width: 200.w,
-                height: 200.h,
-              ),
+          duration: const Duration(milliseconds: 2000),
+          curve: Curves.bounceInOut,
+          child: Center(
+            child: Image.asset(
+              "assets/images/splash_icon.png",
+              width: MediaQuery.of(context).size.width * 0.75,
+             // height: 700.h,
             ),
           ),
         ),

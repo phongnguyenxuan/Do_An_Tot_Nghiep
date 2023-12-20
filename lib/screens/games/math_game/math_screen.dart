@@ -59,7 +59,6 @@ class _MathScreenState extends State<MathScreen> {
         if (!mounted) return;
         // print("scrore $mathScore");
         if (mathScore >= context.read<AppState>().mathHighScore) {
-          print("scrore $mathScore");
           context.read<AppState>().mathHighScore = mathScore;
         }
       });
@@ -154,7 +153,7 @@ class _MathScreenState extends State<MathScreen> {
                       },
                       isSubmit: false,
                       reBuild: false,
-                      countTime: 4,
+                      countTime: 45,
                     ),
                     Expanded(
                       child: Container(
