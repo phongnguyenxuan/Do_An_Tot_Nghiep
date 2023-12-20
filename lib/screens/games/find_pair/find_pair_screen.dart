@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 import '../../../configs/style_config.dart';
+import '../../../dialogs/pause_dialog.dart';
 import '../../../provider/app_state.dart';
 import '../../../services/audio_service.dart';
 import '../../../widget/custom_appbar.dart';
@@ -29,6 +30,12 @@ class _FindPairScreenState extends State<FindPairScreen> {
       });
       context.read<AppState>().playBGSound(bgSound);
     });
+  }
+
+  Future<bool> _onGoBack() async {
+    if (_currentIndex == -1) return true;
+    final result = await showPauseDialog(context) ?? true;
+    return result;
   }
 
   @override
@@ -61,6 +68,7 @@ class _FindPairScreenState extends State<FindPairScreen> {
                 backgroundColor: kColorWhite,
                 appBar: CustomAppBar(
                   title: "Level ${value.item1}",
+                  onBackButtonPress: _onGoBack,
                   actions: [
                     Visibility(
                       visible: _currentIndex != -1,

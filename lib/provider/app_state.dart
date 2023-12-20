@@ -24,6 +24,8 @@ class AppState extends ChangeNotifier {
 //? APP SETTING
   late String _appLanguage;
   late bool _appAudio;
+  bool _pauseTimer = false;
+
 
   AppState() {
     _appLanguage = boxAppData.get("language") ?? defaultLanguage;
@@ -69,6 +71,18 @@ class AppState extends ChangeNotifier {
       AudioService.audioCache.load('$path.mp3');
       AudioService.playBGAudio('$path.mp3');
     }
+  }
+
+  bool get pauseTimer => _pauseTimer;
+
+  onPause() {
+    _pauseTimer = true;
+    notifyListeners();
+  }
+
+  onResume() {
+    _pauseTimer = false;
+    notifyListeners();
   }
 
 //? MEMORY MATRIX
@@ -331,6 +345,7 @@ class AppState extends ChangeNotifier {
     _levelTime = levelTimeConfig[_pairCount] ?? 10;
     _isShowingCard = false;
     _cancelTimer = false;
+    _pauseTimer = false;
     for (var element in _playList) {
       element.isFlipped = false;
       element.isVisible = true;
@@ -351,6 +366,7 @@ class AppState extends ChangeNotifier {
 
   void showAllCard() {
     _cancelTimer = true;
+    _pauseTimer = true;
     // hien thi cac cap
     for (var element in _playList) {
       element.isFlipped = true;
@@ -362,6 +378,7 @@ class AppState extends ChangeNotifier {
         for (var element in _playList) {
           element.isFlipped = false;
           _cancelTimer = false;
+          _pauseTimer = false;
         }
         _isShowingCard = true;
         timer.cancel();
@@ -403,7 +420,6 @@ class AppState extends ChangeNotifier {
     if (value <= _mathHighScore) return;
     _mathHighScore = value;
     boxPlayData.put(mathHighScoreDataName, value);
-    // setTotalScore();
     notifyListeners();
   }
 
@@ -419,7 +435,6 @@ class AppState extends ChangeNotifier {
       var math = ["×", "÷", "+", "−"];
       var element = math[Random().nextInt(math.length)];
       int result = 0;
-      print("number:$firstNumber  $secondNumber $element");
       switch (element) {
         case "×":
           result = (firstNumber * secondNumber);
@@ -450,6 +465,7 @@ class AppState extends ChangeNotifier {
     }
     playList.clear();
     playList.addAll(list);
+    onResume();
   }
 
   List<int> generateListAnswer(int index) {
@@ -495,10 +511,12 @@ class AppState extends ChangeNotifier {
   void delay() {
     _type = listShapes[Random().nextInt(listShapes.length)];
     _isShowing = true;
+    _pauseTimer = true;
     _canPick = false;
     notifyListeners();
     Future.delayed(const Duration(seconds: 2), () {
       _isShowing = false;
+      _pauseTimer =false;
       _currentType = _type;
       flipCard();
       randomType();
@@ -551,6 +569,7 @@ class AppState extends ChangeNotifier {
     _currentType = "";
     _listScore.clear();
     _listScore.add(1);
+    _pauseTimer = false;
   }
 
   void setSpeedHighScore() {
@@ -568,7 +587,7 @@ class AppState extends ChangeNotifier {
               title: "Speed Match",
               grade: _speedMatchScore,
               highscore: _speedHighScore,
-              newRecord: (_speedMatchScore >= _speedHighScore),
+              newRecord: (_speedMatchScore > _speedHighScore),
             ),
         settings: const RouteSettings(name: ResultScreen.id)));
   }
@@ -621,5 +640,11 @@ class AppState extends ChangeNotifier {
     clone.sort((a, b) => a.compareTo(b));
     _maxScore = clone.last;
     return _maxScore;
+  }
+
+  void clearHistory() {
+    _listTotalScore.clear();
+    boxPlayData.delete("listScore");
+    notifyListeners();
   }
 }

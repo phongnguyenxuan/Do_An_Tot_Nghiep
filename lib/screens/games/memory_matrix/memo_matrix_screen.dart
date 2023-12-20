@@ -28,9 +28,6 @@ class MemoMatrixScreen extends StatefulWidget {
 
 class _MemoMatrixScreenState extends State<MemoMatrixScreen> {
   int _currentIndex = -1;
-  Timer? _timer;
-  int indexBlockPickWrong = -1;
-  bool cancelTimer = false;
   List<int> listPickBlockCorrect = [];
 
   void delay() {
@@ -45,11 +42,10 @@ class _MemoMatrixScreenState extends State<MemoMatrixScreen> {
     });
   }
 
-  Future<bool> showPauseMenu() async{
-    showDialog(context: context, builder:(context) {
-      return const PauseDialog();
-    },);
-    return false;
+  Future<bool> _onGoBack() async {
+    if (_currentIndex == -1) return true;
+    final result = await showPauseDialog(context) ?? true;
+    return result;
   }
 
   @override
@@ -64,7 +60,6 @@ class _MemoMatrixScreenState extends State<MemoMatrixScreen> {
   void dispose() {
     AudioService.stopBGAudio();
     super.dispose();
-    _timer?.cancel();
   }
 
   @override
@@ -79,10 +74,7 @@ class _MemoMatrixScreenState extends State<MemoMatrixScreen> {
         backgroundColor: kColorWhite,
         appBar: CustomAppBar(
           title: "",
-          onBackButtonPress:() async{
-            showPauseMenu();
-            return false;
-          },
+          onBackButtonPress: _onGoBack,
           actions: [
             Visibility(
               visible: _currentIndex != -1,

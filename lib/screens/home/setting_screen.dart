@@ -381,7 +381,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 onPress: () async {
                   context.read<AppState>().totalScore = 0;
                   await authServices
-                      .signOut()
+                      .signOut(context)
                       .then((value) => navigatorKey.currentState?.pop());
                 },
                 borderRadius: BorderRadius.circular(15),

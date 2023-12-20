@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
 import '../../../configs/style_config.dart';
+import '../../../dialogs/pause_dialog.dart';
 import '../../../provider/app_state.dart';
 import '../../../widget/custom_appbar.dart';
 import '../explain_screen.dart';
@@ -30,6 +31,12 @@ class _SpeedMatchScreenState extends State<SpeedMatchScreen> {
       });
       context.read<AppState>().playBGSound(bgSound);
     });
+  }
+
+  Future<bool> _onGoBack() async {
+    if (_currentIndex == -1) return true;
+    final result = await showPauseDialog(context) ?? true;
+    return result;
   }
 
   @override
@@ -58,6 +65,7 @@ class _SpeedMatchScreenState extends State<SpeedMatchScreen> {
               backgroundColor: kColorWhite,
               appBar: CustomAppBar(
                 title: "Speed Match",
+                onBackButtonPress: _onGoBack,
                 actions: [
                   Visibility(
                     visible: true,
