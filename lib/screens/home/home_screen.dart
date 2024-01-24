@@ -4,7 +4,6 @@ import 'package:do_an_tot_nghiep/screens/home/setting_screen.dart';
 import 'package:do_an_tot_nghiep/screens/result/status_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../configs/basic_config.dart';
@@ -37,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: kColorWhite,
       body: Container(
-        margin: EdgeInsets.symmetric(vertical: 30.h),
+        margin: const EdgeInsets.symmetric(vertical: 30),
         child: Column(
           children: [
             Padding(
@@ -57,8 +56,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           shape: BoxShape.circle,
                           color: Colors.white,
                         ),
-                        width: 44.w,
-                        height: 44.h,
+                        width: 44,
+                        height: 44,
                         child: Padding(
                           padding: const EdgeInsets.all(4.0),
                           child: Image.asset("assets/images/gear.png"),
@@ -74,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: SizedBox(
-                          width: 70.w,
+                          width: 70,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -111,21 +110,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20.h),
+                    padding: EdgeInsets.symmetric(vertical: 20),
                     child: Image.asset(
                       "assets/images/logo.png",
-                      width: 120.w,
-                      height: 120.h,
+                      width: 120,
+                      height: 120,
                     ),
                   ),
                   CustomText(
                     title: "Memo Improve",
-                    fontSize: 25.sp,
+                    fontSize: 25,
                     strokeWidth: 3,
                     color: Colors.black,
                   ),
                   SizedBox(
-                    height: 50.h,
+                    height: 50,
                   ),
                   CustomButton(
                     elevation: 5,
@@ -133,23 +132,23 @@ class _HomeScreenState extends State<HomeScreen> {
                     buttonBorder: Border.all(color: kColorBlack, width: 2),
                     shadowColor: kShadowColor2,
                     color: Colors.white,
-                    width: 250.w,
-                    height: 60.h,
+                    width: 250,
+                    height: 60,
                     onPress: () {
                       navigatorKey.currentState?.pushNamed(GamesScreen.id);
                     },
                     child: Text(translate.play, style: k18BlackTextStyle),
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20.h),
+                    padding: EdgeInsets.symmetric(vertical: 20),
                     child: CustomButton(
                       elevation: 5,
                       borderRadius: BorderRadius.circular(10),
                       buttonBorder: Border.all(color: kColorBlack, width: 2),
                       shadowColor: kShadowColor2,
                       color: Colors.white,
-                      width: 250.w,
-                      height: 60.h,
+                      width: 250,
+                      height: 60,
                       onPress: () {
                         navigatorKey.currentState?.pushNamed(StatusScreen.id);
                       },
@@ -162,30 +161,30 @@ class _HomeScreenState extends State<HomeScreen> {
                     buttonBorder: Border.all(color: kColorBlack, width: 2),
                     shadowColor: kShadowColor2,
                     color: Colors.white,
-                    width: 250.w,
-                    height: 60.h,
+                    width: 250,
+                    height: 60,
                     onPress: () {
                       navigatorKey.currentState?.pushNamed(RankScreen.id);
                     },
                     child: Text(translate.rank, style: k18BlackTextStyle),
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20.h),
+                    padding: EdgeInsets.symmetric(vertical: 20),
                     child: CustomButton(
                       elevation: 5,
                       borderRadius: BorderRadius.circular(10),
                       buttonBorder: Border.all(color: kColorBlack, width: 2),
                       shadowColor: kShadowRed,
                       color: kColorRed,
-                      width: 250.w,
-                      height: 60.h,
+                      width: 250,
+                      height: 60,
                       onPress: () {
                         SystemNavigator.pop();
                       },
                       child: Text(
                         translate.quit,
                         style: TextStyle(
-                            fontSize: 18.sp,
+                            fontSize: 18,
                             fontFamily: kfontFamily,
                             fontWeight: FontWeight.w600,
                             color: Colors.white),

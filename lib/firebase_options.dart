@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -49,6 +46,16 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyCEWews5tAOSO-q8w_7ofz50WIWB12Q-20',
+    appId: '1:646637214210:web:496e957e379948d3c5a51b',
+    messagingSenderId: '646637214210',
+    projectId: 'memoimprove-ccbaf',
+    authDomain: 'memoimprove-ccbaf.firebaseapp.com',
+    storageBucket: 'memoimprove-ccbaf.appspot.com',
+    measurementId: 'G-2CT8H1V1T6',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyD2eyd0QztZqr4ez94Z_aCKnZwj_4-RcYg',
     appId: '1:646637214210:android:e00dd5b74c38dc1fc5a51b',
@@ -63,6 +70,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '646637214210',
     projectId: 'memoimprove-ccbaf',
     storageBucket: 'memoimprove-ccbaf.appspot.com',
+    androidClientId: '646637214210-1qlpkvr12uaq9s4hc2c7vn26pgjve0re.apps.googleusercontent.com',
+    iosClientId: '646637214210-dekqg3fd8hfll2lvspc3iu1vnl14pded.apps.googleusercontent.com',
     iosBundleId: 'com.example.iqTest',
   );
 }
