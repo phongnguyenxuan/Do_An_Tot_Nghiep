@@ -15,6 +15,12 @@
 
 ---
 
+<h3 align="center">Demo 📹</h3>
+
+https://github.com/phongnguyenxuan/Do_An_Tot_Nghiep/assets/109235060/58274722-fd15-4ebd-beed-75f807c8a244
+
+---
+
 <h3 align="center">Screenshots :camera:</h3>
 
 - **Login & Home Screen:**
